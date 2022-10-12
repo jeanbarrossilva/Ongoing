@@ -30,13 +30,13 @@ internal class InMemoryActivityRegistryTests {
 
     @Test
     fun `GIVEN an activity WHEN registering it THEN it's correctly registered`() {
-        val ownerId = uuid()
+        val ownerUserId = uuid()
         val name = "Shop"
         runTest {
-            activityRegistry.register(ownerId, name)
+            activityRegistry.register(ownerUserId, name)
             activityRegistry.getActivities().map(List<Activity>::first).first().let { activity ->
                 assertDoesNotThrow { UUID.fromString(activity.id) }
-                assertEquals(ownerId, activity.ownerId)
+                assertEquals(ownerUserId, activity.ownerUserId)
                 assertEquals(name, activity.name)
                 assertEquals(Icon.OTHER, activity.icon)
                 assertEquals(Status.all, activity.statuses)
@@ -48,7 +48,7 @@ internal class InMemoryActivityRegistryTests {
     @Test
     fun `GIVEN a registered activity WHEN getting it by its ID THEN it isn't null`() {
         runTest {
-            val id = activityRegistry.register(ownerId = uuid(), name = "Walk the dog")
+            val id = activityRegistry.register(ownerUserId = uuid(), name = "Walk the dog")
             assertNotNull(activityRegistry.getActivityById(id))
         }
     }
@@ -56,7 +56,7 @@ internal class InMemoryActivityRegistryTests {
     @Test
     fun `GIVEN an activity WHEN changing its name THEN it's changed`() {
         runTest {
-            val id = activityRegistry.register(ownerId = uuid(), name = "Move to a new house")
+            val id = activityRegistry.register(ownerUserId = uuid(), name = "Move to a new house")
             val name = "Move to a new apartment"
             activityRegistry.setName(id, name)
             assertEquals(name, activityRegistry.getActivityById(id)?.name)
@@ -66,7 +66,7 @@ internal class InMemoryActivityRegistryTests {
     @Test
     fun `GIVEN an activity WHEN changing its icon THEN it's changed`() {
         runTest {
-            val id = activityRegistry.register(ownerId = uuid(), name = "Study")
+            val id = activityRegistry.register(ownerUserId = uuid(), name = "Study")
             val icon = Icon.BOOK
             activityRegistry.setIcon(id, icon)
             assertEquals(icon, activityRegistry.getActivityById(id)?.icon)
@@ -76,7 +76,7 @@ internal class InMemoryActivityRegistryTests {
     @Test
     fun `GIVEN an activity WHEN changing its current status THEN it's changed`() {
         runTest {
-            val id = activityRegistry.register(ownerId = uuid(), name = "Listen to music")
+            val id = activityRegistry.register(ownerUserId = uuid(), name = "Listen to music")
             val status = Status.ONGOING
             activityRegistry.setCurrentStatus(id, status)
             assertEquals(status, activityRegistry.getActivityById(id)?.currentStatus)
@@ -86,7 +86,7 @@ internal class InMemoryActivityRegistryTests {
     @Test
     fun `GIVEN an activity WHEN unregistering it THEN it's unregistered`() {
         runTest {
-            val id = activityRegistry.register(ownerId = uuid(), name = "Clean the room")
+            val id = activityRegistry.register(ownerUserId = uuid(), name = "Clean the room")
             activityRegistry.unregister(id)
             assertNull(activityRegistry.getActivityById(id))
         }
@@ -95,7 +95,7 @@ internal class InMemoryActivityRegistryTests {
     @Test
     fun `GIVEN an activity WHEN unregistering it twice THEN it throws`() {
         runTest {
-            val id = activityRegistry.register(ownerId = uuid(), name = "Run a marathon")
+            val id = activityRegistry.register(ownerUserId = uuid(), name = "Run a marathon")
             activityRegistry.unregister(id)
             assertFailsWith<IllegalArgumentException> { activityRegistry.unregister(id) }
         }
@@ -104,8 +104,8 @@ internal class InMemoryActivityRegistryTests {
     @Test
     fun `GIVEN various activities WHEN clearing them THEN they're gone`() {
         runTest {
-            activityRegistry.register(ownerId = uuid(), name = "Do homework")
-            activityRegistry.register(ownerId = uuid(), name = "Fly to SF")
+            activityRegistry.register(ownerUserId = uuid(), name = "Do homework")
+            activityRegistry.register(ownerUserId = uuid(), name = "Fly to SF")
             activityRegistry.clear()
             assertEquals(emptyList(), activityRegistry.getActivities().first())
         }

@@ -10,7 +10,8 @@ interface ActivityRegistry {
 
     suspend fun getActivityById(id: String): Activity?
 
-    suspend fun register(ownerId: String, name: String, statuses: List<Status> = Status.all): String
+    suspend fun register(ownerUserId: String, name: String, statuses: List<Status> = Status.all):
+        String
 
     suspend fun setName(id: String, name: String)
 

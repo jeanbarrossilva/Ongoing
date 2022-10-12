@@ -24,10 +24,10 @@ class InMemoryActivityRegistry: ActivityRegistry {
         }
     }
 
-    override suspend fun register(ownerId: String, name: String, statuses: List<Status>): String {
+    override suspend fun register(ownerUserId: String, name: String, statuses: List<Status>): String {
         val id = uuid()
         val activity =
-            Activity(id, ownerId, name, Icon.OTHER, statuses, currentStatus = Status.TO_DO)
+            Activity(id, ownerUserId, name, Icon.OTHER, statuses, currentStatus = Status.TO_DO)
         activities = activities + activity
         return id
     }

@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk versions.ongoing.sdk.compile
+
+    defaultConfig {
+        applicationId 'com.jeanbarrossilva.ongoing'
+        minSdk versions.ongoing.sdk.min
+        targetSdk versions.ongoing.sdk.target
+        versionCode versions.ongoing.code
+        versionName versions.ongoing.name
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility versions.java
+        targetCompatibility versions.java
+    }
+
+    kotlinOptions {
+        jvmTarget = versions.java.toString()
+    }
+}
+
+dependencies {
+    implementation libraries.material
+    implementation libraries.navigation.fragment
+    implementation libraries.navigation.ui
+}

@@ -1,2 +1,4 @@
 rootProject.name = 'Ongoing'
 include ':app'
+include ':core-registry'
+include ':core-registry-in-memory'

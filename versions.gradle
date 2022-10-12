@@ -12,7 +12,13 @@ buildscript {
             ],
             gradle: '7.2.2',
             java: JavaVersion.VERSION_1_8,
+            junit5: [
+                jupiter: '5.9.1'
+            ],
             kotlin: '1.7.20',
+            kotlinx: [
+                coroutines: '1.6.4'
+            ],
             material: '1.6.1',
             navigation: '2.5.2'
         ]

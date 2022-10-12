@@ -3,6 +3,22 @@ buildscript {
 
     ext {
         libraries = [
+            junit5: [
+                jupiter: [
+                    api: "org.junit.jupiter:junit-jupiter-api:${versions.junit5.jupiter}"
+                ]
+            ],
+            kotlin: [
+                test: 'org.jetbrains.kotlin:kotlin-test'
+            ],
+            kotlinx: [
+                coroutines: [
+                    core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:" +
+                        versions.kotlinx.coroutines,
+                    test: "org.jetbrains.kotlinx:kotlinx-coroutines-test:" +
+                        versions.kotlinx.coroutines
+                ]
+            ],
             material: "com.google.android.material:material:${versions.material}",
             navigation: [
                 fragment: "androidx.navigation:navigation-fragment-ktx:${versions.navigation}",

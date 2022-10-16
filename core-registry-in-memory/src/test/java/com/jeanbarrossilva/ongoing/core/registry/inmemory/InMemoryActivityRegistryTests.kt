@@ -16,6 +16,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class InMemoryActivityRegistryTests {
@@ -80,6 +81,21 @@ internal class InMemoryActivityRegistryTests {
             val status = Status.ONGOING
             activityRegistry.setCurrentStatus(id, status)
             assertEquals(status, activityRegistry.getActivityById(id)?.currentStatus)
+        }
+    }
+
+    @Test
+    fun `GIVEN a registered status listener WHEN changing the status of an activity THEN it's notified`() {
+        runTest {
+            val id = activityRegistry.register(ownerUserId = uuid(), name = "Swim")
+            val status = Status.DONE
+            var hasBeenNotified = false
+            activityRegistry.doOnStatusChange {
+                hasBeenNotified = true
+                assertEquals(status, it.currentStatus)
+            }
+            activityRegistry.setCurrentStatus(id, status)
+            assertTrue(hasBeenNotified)
         }
     }
 

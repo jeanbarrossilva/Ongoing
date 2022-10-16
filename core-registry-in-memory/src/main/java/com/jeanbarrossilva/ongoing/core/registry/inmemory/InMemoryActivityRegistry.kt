@@ -1,6 +1,7 @@
 package com.jeanbarrossilva.ongoing.core.registry.inmemory
 
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
+import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class InMemoryActivityRegistry: ActivityRegistry {
     private val activitiesFlow = MutableStateFlow(emptyList<Activity>())
     private var activities by activitiesFlow
+    private val onStatusChangeListeners = mutableListOf<OnStatusChangeListener>()
 
     override suspend fun getActivities(): Flow<List<Activity>> {
         return activitiesFlow
@@ -45,9 +47,12 @@ class InMemoryActivityRegistry: ActivityRegistry {
     }
 
     override suspend fun setCurrentStatus(id: String, status: Status) {
-        replace(id) {
-            copy(currentStatus = status)
-        }
+        replace(id) { copy(currentStatus = status) }
+        onStatusChangeListeners.forEach { it.onStatusChange(getActivityByIdOrThrow(id)) }
+    }
+
+    override suspend fun doOnStatusChange(listener: OnStatusChangeListener) {
+        onStatusChangeListeners.add(listener)
     }
 
     override suspend fun unregister(id: String) {

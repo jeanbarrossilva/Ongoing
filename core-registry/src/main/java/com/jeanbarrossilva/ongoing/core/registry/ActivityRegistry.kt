@@ -19,6 +19,8 @@ interface ActivityRegistry {
 
     suspend fun setCurrentStatus(id: String, status: Status)
 
+    suspend fun doOnStatusChange(listener: OnStatusChangeListener)
+
     suspend fun unregister(id: String)
 
     suspend fun clear()

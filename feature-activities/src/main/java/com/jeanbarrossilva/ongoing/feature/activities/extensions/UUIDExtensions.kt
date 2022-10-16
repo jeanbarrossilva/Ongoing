@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.core.session.inmemory.extensions
+package com.jeanbarrossilva.ongoing.feature.activities.extensions
 
 import java.util.UUID
 

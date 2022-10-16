@@ -9,7 +9,8 @@ java {
 }
 
 dependencies {
-    implementation project(':core-registry')
+    api project(':core-registry')
+
     implementation libraries.kotlinx.coroutines.core
 
 

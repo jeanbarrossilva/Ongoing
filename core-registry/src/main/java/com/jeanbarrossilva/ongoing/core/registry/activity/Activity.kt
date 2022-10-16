@@ -7,4 +7,6 @@ data class Activity(
     val icon: Icon,
     val statuses: List<Status>,
     val currentStatus: Status
-)
+) {
+    companion object
+}

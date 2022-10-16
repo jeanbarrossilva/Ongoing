@@ -3,8 +3,7 @@ package com.jeanbarrossilva.ongoing.core.session.inmemory
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.core.session.inmemory.extensions.getValue
 import com.jeanbarrossilva.ongoing.core.session.inmemory.extensions.setValue
-import com.jeanbarrossilva.ongoing.core.session.inmemory.extensions.uuid
-import com.jeanbarrossilva.ongoing.core.session.User
+import com.jeanbarrossilva.ongoing.core.session.user.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -25,9 +24,6 @@ class InMemorySessionManager: SessionManager {
     }
 
     companion object {
-        private const val USER_AVATAR_URL =
-            "https://en.gravatar.com/userimage/153558542/cb04b28164b6ec24f7f4cdee8d20d1c9.png"
-
-        internal val user = User(uuid(), name = "Jean", USER_AVATAR_URL)
+        val user = User.sample
     }
 }

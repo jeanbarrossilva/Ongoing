@@ -3,11 +3,31 @@ buildscript {
 
     ext {
         libraries = [
+            accompanist: [
+                systemuicontroller: "com.google.accompanist:accompanist-systemuicontroller:" +
+                    versions.accompanist
+            ],
+            coil: [
+                compose: "io.coil-kt:coil-compose:${versions.coil}"
+            ],
+            compose: [
+                material3: "androidx.compose.material3:material3:${versions.compose_material3}",
+                material_icons_extended: "androidx.compose.material:material-icons-extended:" +
+                    versions.compose_material,
+                ui: [
+                    tooling: "androidx.compose.ui:ui-tooling:${versions.compose_ui}"
+                ]
+            ],
+            customview: "androidx.customview:customview:${versions.customview}",
+            customview_poolingcontainer: "androidx.customview:customview-poolingcontainer:" +
+                versions.customview_poolingcontainer,
+            fragment: "androidx.fragment:fragment-ktx:${versions.fragment}",
             junit5: [
                 jupiter: [
                     api: "org.junit.jupiter:junit-jupiter-api:${versions.junit5.jupiter}"
                 ]
             ],
+            koin: "io.insert-koin:koin-android:${versions.koin}",
             kotlin: [
                 test: 'org.jetbrains.kotlin:kotlin-test'
             ],
@@ -17,6 +37,12 @@ buildscript {
                         versions.kotlinx.coroutines,
                     test: "org.jetbrains.kotlinx:kotlinx-coroutines-test:" +
                         versions.kotlinx.coroutines
+                ]
+            ],
+            lifecycle: [
+                viewmodel: [
+                    savedstate: "androidx.lifecycle:lifecycle-viewmodel-savedstate:" +
+                        versions.lifecycle
                 ]
             ],
             material: "com.google.android.material:material:${versions.material}",

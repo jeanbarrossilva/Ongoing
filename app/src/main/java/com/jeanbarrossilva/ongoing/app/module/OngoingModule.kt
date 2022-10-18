@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.module
+package com.jeanbarrossilva.ongoing.app.module
 
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.inmemory.InMemoryActivityRegistry

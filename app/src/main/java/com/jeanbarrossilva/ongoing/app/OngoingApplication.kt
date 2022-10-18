@@ -1,8 +1,8 @@
-package com.jeanbarrossilva.ongoing
+package com.jeanbarrossilva.ongoing.app
 
 import android.app.Application
-import com.jeanbarrossilva.ongoing.module.boundaryModule
-import com.jeanbarrossilva.ongoing.module.coreModule
+import com.jeanbarrossilva.ongoing.app.module.boundaryModule
+import com.jeanbarrossilva.ongoing.app.module.coreModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

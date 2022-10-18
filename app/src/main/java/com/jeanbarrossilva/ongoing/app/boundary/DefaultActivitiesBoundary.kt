@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.boundary
+package com.jeanbarrossilva.ongoing.app.boundary
 
 import android.content.Context
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity

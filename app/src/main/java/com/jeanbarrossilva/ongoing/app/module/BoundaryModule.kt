@@ -1,6 +1,6 @@
-package com.jeanbarrossilva.ongoing.module
+package com.jeanbarrossilva.ongoing.app.module
 
-import com.jeanbarrossilva.ongoing.boundary.DefaultActivitiesBoundary
+import com.jeanbarrossilva.ongoing.app.boundary.DefaultActivitiesBoundary
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesBoundary
 import org.koin.dsl.module
 

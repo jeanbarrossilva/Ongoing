@@ -2,12 +2,11 @@ package com.jeanbarrossilva.ongoing.feature.activities.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.extensions.mapToContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
-import com.jeanbarrossilva.ongoing.feature.activities.context.ContextualActivity
-import com.jeanbarrossilva.ongoing.feature.activities.extensions.mapToContextualActivity
-import com.jeanbarrossilva.ongoing.feature.activities.extensions.toContextualActivity
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow

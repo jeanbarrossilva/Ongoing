@@ -10,6 +10,7 @@ buildscript {
             customview: '1.1.0',
             customview_poolingcontainer: '1.0.0',
             fragment: '1.5.3',
+            jetlime: '1.0.3',
             ongoing: [
                 code: 1,
                 name: '1.0.0',
@@ -30,8 +31,7 @@ buildscript {
                 coroutines: '1.6.4'
             ],
             lifecycle: '2.5.1',
-            material: '1.6.1',
-            navigation: '2.5.2'
+            material: '1.6.1'
         ]
     }
 }

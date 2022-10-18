@@ -9,13 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.feature.activities.context.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.BackgroundContentSizing
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @Composable
 internal fun ActivityHeadline(activity: ContextualActivity, modifier: Modifier = Modifier) {
-    Column(modifier, Arrangement.spacedBy(Size.Spacing.Small)) {
+    Column(modifier, Arrangement.spacedBy(Size.Spacing.s)) {
         Text(
             activity.name,
             overflow = TextOverflow.Ellipsis,
@@ -32,6 +34,8 @@ internal fun ActivityHeadline(activity: ContextualActivity, modifier: Modifier =
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun ActivityHeadlinePreview() {
     OngoingTheme {
-        ActivityHeadline(ContextualActivity.sample)
+        Background(contentSizing = BackgroundContentSizing.WRAP) {
+            ActivityHeadline(ContextualActivity.sample)
+        }
     }
 }

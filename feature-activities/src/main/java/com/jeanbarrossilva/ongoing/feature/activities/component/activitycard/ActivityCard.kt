@@ -19,22 +19,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
+import com.jeanbarrossilva.ongoing.context.registry.component.activityicon.ActivityIcon
+import com.jeanbarrossilva.ongoing.context.registry.component.activityicon.ActivityIconSize
+import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.component.ActivityHeadline
-import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.component.ActivityIcon
-import com.jeanbarrossilva.ongoing.feature.activities.context.ContextualActivity
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ActivityCard(
+fun ActivityCard(
     activity: ContextualActivity,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var prominence by remember { mutableStateOf(ActivityCardProminence.STILL) }
     var isPressed by remember { mutableStateOf(false) }
-    val spacing = Size.Spacing.ExtraLarge
+    val spacing = Size.Spacing.xxxl
 
     Card(
         onClick,
@@ -52,7 +53,7 @@ internal fun ActivityCard(
         border = prominence.getBorderStroke(isPressed)
     ) {
         Row(Modifier.padding(spacing), Arrangement.spacedBy(spacing), Alignment.CenterVertically) {
-            ActivityIcon(activity)
+            ActivityIcon(activity, ActivityIconSize.SMALL)
             ActivityHeadline(activity)
         }
     }

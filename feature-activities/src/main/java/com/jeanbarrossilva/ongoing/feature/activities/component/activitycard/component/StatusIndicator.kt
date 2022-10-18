@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.feature.activities.context.ContextualStatus
+import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualStatus
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.ContentAlpha
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
@@ -37,8 +37,8 @@ internal fun StatusIndicator(status: ContextualStatus, modifier: Modifier = Modi
     ) {
         Box(
             Modifier.padding(
-                horizontal = Size.Spacing.ExtraSmall + Size.Spacing.ExtraExtraSmall,
-                vertical = Size.Spacing.ExtraSmall
+                horizontal = Size.Spacing.xs + Size.Spacing.xxs,
+                vertical = Size.Spacing.xs
             )
         ) {
             Text(

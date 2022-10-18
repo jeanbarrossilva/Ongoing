@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="feature_activities">Activities</string>
-    <string name="feature_activities_activity_card_icon_content_description">Activity icon</string>
-    <string name="feature_activities_activity_card_owner_avatar_content_description">
-        Owner avatar
-    </string>
-    <string name="feature_activities_full_status_title_to_do">To-do</string>
-    <string name="feature_activities_full_status_title_ongoing">Ongoing</string>
-    <string name="feature_activities_full_status_title_done">Done</string>
 </resources>

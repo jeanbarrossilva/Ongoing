@@ -39,11 +39,11 @@ android {
 }
 
 dependencies {
+    implementation project(':context-registry')
     implementation project(':core-registry-in-memory')
     implementation project(':core-session-in-memory')
     implementation project(':feature-activities')
+    implementation project(':feature-activity-details')
     implementation project(':platform-design-system')
     implementation libraries.material
-    implementation libraries.navigation.fragment
-    implementation libraries.navigation.ui
 }

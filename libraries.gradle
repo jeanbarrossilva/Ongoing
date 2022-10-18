@@ -10,6 +10,8 @@ buildscript {
             coil: [
                 compose: "io.coil-kt:coil-compose:${versions.coil}"
             ],
+            composabletimelineview: "com.github.yeocak:ComposableTimelineView:" +
+                versions.composabletimelineview,
             compose: [
                 material3: "androidx.compose.material3:material3:${versions.compose_material3}",
                 material_icons_extended: "androidx.compose.material:material-icons-extended:" +
@@ -22,6 +24,8 @@ buildscript {
             customview_poolingcontainer: "androidx.customview:customview-poolingcontainer:" +
                 versions.customview_poolingcontainer,
             fragment: "androidx.fragment:fragment-ktx:${versions.fragment}",
+            gson: "com.google.code.gson:gson:${versions.gson}",
+            jetlime: "io.github.pushpalroy:jetlime:${versions.jetlime}",
             junit5: [
                 jupiter: [
                     api: "org.junit.jupiter:junit-jupiter-api:${versions.junit5.jupiter}"
@@ -45,11 +49,7 @@ buildscript {
                         versions.lifecycle
                 ]
             ],
-            material: "com.google.android.material:material:${versions.material}",
-            navigation: [
-                fragment: "androidx.navigation:navigation-fragment-ktx:${versions.navigation}",
-                ui: "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
-            ]
+            material: "com.google.android.material:material:${versions.material}"
         ]
     }
 }

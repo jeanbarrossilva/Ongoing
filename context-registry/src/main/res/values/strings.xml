@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="platform_registry_contextual_status_title_to_do">To-do</string>
+    <string name="platform_registry_contextual_status_title_ongoing">Ongoing</string>
+    <string name="platform_registry_contextual_status_title_done">Done</string>
+    <string name="platform_registry_activity_card_icon_content_description">Activity icon</string>
+    <string name="platform_registry_avatar_content_description">Avatar</string>
+</resources>

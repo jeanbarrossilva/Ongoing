@@ -18,7 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
-import com.jeanbarrossilva.ongoing.feature.activities.viewmodel.ActivitiesViewModel
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarRelevance

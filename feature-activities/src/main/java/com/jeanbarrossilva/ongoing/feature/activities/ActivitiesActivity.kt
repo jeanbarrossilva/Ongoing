@@ -9,7 +9,7 @@ import com.jeanbarrossilva.ongoing.feature.activities.viewmodel.ActivitiesViewMo
 import com.jeanbarrossilva.ongoing.platform.designsystem.core.composable.ComposableActivity
 import org.koin.android.ext.android.inject
 
-class ActivitiesFragment internal constructor(): ComposableActivity() {
+internal class ActivitiesActivity: ComposableActivity() {
     private val userRepository by inject<UserRepository>()
     private val activityRegistry by inject<ActivityRegistry>()
     private val boundary by inject<ActivitiesBoundary>()

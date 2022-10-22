@@ -4,18 +4,21 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.platform.designsystem.core.composable.ComposableActivity
-import com.jeanbarrossilva.ongoing.platform.designsystem.extensions._getParcelable
+import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.argumentOf
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.startActivity
+import org.koin.android.ext.android.inject
 
 class ActivityDetailsActivity internal constructor(): ComposableActivity() {
-    private val contextualActivity
-        get() = intent?.extras?._getParcelable<ContextualActivity>(ACTIVITY_KEY)
+    private val boundary by inject<ActivityDetailsBoundary>()
+    private val activity by argumentOf<ContextualActivity>(ACTIVITY_KEY)
 
     @Composable
     override fun Content() {
-        contextualActivity?.let {
-            ActivityDetails(it, onNavigationRequest = onBackPressedDispatcher::onBackPressed)
-        }
+        ActivityDetails(
+            boundary,
+            activity,
+            onNavigationRequest = onBackPressedDispatcher::onBackPressed
+        )
     }
 
     companion object {

@@ -10,9 +10,13 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.R
 
 private val LightPrimary = Color(0xFF2DC653)
 private val LightOnPrimary = Color.White
+private val LightSecondaryContainer = Color(0xFFF8F8F8)
+private val LightOnSecondaryContainer = Color.Black
 
 private val DarkPrimary = Color(0xFF31A74E)
 private val DarkOnPrimary = Color.Black
+private val DarkSecondaryContainer = Color(0xFF424242)
+private val DarkOnSecondaryContainer = Color.White
 
 private val background
     @Composable get() = colorResource(R.color.background)
@@ -25,9 +29,12 @@ private val lightColorScheme
         LightOnPrimary,
         primaryContainer,
         onPrimaryContainer = Color.Black,
-        secondaryContainer = Color(0xFFF8F8F8),
-        onSecondaryContainer = Color.Black,
-        background = background
+        secondaryContainer = LightSecondaryContainer,
+        onSecondaryContainer = LightOnSecondaryContainer,
+        background = background,
+        surfaceVariant = LightSecondaryContainer,
+        onSurfaceVariant = LightOnSecondaryContainer,
+        surfaceTint = background
     )
 private val darkColorScheme
     @Composable get() = darkColorScheme(
@@ -35,9 +42,12 @@ private val darkColorScheme
         DarkOnPrimary,
         primaryContainer,
         onPrimaryContainer = Color.White,
-        secondaryContainer = Color(0xFF424242),
-        onSecondaryContainer = Color.White,
-        background = background
+        secondaryContainer = DarkSecondaryContainer,
+        onSecondaryContainer = DarkOnSecondaryContainer,
+        background = background,
+        surfaceVariant = DarkSecondaryContainer,
+        onSurfaceVariant = DarkOnSecondaryContainer,
+        surfaceTint = background
     )
 
 internal val colors

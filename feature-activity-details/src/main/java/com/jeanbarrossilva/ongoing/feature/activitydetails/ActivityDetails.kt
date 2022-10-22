@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityHeadline
@@ -24,18 +25,36 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topa
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ActivityDetails(
+    boundary: ActivityDetailsBoundary,
     activity: ContextualActivity,
     onNavigationRequest: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+
+    ActivityDetails(
+        activity,
+        onNavigationRequest,
+        onEditRequest = { boundary.navigateToActivityEditing(context, activity) },
+        modifier
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ActivityDetails(
+    activity: ContextualActivity,
+    onNavigationRequest: () -> Unit,
+    onEditRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
         modifier,
         topBar = { TopAppBar(TopAppBarRelevance.Subsequent(onNavigationRequest)) },
         floatingActionButton = {
-            FloatingActionButton(onClick = { }) {
+            FloatingActionButton(onClick = onEditRequest) {
                 Icon(Icons.Rounded.Edit, contentDescription = "Edit")
             }
         },
@@ -59,6 +78,6 @@ internal fun ActivityDetails(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun ActivityDetailsPreview() {
     OngoingTheme {
-        ActivityDetails(ContextualActivity.sample, onNavigationRequest = { })
+        ActivityDetails(ContextualActivity.sample, onNavigationRequest = { }, onEditRequest = { })
     }
 }

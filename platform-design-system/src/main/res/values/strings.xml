@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="platform_design_system_dropdown_field_indicator_content_description">
+        Dropdown indicator
+    </string>
     <string name="platform_design_system_navigation_button_content_description">Close</string>
 </resources>

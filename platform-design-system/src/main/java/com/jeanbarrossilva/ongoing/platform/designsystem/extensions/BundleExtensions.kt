@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.os.Parcelable
 
 @Suppress("FunctionName", "Deprecation")
-inline fun <reified T : Parcelable> Bundle._getParcelable(key: String): T? {
+@PublishedApi
+internal inline fun <reified T : Parcelable> Bundle._getParcelable(key: String): T? {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         getParcelable(key, T::class.java)
     } else {

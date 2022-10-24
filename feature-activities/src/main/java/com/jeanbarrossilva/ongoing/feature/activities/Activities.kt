@@ -36,7 +36,7 @@ internal fun Activities(
     Activities(
         activities,
         onActivityDetailsNavigationRequest = {
-            boundary.navigateToActivityDetails(context, it)
+            boundary.navigateToActivityDetails(context, it.id)
         },
         modifier
     )

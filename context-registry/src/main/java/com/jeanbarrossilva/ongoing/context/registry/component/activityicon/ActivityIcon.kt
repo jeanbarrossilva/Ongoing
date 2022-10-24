@@ -2,8 +2,9 @@ package com.jeanbarrossilva.ongoing.context.registry.component.activityicon
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -17,21 +18,31 @@ import com.jeanbarrossilva.ongoing.platform.registry.R
 
 @Composable
 fun ActivityIcon(
-    activity: ContextualActivity,
+    activity: ContextualActivity?,
     size: ActivityIconSize,
     modifier: Modifier = Modifier
 ) {
-    Icon(
-        activity.icon.vector,
-        contentDescription =
-            stringResource(R.string.platform_registry_activity_card_icon_content_description),
+    val vector = activity?.icon?.vector
+    val containerSize = vector?.let { size.adaptedValue } ?: size.value
+
+    Box(
         modifier
             .clip(size.shape)
             .background(MaterialTheme.colorScheme.secondaryContainer)
             .padding(size.padding)
-            .requiredSize(size.adaptedValue),
-        MaterialTheme.colorScheme.primary
-    )
+            .size(containerSize)
+    ) {
+        activity?.icon?.vector?.let {
+            Icon(
+                it,
+                contentDescription = stringResource(
+                    R.string.platform_registry_activity_card_icon_content_description
+                ),
+                Modifier.size(size.adaptedValue),
+                MaterialTheme.colorScheme.primary
+            )
+        }
+    }
 }
 
 @Composable

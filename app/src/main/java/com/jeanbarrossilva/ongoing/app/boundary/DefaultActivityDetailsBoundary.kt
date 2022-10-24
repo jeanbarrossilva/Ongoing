@@ -6,7 +6,7 @@ import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsBounda
 import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingActivity
 
 internal class DefaultActivityDetailsBoundary: ActivityDetailsBoundary {
-    override fun navigateToActivityEditing(context: Context, activity: ContextualActivity) {
+    override fun navigateToActivityEditing(context: Context, activity: ContextualActivity?) {
         ActivityEditingActivity.start(context, activity)
     }
 }

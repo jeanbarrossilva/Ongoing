@@ -42,6 +42,8 @@ android {
 
 dependencies {
     implementation project(':context-registry')
+    implementation project(':core-registry')
+    implementation project(':core-session')
     implementation project(':platform-design-system')
     implementation libraries.jetlime
 }

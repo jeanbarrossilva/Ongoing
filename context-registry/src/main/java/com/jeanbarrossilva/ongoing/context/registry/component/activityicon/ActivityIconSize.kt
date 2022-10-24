@@ -23,8 +23,7 @@ enum class ActivityIconSize {
             @Composable get() = MaterialTheme.shapes.medium
     };
 
-    protected abstract val value: Dp
-
+    internal abstract val value: Dp
     internal abstract val padding: Dp
 
     @get:Composable

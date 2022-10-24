@@ -13,9 +13,9 @@ import org.koin.android.ext.android.inject
 
 class ActivityEditingActivity internal constructor(): ComposableActivity() {
     private val activityRegistry by inject<ActivityRegistry>()
-    private val activity by argumentOf<ContextualActivity>(ACTIVITY_KEY)
+    private val activity by argumentOf<ContextualActivity?>(ACTIVITY_KEY)
     private val viewModel by viewModels<ActivityEditingViewModel> {
-        ActivityEditingViewModel.getFactory(activity.owner, activityRegistry)
+        ActivityEditingViewModel.getFactory(activityRegistry)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class ActivityEditingActivity internal constructor(): ComposableActivity() {
     companion object {
         private const val ACTIVITY_KEY = "activity"
 
-        fun start(context: Context, activity: ContextualActivity) {
+        fun start(context: Context, activity: ContextualActivity?) {
             context.startActivity<ActivityEditingActivity>(ACTIVITY_KEY to activity)
         }
     }

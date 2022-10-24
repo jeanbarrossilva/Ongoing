@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 internal class ActivityEditingViewModel private constructor(
-    private val user: User,
     private val activityRegistry: ActivityRegistry
 ): ViewModel() {
     val activity = MutableStateFlow<ContextualActivity?>(null)
@@ -26,10 +25,10 @@ internal class ActivityEditingViewModel private constructor(
     }
 
     companion object {
-        fun getFactory(user: User, activityRegistry: ActivityRegistry): ViewModelProvider.Factory {
+        fun getFactory(activityRegistry: ActivityRegistry): ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(ActivityEditingViewModel::class) {
-                    ActivityEditingViewModel(user, activityRegistry)
+                    ActivityEditingViewModel(activityRegistry)
                 }
             }
         }

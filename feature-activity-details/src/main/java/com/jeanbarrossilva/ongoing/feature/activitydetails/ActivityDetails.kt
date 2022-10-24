@@ -5,21 +5,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityHeadline
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityStatusHistory
+import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarRelevance
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
@@ -28,11 +27,12 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 @Composable
 internal fun ActivityDetails(
     boundary: ActivityDetailsBoundary,
-    activity: ContextualActivity,
+    viewModel: ActivityDetailsViewModel,
     onNavigationRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val activity by viewModel.activity.collectAsState(null)
 
     ActivityDetails(
         activity,
@@ -45,7 +45,7 @@ internal fun ActivityDetails(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ActivityDetails(
-    activity: ContextualActivity,
+    activity: ContextualActivity?,
     onNavigationRequest: () -> Unit,
     onEditRequest: () -> Unit,
     modifier: Modifier = Modifier
@@ -54,9 +54,10 @@ private fun ActivityDetails(
         modifier,
         topBar = { TopAppBar(TopAppBarRelevance.Subsequent(onNavigationRequest)) },
         floatingActionButton = {
-            FloatingActionButton(onClick = onEditRequest) {
-                Icon(Icons.Rounded.Edit, contentDescription = "Edit")
-            }
+            FloatingActionButton(
+                isVisible = activity != null,
+                onClick = onEditRequest
+            )
         },
         floatingActionButtonPosition = FabPosition.Center
     ) {
@@ -76,8 +77,17 @@ private fun ActivityDetails(
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun ActivityDetailsPreview() {
+private fun LoadedActivityDetailsPreview() {
     OngoingTheme {
         ActivityDetails(ContextualActivity.sample, onNavigationRequest = { }, onEditRequest = { })
+    }
+}
+
+@Composable
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+private fun LoadingActivityDetailsPreview() {
+    OngoingTheme {
+        ActivityDetails(activity = null, onNavigationRequest = { }, onEditRequest = { })
     }
 }

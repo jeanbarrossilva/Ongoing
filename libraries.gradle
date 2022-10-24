@@ -4,6 +4,8 @@ buildscript {
     ext {
         libraries = [
             accompanist: [
+                placeholder: "com.google.accompanist:accompanist-placeholder-material:" +
+                    versions.accompanist,
                 systemuicontroller: "com.google.accompanist:accompanist-systemuicontroller:" +
                     versions.accompanist
             ],

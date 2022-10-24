@@ -50,5 +50,6 @@ dependencies {
     api libraries.koin
     api libraries.lifecycle.viewmodel.savedstate
 
+    implementation libraries.accompanist.placeholder
     implementation libraries.accompanist.systemuicontroller
 }

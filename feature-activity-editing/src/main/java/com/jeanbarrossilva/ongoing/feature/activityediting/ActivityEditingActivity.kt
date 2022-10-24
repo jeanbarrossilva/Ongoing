@@ -15,7 +15,7 @@ class ActivityEditingActivity internal constructor(): ComposableActivity() {
     private val activityRegistry by inject<ActivityRegistry>()
     private val activity by argumentOf<ContextualActivity?>(ACTIVITY_KEY)
     private val viewModel by viewModels<ActivityEditingViewModel> {
-        ActivityEditingViewModel.getFactory(activityRegistry)
+        ActivityEditingViewModel.createFactory(activityRegistry)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

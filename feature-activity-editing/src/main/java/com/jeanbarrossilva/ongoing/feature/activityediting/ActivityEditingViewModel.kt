@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
-import com.jeanbarrossilva.ongoing.core.session.user.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -25,7 +24,7 @@ internal class ActivityEditingViewModel private constructor(
     }
 
     companion object {
-        fun getFactory(activityRegistry: ActivityRegistry): ViewModelProvider.Factory {
+        fun createFactory(activityRegistry: ActivityRegistry): ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(ActivityEditingViewModel::class) {
                     ActivityEditingViewModel(activityRegistry)

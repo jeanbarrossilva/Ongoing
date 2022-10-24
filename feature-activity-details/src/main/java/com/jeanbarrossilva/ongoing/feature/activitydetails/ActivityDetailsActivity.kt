@@ -17,7 +17,7 @@ class ActivityDetailsActivity internal constructor(): ComposableActivity() {
     private val boundary by inject<ActivityDetailsBoundary>()
     private val activityId by argumentOf<String>(ACTIVITY_ID_KEY)
     private val viewModel by viewModels<ActivityDetailsViewModel> {
-        ActivityDetailsViewModel.getFactory(userRepository, activityRegistry)
+        ActivityDetailsViewModel.createFactory(userRepository, activityRegistry)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

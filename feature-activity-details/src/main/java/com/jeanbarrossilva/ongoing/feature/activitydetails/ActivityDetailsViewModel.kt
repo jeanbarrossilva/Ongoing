@@ -28,7 +28,7 @@ internal class ActivityDetailsViewModel private constructor(
     }
 
     companion object {
-        fun getFactory(userRepository: UserRepository, activityRegistry: ActivityRegistry):
+        fun createFactory(userRepository: UserRepository, activityRegistry: ActivityRegistry):
             ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(ActivityDetailsViewModel::class) {

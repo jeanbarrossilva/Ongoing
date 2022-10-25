@@ -9,7 +9,7 @@ interface ActivityRegistry {
 
     suspend fun getActivities(): Flow<List<Activity>>
 
-    suspend fun getActivityById(id: String): Activity?
+    suspend fun getActivityById(id: String): Flow<Activity?>
 
     suspend fun register(ownerUserId: String, name: String, statuses: List<Status> = Status.all):
         String

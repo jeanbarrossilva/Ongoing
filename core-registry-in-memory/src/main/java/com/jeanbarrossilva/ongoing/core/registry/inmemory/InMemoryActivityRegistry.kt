@@ -5,11 +5,16 @@ import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.inmemory.extensions.flatten
 import com.jeanbarrossilva.ongoing.core.registry.inmemory.extensions.getValue
 import com.jeanbarrossilva.ongoing.core.registry.inmemory.extensions.setValue
 import com.jeanbarrossilva.ongoing.core.registry.inmemory.extensions.uuid
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
 
 class InMemoryActivityRegistry: ActivityRegistry {
     private val activitiesFlow = MutableStateFlow(emptyList<Activity>())
@@ -34,7 +39,7 @@ class InMemoryActivityRegistry: ActivityRegistry {
 
         override suspend fun currentStatus(id: String, currentStatus: Status) {
             replace(id) { copy(currentStatus = currentStatus) }
-            getActivityByIdOrThrow(id).let { activity ->
+            requireActivityById(id).first().let { activity ->
                 onStatusChangeListeners.forEach { listener ->
                     listener.onStatusChange(activity)
                 }
@@ -46,7 +51,7 @@ class InMemoryActivityRegistry: ActivityRegistry {
         }
 
         private suspend fun replace(id: String, update: Activity.() -> Activity) {
-            val currentActivity = getActivityByIdOrThrow(id)
+            val currentActivity = requireActivityById(id).first()
             val updatedActivity = currentActivity.update()
             val index = activities.indexOf(currentActivity)
             unregister(currentActivity.id)
@@ -58,8 +63,8 @@ class InMemoryActivityRegistry: ActivityRegistry {
         return activitiesFlow
     }
 
-    override suspend fun getActivityById(id: String): Activity? {
-        return activities.find {
+    override suspend fun getActivityById(id: String): Flow<Activity?> {
+        return activitiesFlow.flatten().filter {
             it.id == id
         }
     }
@@ -73,14 +78,16 @@ class InMemoryActivityRegistry: ActivityRegistry {
     }
 
     override suspend fun unregister(id: String) {
-        activities = activities - getActivityByIdOrThrow(id)
+        activities = activities - requireActivityById(id).first()
     }
 
     override suspend fun clear() {
         activities = emptyList()
     }
 
-    private suspend fun getActivityByIdOrThrow(id: String): Activity {
-        return getActivityById(id) ?: throw IllegalArgumentException()
+    private suspend fun requireActivityById(id: String): Flow<Activity> {
+        return getActivityById(id)
+            .onEach { if (it == null) throw IllegalArgumentException() }
+            .filterNotNull()
     }
 }

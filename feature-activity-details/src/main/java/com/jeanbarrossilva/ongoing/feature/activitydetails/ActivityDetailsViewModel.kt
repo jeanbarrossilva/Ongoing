@@ -19,8 +19,8 @@ internal class ActivityDetailsViewModel private constructor(
     val activity = flow {
         activityId
             .map { it?.let { activityRegistry.getActivityById(it) } }
-            .map { it?.toContextualActivity(userRepository) }
-            .collect { emit(it) }
+            .map { flow -> flow?.map { it?.toContextualActivity(userRepository) } }
+            .collect { flow -> flow?.collect { emit(it) } }
     }
 
     fun setActivityId(id: String) {

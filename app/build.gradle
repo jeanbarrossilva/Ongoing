@@ -5,6 +5,7 @@ plugins {
 
 android {
     compileSdk versions.ongoing.sdk.compile
+    flavorDimensions dimensions.mode.name
 
     defaultConfig {
         applicationId 'com.jeanbarrossilva.ongoing'
@@ -14,6 +15,17 @@ android {
         versionName versions.ongoing.name
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    productFlavors {
+        demo {
+            dimension dimensions.mode.name
+            applicationIdSuffix dimensions.mode.flavors.demo.suffix
+        }
+    }
+
+    sourceSets {
+        demo.java.srcDir 'src/shared/java'
     }
 
     buildTypes {

@@ -1,5 +1,5 @@
 package com.jeanbarrossilva.ongoing.platform.designsystem.extensions
 
-internal inline fun <T> T.`if`(condition: Boolean, update: T.() -> T): T {
+inline fun <T> T.`if`(condition: Boolean, update: T.() -> T): T {
     return if (condition) update() else this
 }

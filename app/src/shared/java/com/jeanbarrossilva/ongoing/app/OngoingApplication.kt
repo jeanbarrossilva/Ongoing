@@ -6,7 +6,7 @@ import com.jeanbarrossilva.ongoing.app.module.coreModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-internal class OngoingApplication: Application() {
+internal open class OngoingApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         setUpInjection()

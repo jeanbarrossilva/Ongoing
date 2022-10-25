@@ -23,21 +23,6 @@ internal class ActivitiesViewModel private constructor(
         emitAll(activityRegistry.getActivities().map { it.mapToContextualActivity(userRepository) })
     }
 
-    init {
-        populateWithSamples()
-    }
-
-    private fun populateWithSamples() {
-        viewModelScope.launch {
-            val isNotPopulated = activities.first().isEmpty()
-            if (isNotPopulated) {
-                ContextualActivity.samples.forEach { activity ->
-                    activityRegistry.register(ownerUserId = User.sample.id, activity.name)
-                }
-            }
-        }
-    }
-
     companion object {
         fun createFactory(userRepository: UserRepository, activityRegistry: ActivityRegistry):
             ViewModelProvider.Factory {

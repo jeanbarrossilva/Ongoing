@@ -1,5 +1,7 @@
 package com.jeanbarrossilva.ongoing.core.registry.activity
 
+import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
+
 data class Activity(
     val id: String,
     val ownerUserId: String,
@@ -8,5 +10,13 @@ data class Activity(
     val statuses: List<Status>,
     val currentStatus: Status
 ) {
-    companion object
+    abstract class Recorder {
+        abstract suspend fun name(id: String, name: String)
+
+        abstract suspend fun icon(id: String, icon: Icon)
+
+        abstract suspend fun currentStatus(id: String, currentStatus: Status)
+
+        abstract suspend fun doOnStatusChange(listener: OnStatusChangeListener)
+    }
 }

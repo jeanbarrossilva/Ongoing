@@ -14,7 +14,45 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class InMemoryActivityRegistry: ActivityRegistry {
     private val activitiesFlow = MutableStateFlow(emptyList<Activity>())
     private var activities by activitiesFlow
-    private val onStatusChangeListeners = mutableListOf<OnStatusChangeListener>()
+
+    override val recorder = InMemoryActivityRecorder()
+
+    inner class InMemoryActivityRecorder internal constructor(): Activity.Recorder() {
+        private val onStatusChangeListeners = mutableListOf<OnStatusChangeListener>()
+
+        override suspend fun name(id: String, name: String) {
+            replace(id) {
+                copy(name = name)
+            }
+        }
+
+        override suspend fun icon(id: String, icon: Icon) {
+            replace(id) {
+                copy(icon = icon)
+            }
+        }
+
+        override suspend fun currentStatus(id: String, currentStatus: Status) {
+            replace(id) { copy(currentStatus = currentStatus) }
+            getActivityByIdOrThrow(id).let { activity ->
+                onStatusChangeListeners.forEach { listener ->
+                    listener.onStatusChange(activity)
+                }
+            }
+        }
+
+        override suspend fun doOnStatusChange(listener: OnStatusChangeListener) {
+            onStatusChangeListeners.add(listener)
+        }
+
+        private suspend fun replace(id: String, update: Activity.() -> Activity) {
+            val currentActivity = getActivityByIdOrThrow(id)
+            val updatedActivity = currentActivity.update()
+            val index = activities.indexOf(currentActivity)
+            unregister(currentActivity.id)
+            activities = activities.toMutableList().apply { add(index, updatedActivity) }
+        }
+    }
 
     override suspend fun getActivities(): Flow<List<Activity>> {
         return activitiesFlow
@@ -34,27 +72,6 @@ class InMemoryActivityRegistry: ActivityRegistry {
         return id
     }
 
-    override suspend fun setName(id: String, name: String) {
-        replace(id) {
-            copy(name = name)
-        }
-    }
-
-    override suspend fun setIcon(id: String, icon: Icon) {
-        replace(id) {
-            copy(icon = icon)
-        }
-    }
-
-    override suspend fun setCurrentStatus(id: String, status: Status) {
-        replace(id) { copy(currentStatus = status) }
-        onStatusChangeListeners.forEach { it.onStatusChange(getActivityByIdOrThrow(id)) }
-    }
-
-    override suspend fun doOnStatusChange(listener: OnStatusChangeListener) {
-        onStatusChangeListeners.add(listener)
-    }
-
     override suspend fun unregister(id: String) {
         activities = activities - getActivityByIdOrThrow(id)
     }
@@ -65,13 +82,5 @@ class InMemoryActivityRegistry: ActivityRegistry {
 
     private suspend fun getActivityByIdOrThrow(id: String): Activity {
         return getActivityById(id) ?: throw IllegalArgumentException()
-    }
-
-    private suspend fun replace(id: String, update: Activity.() -> Activity) {
-        val currentActivity = getActivityByIdOrThrow(id)
-        val updatedActivity = currentActivity.update()
-        val index = activities.indexOf(currentActivity)
-        unregister(currentActivity.id)
-        activities = activities.toMutableList().apply { add(index, updatedActivity) }
     }
 }

@@ -5,29 +5,29 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
-import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
+import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 internal class ActivityEditingViewModel private constructor(
-    private val activityRegistry: ActivityRegistry
+    private val activityRecorder: Activity.Recorder
 ): ViewModel() {
     val activity = MutableStateFlow<ContextualActivity?>(null)
 
     fun save() {
         activity.value?.toActivity()?.let {
             viewModelScope.launch {
-                activityRegistry.setName(it.id, it.name)
-                activityRegistry.setCurrentStatus(it.id, it.currentStatus)
+                activityRecorder.name(it.id, it.name)
+                activityRecorder.currentStatus(it.id, it.currentStatus)
             }
         }
     }
 
     companion object {
-        fun createFactory(activityRegistry: ActivityRegistry): ViewModelProvider.Factory {
+        fun createFactory(activityRecorder: Activity.Recorder): ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(ActivityEditingViewModel::class) {
-                    ActivityEditingViewModel(activityRegistry)
+                    ActivityEditingViewModel(activityRecorder)
                 }
             }
         }

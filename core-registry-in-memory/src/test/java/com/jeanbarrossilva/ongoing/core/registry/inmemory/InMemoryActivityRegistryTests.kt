@@ -16,7 +16,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class InMemoryActivityRegistryTests {
@@ -51,51 +50,6 @@ internal class InMemoryActivityRegistryTests {
         runTest {
             val id = activityRegistry.register(ownerUserId = uuid(), name = "Walk the dog")
             assertNotNull(activityRegistry.getActivityById(id))
-        }
-    }
-
-    @Test
-    fun `GIVEN an activity WHEN changing its name THEN it's changed`() {
-        runTest {
-            val id = activityRegistry.register(ownerUserId = uuid(), name = "Move to a new house")
-            val name = "Move to a new apartment"
-            activityRegistry.setName(id, name)
-            assertEquals(name, activityRegistry.getActivityById(id)?.name)
-        }
-    }
-
-    @Test
-    fun `GIVEN an activity WHEN changing its icon THEN it's changed`() {
-        runTest {
-            val id = activityRegistry.register(ownerUserId = uuid(), name = "Study")
-            val icon = Icon.BOOK
-            activityRegistry.setIcon(id, icon)
-            assertEquals(icon, activityRegistry.getActivityById(id)?.icon)
-        }
-    }
-
-    @Test
-    fun `GIVEN an activity WHEN changing its current status THEN it's changed`() {
-        runTest {
-            val id = activityRegistry.register(ownerUserId = uuid(), name = "Listen to music")
-            val status = Status.ONGOING
-            activityRegistry.setCurrentStatus(id, status)
-            assertEquals(status, activityRegistry.getActivityById(id)?.currentStatus)
-        }
-    }
-
-    @Test
-    fun `GIVEN a registered status listener WHEN changing the status of an activity THEN it's notified`() {
-        runTest {
-            val id = activityRegistry.register(ownerUserId = uuid(), name = "Swim")
-            val status = Status.DONE
-            var hasBeenNotified = false
-            activityRegistry.doOnStatusChange {
-                hasBeenNotified = true
-                assertEquals(status, it.currentStatus)
-            }
-            activityRegistry.setCurrentStatus(id, status)
-            assertTrue(hasBeenNotified)
         }
     }
 

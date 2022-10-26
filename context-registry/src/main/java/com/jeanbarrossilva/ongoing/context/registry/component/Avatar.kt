@@ -9,9 +9,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
+import com.jeanbarrossilva.ongoing.context.registry.R
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
-import com.jeanbarrossilva.ongoing.platform.registry.R
 
 @Composable
 fun Avatar(user: User, modifier: Modifier = Modifier) {

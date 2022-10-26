@@ -11,15 +11,6 @@ buildscript {
             customview_poolingcontainer: '1.0.0',
             fragment: '1.5.3',
             jetlime: '1.0.3',
-            ongoing: [
-                code: 1,
-                name: '1.0.0',
-                sdk: [
-                    compile: 33,
-                    min: 26,
-                    target: 33
-                ]
-            ],
             gradle: '7.2.2',
             java: JavaVersion.VERSION_1_8,
             junit5: [
@@ -31,7 +22,17 @@ buildscript {
                 coroutines: '1.6.4'
             ],
             lifecycle: '2.5.1',
-            material: '1.6.1'
+            material: '1.6.1',
+            ongoing: [
+                code: 1,
+                name: '1.0.0',
+                sdk: [
+                    compile: 33,
+                    min: 26,
+                    target: 33
+                ]
+            ],
+            room: '2.4.3',
         ]
     }
 }

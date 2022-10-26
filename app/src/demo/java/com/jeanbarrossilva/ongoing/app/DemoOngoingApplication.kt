@@ -36,7 +36,6 @@ internal class DemoOngoingApplication: OngoingApplication() {
     }
 
     private suspend inline fun withUserId(operation: String.() -> Unit) {
-        sessionManager.authenticate()
         sessionManager.getUser().first()?.id?.let {
             operation(it)
         }

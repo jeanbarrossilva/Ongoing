@@ -3,8 +3,8 @@ package com.jeanbarrossilva.ongoing.context.registry.domain
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.jeanbarrossilva.ongoing.context.registry.R
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
-import com.jeanbarrossilva.ongoing.platform.registry.R
 
 enum class ContextualStatus {
     TO_DO {

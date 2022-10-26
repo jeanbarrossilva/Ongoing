@@ -51,7 +51,8 @@ buildscript {
                         versions.lifecycle
                 ]
             ],
-            material: "com.google.android.material:material:${versions.material}"
+            material: "com.google.android.material:material:${versions.material}",
+            room: "androidx.room:room-ktx:${versions.room}"
         ]
     }
 }

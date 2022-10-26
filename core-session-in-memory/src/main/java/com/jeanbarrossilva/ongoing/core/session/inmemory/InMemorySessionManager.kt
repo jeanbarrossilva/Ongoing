@@ -24,6 +24,6 @@ class InMemorySessionManager: SessionManager {
     }
 
     companion object {
-        val user = User.sample
+        internal val user = User.sample
     }
 }

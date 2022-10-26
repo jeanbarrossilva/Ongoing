@@ -15,6 +15,9 @@ abstract class ActivityDao internal constructor() {
     @Query("SELECT * FROM activities WHERE id = :id")
     internal abstract fun selectById(id: String): Flow<ActivityEntity?>
 
+    @Query("SELECT owner_user_id FROM activities WHERE id = :activityId")
+    internal abstract fun selectOwnerUserId(activityId: String): String
+
     @Insert
     internal abstract suspend fun insert(activity: ActivityEntity): Long
 

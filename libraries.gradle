@@ -52,7 +52,17 @@ buildscript {
                 ]
             ],
             material: "com.google.android.material:material:${versions.material}",
-            room: "androidx.room:room-ktx:${versions.room}"
+            room: [
+                ktx: "androidx.room:room-ktx:${versions.room}",
+                testing: "androidx.room:room-testing:${versions.room}"
+            ],
+            test: [
+                core: "androidx.test:core-ktx:${versions.test.core}",
+                ext: [
+                    junit: "androidx.test.ext:junit-ktx:${versions.test.ext.junit}"
+                ],
+                runner: "androidx.test:runner:${versions.test.runner}"
+            ]
         ]
     }
 }

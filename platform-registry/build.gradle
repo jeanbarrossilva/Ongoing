@@ -37,8 +37,14 @@ dependencies {
     kapt _plugins.room
 
     api project(':core-registry')
-    api libraries.room
+    api libraries.room.ktx
 
     implementation libraries.koin
     implementation libraries.kotlinx.coroutines.core
+
+    androidTestImplementation libraries.kotlinx.coroutines.test
+    androidTestImplementation libraries.room.testing
+    androidTestImplementation libraries.test.core
+    androidTestImplementation libraries.test.ext.junit
+    androidTestImplementation libraries.test.runner
 }

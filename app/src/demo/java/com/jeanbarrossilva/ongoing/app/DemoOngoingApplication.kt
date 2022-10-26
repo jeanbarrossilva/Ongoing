@@ -4,14 +4,11 @@ import com.jeanbarrossilva.ongoing.app.extensions.onFirstRun
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
-import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 internal class DemoOngoingApplication: OngoingApplication() {
-    private val sessionManager by inject<SessionManager>()
     private val activityRegistry by inject<ActivityRegistry>()
 
     override fun onCreate() {
@@ -27,17 +24,9 @@ internal class DemoOngoingApplication: OngoingApplication() {
 
     private fun registerSampleActivities() {
         MainScope().launch {
-            withUserId userId@{
-                withEachActivity {
-                    activityRegistry.register(this@userId, name, statuses)
-                }
+            withEachActivity {
+                activityRegistry.register(name, statuses)
             }
-        }
-    }
-
-    private suspend inline fun withUserId(operation: String.() -> Unit) {
-        sessionManager.getUser().first()?.id?.let {
-            operation(it)
         }
     }
 

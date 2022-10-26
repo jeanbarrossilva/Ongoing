@@ -4,11 +4,17 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.platform.registry.authorization.CurrentUserIdProvider
+import com.jeanbarrossilva.ongoing.platform.registry.authorization.UnauthorizedException
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.toActivity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-class RoomActivityRegistry(private val dao: ActivityDao) : ActivityRegistry {
+class RoomActivityRegistry(
+    private val dao: ActivityDao,
+    private val currentUserIdProvider: CurrentUserIdProvider
+) : ActivityRegistry {
     override val recorder = RoomActivityRecorder(dao)
 
     override suspend fun getActivities(): Flow<List<Activity>> {
@@ -23,20 +29,26 @@ class RoomActivityRegistry(private val dao: ActivityDao) : ActivityRegistry {
         }
     }
 
-    override suspend fun register(
-        ownerUserId: String,
-        name: String,
-        statuses: List<Status>
-    ): String {
-        val activity = ActivityEntity(id = 0, ownerUserId, name, Icon.OTHER, Status.TO_DO)
+    override suspend fun register(name: String, statuses: List<Status>): String {
+        val activity = ActivityEntity(id = 0, currentUserId(), name, Icon.OTHER, Status.TO_DO)
         return dao.insert(activity).toString()
     }
 
     override suspend fun unregister(id: String) {
-        dao.delete(id)
+        val isActivityExistent = dao.selectById(id).first() != null
+        val isActivityOwner = dao.selectOwnerUserId(id) == currentUserId()
+        when {
+            isActivityExistent && isActivityOwner -> dao.delete(id)
+            isActivityExistent && !isActivityOwner -> throw UnauthorizedException(id)
+            else -> throw IllegalArgumentException("Activity $id does not exist.")
+        }
     }
 
     override suspend fun clear() {
         dao.deleteAll()
+    }
+
+    private suspend fun currentUserId(): String {
+        return currentUserIdProvider.provide()
     }
 }

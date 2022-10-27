@@ -6,8 +6,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,7 +19,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarRelevance
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
@@ -38,21 +41,31 @@ internal fun Activities(
         onActivityDetailsNavigationRequest = {
             boundary.navigateToActivityDetails(context, it.id)
         },
+        onAddRequest = { boundary.navigateToActivityEditing(context) },
         modifier
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Activities(
     activities: List<ContextualActivity>,
     onActivityDetailsNavigationRequest: (ContextualActivity) -> Unit,
+    onAddRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
         topBar = {
             TopAppBar(TopAppBarRelevance.Main) {
                 Text(stringResource(R.string.feature_activities))
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = onAddRequest) {
+                Icon(
+                    Icons.Rounded.Add,
+                    contentDescription =
+                        stringResource(R.string.feature_activities_fab_content_description)
+                )
             }
         }
     ) { padding ->
@@ -79,6 +92,10 @@ private fun Activities(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun ActivitiesPreview() {
     OngoingTheme {
-        Activities(ContextualActivity.samples, onActivityDetailsNavigationRequest = { })
+        Activities(
+            ContextualActivity.samples,
+            onActivityDetailsNavigationRequest = { },
+            onAddRequest = { }
+        )
     }
 }

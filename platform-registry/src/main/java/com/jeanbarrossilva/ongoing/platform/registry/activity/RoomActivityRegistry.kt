@@ -30,6 +30,7 @@ class RoomActivityRegistry(
     }
 
     override suspend fun register(name: String, statuses: List<Status>): String {
+        assert(name.isNotBlank())
         val activity = ActivityEntity(id = 0, currentUserId(), name, Icon.OTHER, Status.TO_DO)
         return dao.insert(activity).toString()
     }

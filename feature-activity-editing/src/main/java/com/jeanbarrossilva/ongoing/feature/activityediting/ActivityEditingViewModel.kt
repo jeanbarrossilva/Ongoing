@@ -4,30 +4,34 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
-import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
+import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 internal class ActivityEditingViewModel private constructor(
-    private val activityRecorder: Activity.Recorder
+    private val activityRegistry: ActivityRegistry,
+    private val mode: ActivityEditingMode
 ): ViewModel() {
-    val activity = MutableStateFlow<ContextualActivity?>(null)
+    private val initialActivity = when (mode) {
+        is ActivityEditingMode.Addition -> null
+        is ActivityEditingMode.Modification -> mode.activity
+    }
+
+    val name = MutableStateFlow(initialActivity?.name.orEmpty())
+    val currentStatus = MutableStateFlow(initialActivity?.currentStatus)
 
     fun save() {
-        activity.value?.toActivity()?.let {
-            viewModelScope.launch {
-                activityRecorder.name(it.id, it.name)
-                activityRecorder.currentStatus(it.id, it.currentStatus)
-            }
+        viewModelScope.launch {
+            mode.save(activityRegistry, name.value, requireNotNull(currentStatus.value))
         }
     }
 
     companion object {
-        fun createFactory(activityRecorder: Activity.Recorder): ViewModelProvider.Factory {
+        fun createFactory(activityRegistry: ActivityRegistry, mode: ActivityEditingMode):
+            ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(ActivityEditingViewModel::class) {
-                    ActivityEditingViewModel(activityRecorder)
+                    ActivityEditingViewModel(activityRegistry, mode)
                 }
             }
         }

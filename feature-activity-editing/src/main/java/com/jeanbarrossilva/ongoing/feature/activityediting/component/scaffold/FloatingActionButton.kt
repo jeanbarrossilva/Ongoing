@@ -9,12 +9,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.feature.activityediting.R
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.FloatingActionButton
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButtonEnableability
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @Composable
-internal fun FloatingActionButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    FloatingActionButton(onClick) {
+internal fun FloatingActionButton(
+    isEnabled: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    FloatingActionButton(FloatingActionButtonEnableability `for` isEnabled, onClick, modifier) {
         Icon(
             Icons.Rounded.Done,
             contentDescription =
@@ -26,8 +31,17 @@ internal fun FloatingActionButton(onClick: () -> Unit, modifier: Modifier = Modi
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun FloatingActionButtonPreview() {
+private fun EnabledFloatingActionButtonPreview() {
     OngoingTheme {
-        FloatingActionButton(onClick = { })
+        FloatingActionButton(isEnabled = true, onClick = { })
+    }
+}
+
+@Composable
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+private fun DisabledFloatingActionButtonPreview() {
+    OngoingTheme {
+        FloatingActionButton(isEnabled = false, onClick = { })
     }
 }

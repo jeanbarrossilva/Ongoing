@@ -13,14 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualStatus
 import com.jeanbarrossilva.ongoing.feature.activityediting.R
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.DropdownField
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @Composable
 internal fun ActivityCurrentStatusDropdownField(
-    activity: ContextualActivity?,
-    onChange: (activity: ContextualActivity) -> Unit,
+    currentStatus: ContextualStatus?,
+    onChange: (currentStatus: ContextualStatus) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember {
@@ -30,15 +31,15 @@ internal fun ActivityCurrentStatusDropdownField(
     DropdownField(
         isExpanded,
         onExpansionToggle = { isExpanded = it },
-        value = activity?.currentStatus?.title.orEmpty(),
+        value = currentStatus?.title.orEmpty(),
         label = { Text(stringResource(R.string.feature_activity_editing_current_status)) },
         modifier
     ) { width ->
-        activity?.statuses?.forEach { status ->
+        ContextualStatus.all.forEach { status ->
             DropdownMenuItem(
                 text = { Text(status.title) },
                 onClick = {
-                    onChange(activity.copy(currentStatus = status))
+                    onChange(status)
                     isExpanded = false
                 },
                 Modifier.width(width)
@@ -52,6 +53,6 @@ internal fun ActivityCurrentStatusDropdownField(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun ActivityCurrentStatusDropdownFieldPreview() {
     OngoingTheme {
-        ActivityCurrentStatusDropdownField(ContextualActivity.sample, onChange = { })
+        ActivityCurrentStatusDropdownField(ContextualActivity.sample.currentStatus, onChange = { })
     }
 }

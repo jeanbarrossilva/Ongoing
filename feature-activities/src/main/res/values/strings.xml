@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="feature_activities">Activities</string>
+    <string name="feature_activities_fab_content_description">Add</string>
 </resources>

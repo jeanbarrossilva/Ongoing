@@ -15,13 +15,13 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ActivityNameTextField(
-    activity: ContextualActivity?,
-    onChange: (activity: ContextualActivity) -> Unit,
+    name: String,
+    onChange: (name: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     TextField(
-        activity?.name.orEmpty(),
-        onValueChange = { activity?.copy(name = it)?.let(onChange) },
+        name,
+        onChange,
         modifier,
         label = { Text(stringResource(R.string.feature_activity_editing_name)) }
     )
@@ -32,6 +32,6 @@ internal fun ActivityNameTextField(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun ActivityNameTextFieldPreview() {
     OngoingTheme {
-        ActivityNameTextField(ContextualActivity.sample, onChange = { })
+        ActivityNameTextField(ContextualActivity.sample.name, onChange = { })
     }
 }

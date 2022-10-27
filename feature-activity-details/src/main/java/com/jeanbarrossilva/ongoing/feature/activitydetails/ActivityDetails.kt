@@ -5,9 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,6 +15,7 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityHeadline
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityStatusHistory
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.FloatingActionButton
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarRelevance
@@ -42,7 +40,6 @@ internal fun ActivityDetails(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ActivityDetails(
     activity: ContextualActivity?,
@@ -51,15 +48,14 @@ private fun ActivityDetails(
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        modifier,
         topBar = { TopAppBar(TopAppBarRelevance.Subsequent(onNavigationRequest)) },
         floatingActionButton = {
             FloatingActionButton(
-                isVisible = activity != null,
+                isAvailable = activity != null,
                 onClick = onEditRequest
             )
         },
-        floatingActionButtonPosition = FabPosition.Center
+        modifier
     ) {
         Background(
             Modifier

@@ -9,6 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,6 +62,7 @@ internal fun ActivityEditing(
     modifier: Modifier = Modifier
 ) {
     val spacing = Size.Spacing.xxl
+    var isValid by remember { mutableStateOf(ActivityEditingModel.isNameValid(name)) }
 
     Scaffold(
         topBar = {
@@ -67,10 +71,7 @@ internal fun ActivityEditing(
             }
         },
         floatingActionButton = {
-            FloatingActionButton(
-                isEnabled = ActivityEditingModel.canSave(name, currentStatus),
-                onClick = onSaveRequest
-            )
+            FloatingActionButton(isEnabled = isValid, onClick = onSaveRequest)
        },
         modifier
     ) { padding ->
@@ -80,7 +81,14 @@ internal fun ActivityEditing(
                 .padding(padding)
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(spacing)) {
-                ActivityNameTextField(name, onNameChange, Modifier.fillMaxWidth())
+                ActivityNameTextField(
+                    name,
+                    onChange = { newName, isNameValid ->
+                        isValid = isValid && isNameValid
+                        onNameChange(newName)
+                    },
+                    Modifier.fillMaxWidth()
+                )
 
                 ActivityCurrentStatusDropdownField(
                     currentStatus,

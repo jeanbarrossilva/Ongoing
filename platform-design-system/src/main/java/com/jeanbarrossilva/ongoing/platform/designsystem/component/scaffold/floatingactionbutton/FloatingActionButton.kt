@@ -85,7 +85,7 @@ fun FloatingActionButton(
 
 @Composable
 private fun FloatingActionButton(isEnabled: Boolean) {
-    _FloatingActionButton(FloatingActionButtonEnableability `for` isEnabled, onClick = { }) {
+    _FloatingActionButton(FloatingActionButtonEnableability of isEnabled, onClick = { }) {
         Icon(Icons.Rounded.Add, contentDescription = "Add")
     }
 }

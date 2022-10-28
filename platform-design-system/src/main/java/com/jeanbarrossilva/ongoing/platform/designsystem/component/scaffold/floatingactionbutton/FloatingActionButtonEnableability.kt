@@ -22,7 +22,7 @@ sealed class FloatingActionButtonEnableability {
     }
 
     companion object {
-        infix fun `for`(isEnabled: Boolean): FloatingActionButtonEnableability {
+        infix fun of(isEnabled: Boolean): FloatingActionButtonEnableability {
             return if (isEnabled) Enabled else Disabled
         }
     }

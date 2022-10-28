@@ -19,7 +19,7 @@ internal fun FloatingActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    FloatingActionButton(FloatingActionButtonEnableability `for` isEnabled, onClick, modifier) {
+    FloatingActionButton(FloatingActionButtonEnableability of isEnabled, onClick, modifier) {
         Icon(
             Icons.Rounded.Done,
             contentDescription =

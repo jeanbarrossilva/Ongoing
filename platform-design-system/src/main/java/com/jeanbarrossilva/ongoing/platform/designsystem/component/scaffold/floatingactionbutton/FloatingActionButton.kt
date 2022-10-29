@@ -51,10 +51,7 @@ fun FloatingActionButton(
     availability: FloatingActionButtonAvailability = FloatingActionButtonAvailability.Available(),
     content: @Composable () -> Unit
 ) {
-    val enableability = when (availability) {
-        is FloatingActionButtonAvailability.Available -> availability.enableability
-        is FloatingActionButtonAvailability.Unavailable -> null
-    }
+    val enableability = if (availability.isAvailable()) availability.enableability else null
     val containerColor by
         animateColorAsState(enableability?.containerColor ?: defaultContainerColor)
     val contentColor by animateColorAsState(enableability?.contentColor ?: defaultContentColor)
@@ -67,8 +64,14 @@ fun FloatingActionButton(
     ) {
         FloatingActionButton(
             onClick = {
-                if (enableability is FloatingActionButtonEnableability.Enabled) {
-                    onClick()
+                enableability?.let {
+                    if (
+                        it.isEnabled() ||
+                        it is FloatingActionButtonEnableability.Disabled &&
+                        it.isInteractive
+                    ) {
+                        onClick()
+                    }
                 }
             },
             containerColor = containerColor,

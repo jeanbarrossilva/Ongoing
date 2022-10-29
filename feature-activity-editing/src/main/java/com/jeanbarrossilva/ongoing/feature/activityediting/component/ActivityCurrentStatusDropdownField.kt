@@ -16,12 +16,16 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualStatus
 import com.jeanbarrossilva.ongoing.feature.activityediting.R
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.DropdownField
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.TextFieldRule
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.submitter.TextFieldSubmitter
+import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.rememberTextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @Composable
 internal fun ActivityCurrentStatusDropdownField(
     currentStatus: ContextualStatus?,
     onChange: (currentStatus: ContextualStatus) -> Unit,
+    submitter: TextFieldSubmitter,
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember {
@@ -33,7 +37,14 @@ internal fun ActivityCurrentStatusDropdownField(
         onExpansionToggle = { isExpanded = it },
         value = currentStatus?.title.orEmpty(),
         label = { Text(stringResource(R.string.feature_activity_editing_current_status)) },
-        modifier
+        modifier,
+        rules = listOf(
+            TextFieldRule(
+                stringResource(R.string.feature_activity_editing_error_blank_field),
+                String::isNotEmpty
+            )
+        ),
+        submitter
     ) { width ->
         ContextualStatus.all.forEach { status ->
             DropdownMenuItem(
@@ -53,6 +64,10 @@ internal fun ActivityCurrentStatusDropdownField(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun ActivityCurrentStatusDropdownFieldPreview() {
     OngoingTheme {
-        ActivityCurrentStatusDropdownField(ContextualActivity.sample.currentStatus, onChange = { })
+        ActivityCurrentStatusDropdownField(
+            ContextualActivity.sample.currentStatus,
+            onChange = { },
+            rememberTextFieldSubmitter()
+        )
     }
 }

@@ -8,16 +8,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.colors.TextFieldColors
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.submitter.OnSubmissionListener
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.message
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.textFieldColors
+import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.toDpSize
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.TextField as _TextField
 
@@ -30,30 +37,53 @@ fun TextField(
     modifier: Modifier = Modifier,
     enableability: TextFieldEnableability,
     trailingIcon: (@Composable () -> Unit)? = null,
-    colors: TextFieldColors = textFieldColors()
+    colors: TextFieldColors = textFieldColors(),
+    onPlacement: (coordinates: LayoutCoordinates) -> Unit = { }
 ) {
-    var isAtInitialValue by remember {
-        mutableStateOf(true)
+    val density = LocalDensity.current
+    val spacing = Size.Spacing.xs
+    var coordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
+    var errorMessageHeight by remember { mutableStateOf(Dp.Unspecified) }
+    var shouldShowErrors by remember { mutableStateOf(false) }
+    val onSubmissionListener = remember {
+        OnSubmissionListener {
+            shouldShowErrors = true
+        }
     }
 
-    Column(verticalArrangement = Arrangement.spacedBy(Size.Spacing.xs)) {
+    DisposableEffect(coordinates) {
+        coordinates?.let(onPlacement)
+        onDispose { }
+    }
+
+    if (enableability.isEnabled()) {
+        DisposableEffect(Unit) {
+            enableability.submitter.addListener(onSubmissionListener)
+            onDispose { enableability.submitter.removeListener(onSubmissionListener) }
+        }
+    }
+
+    Column(verticalArrangement = Arrangement.spacedBy(spacing)) {
         TextField(
             value,
-            onValueChange = {
-                onValueChange(it, !enableability.hasErrors(it))
-                isAtInitialValue = false
-            },
-            modifier,
+            onValueChange = { onValueChange(it, enableability.isValid(it)) },
+            modifier.onGloballyPositioned { coordinates = it },
             enabled = enableability.isEnabled() && !enableability.isReadOnly,
             readOnly = enableability.isEnabled() && enableability.isReadOnly,
             label = label,
             trailingIcon = trailingIcon,
-            isError = !isAtInitialValue && enableability.hasErrors(value),
+            isError = shouldShowErrors,
             colors = colors.toMaterialTextFieldColors(enableability)
         )
 
-        if (!isAtInitialValue && enableability.hasErrors(value)) {
-            Text(enableability.rules.message, color = MaterialTheme.colorScheme.error)
+        if (enableability.isEnabled() && shouldShowErrors) {
+            Text(
+                enableability.rules.message,
+                Modifier.onGloballyPositioned {
+                    errorMessageHeight = it.size.toDpSize(density).height
+                },
+                MaterialTheme.colorScheme.error
+            )
         }
     }
 }

@@ -25,6 +25,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Ba
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarRelevance
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
+import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.rememberTextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @Composable
@@ -62,6 +63,8 @@ internal fun ActivityEditing(
     modifier: Modifier = Modifier
 ) {
     val spacing = Size.Spacing.xxl
+    val nameSubmitter = rememberTextFieldSubmitter()
+    val currentStatusSubmitter = rememberTextFieldSubmitter()
     var isValid by remember { mutableStateOf(ActivityEditingModel.isNameValid(name)) }
 
     Scaffold(
@@ -71,7 +74,16 @@ internal fun ActivityEditing(
             }
         },
         floatingActionButton = {
-            FloatingActionButton(isEnabled = isValid, onClick = onSaveRequest)
+            FloatingActionButton(
+                isEnabled = isValid,
+                onClick = {
+                    if (isValid) {
+                        onSaveRequest()
+                    }
+                },
+                nameSubmitter,
+                currentStatusSubmitter
+            )
        },
         modifier
     ) { padding ->
@@ -87,12 +99,14 @@ internal fun ActivityEditing(
                         isValid = isValid && isNameValid
                         onNameChange(newName)
                     },
+                    nameSubmitter,
                     Modifier.fillMaxWidth()
                 )
 
                 ActivityCurrentStatusDropdownField(
                     currentStatus,
                     onCurrentStatusChange,
+                    currentStatusSubmitter,
                     Modifier.fillMaxWidth()
                 )
             }

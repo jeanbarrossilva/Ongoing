@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -31,7 +30,10 @@ import androidx.compose.ui.unit.DpSize
 import com.jeanbarrossilva.ongoing.platform.designsystem.R
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.TextField
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.TextFieldEnableability
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.TextFieldRule
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.submitter.TextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
+import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.rememberTextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.toDpOffset
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.toDpSize
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
@@ -43,10 +45,12 @@ fun DropdownField(
     value: String,
     label: (@Composable () -> Unit),
     modifier: Modifier = Modifier,
+    rules: List<TextFieldRule> = emptyList(),
+    submitter: TextFieldSubmitter = rememberTextFieldSubmitter(),
     content: @Composable ColumnScope.(width: Dp) -> Unit
 ) {
     val density = LocalDensity.current
-    var coordinates by remember { mutableStateOf(DpOffset.Zero) }
+    var offset by remember { mutableStateOf(DpOffset.Zero) }
     var size by remember { mutableStateOf(DpSize.Zero) }
     val indicatorRotationDegrees by animateFloatAsState(if (isExpanded) -180f else 0f)
 
@@ -56,13 +60,9 @@ fun DropdownField(
             onValueChange = { _, _ -> },
             label = label,
             Modifier
-                .onGloballyPositioned {
-                    coordinates = it.positionInParent().toDpOffset(density)
-                    size = it.size.toDpSize(density)
-                }
                 .clickable { onExpansionToggle(true) }
                 .fillMaxWidth(),
-            TextFieldEnableability.Enabled(isReadOnly = true),
+            TextFieldEnableability.Enabled(isReadOnly = true, rules, submitter),
             trailingIcon = {
                 Icon(
                     Icons.Rounded.ArrowDropDown,
@@ -71,13 +71,17 @@ fun DropdownField(
                     ),
                     Modifier.rotate(indicatorRotationDegrees)
                 )
+            },
+            onPlacement = {
+                offset = it.positionInParent().toDpOffset(density)
+                size = it.size.toDpSize(density)
             }
         )
 
         DropdownMenu(
             isExpanded,
             onDismissRequest = { onExpansionToggle(false) },
-            offset = with(coordinates) { copy(y = y + Size.Spacing.xxs) },
+            offset = with(offset) { copy(y = y + Size.Spacing.xxs) },
             content = { content(size.width) }
         )
     }

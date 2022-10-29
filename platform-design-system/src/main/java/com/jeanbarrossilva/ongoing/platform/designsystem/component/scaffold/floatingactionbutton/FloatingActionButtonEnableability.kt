@@ -5,6 +5,8 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.ContentAlpha
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
 
 sealed class FloatingActionButtonEnableability {
     internal open val containerColor: Color
@@ -12,9 +14,16 @@ sealed class FloatingActionButtonEnableability {
     internal open val contentColor
         @Composable get() = contentColorFor(containerColor)
 
+    @OptIn(ExperimentalContracts::class)
+    internal fun isEnabled(): Boolean {
+        contract { returns(true) implies (this@FloatingActionButtonEnableability is Enabled) }
+        return this is Enabled
+    }
+
     object Enabled: FloatingActionButtonEnableability()
 
-    object Disabled: FloatingActionButtonEnableability() {
+    data class Disabled(internal val isInteractive: Boolean = false):
+        FloatingActionButtonEnableability() {
         override val containerColor
             @Composable get() = MaterialTheme.colorScheme.secondaryContainer
         override val contentColor
@@ -23,7 +32,7 @@ sealed class FloatingActionButtonEnableability {
 
     companion object {
         infix fun of(isEnabled: Boolean): FloatingActionButtonEnableability {
-            return if (isEnabled) Enabled else Disabled
+            return if (isEnabled) Enabled else Disabled()
         }
     }
 }

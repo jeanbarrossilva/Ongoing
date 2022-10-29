@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.feature.activityediting.R
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.submitter.TextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButtonEnableability
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
@@ -17,9 +18,23 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 internal fun FloatingActionButton(
     isEnabled: Boolean,
     onClick: () -> Unit,
+    vararg submitters: TextFieldSubmitter,
     modifier: Modifier = Modifier
 ) {
-    FloatingActionButton(FloatingActionButtonEnableability of isEnabled, onClick, modifier) {
+    val enableability = if (isEnabled) {
+        FloatingActionButtonEnableability.Enabled
+    } else {
+        FloatingActionButtonEnableability.Disabled(isInteractive = true)
+    }
+
+    FloatingActionButton(
+        enableability,
+        onClick = {
+            submitters.forEach(TextFieldSubmitter::submit)
+            onClick()
+        },
+        modifier
+    ) {
         Icon(
             Icons.Rounded.Done,
             contentDescription =

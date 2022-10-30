@@ -18,6 +18,8 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton.defaultContainerColor
@@ -58,7 +60,6 @@ fun FloatingActionButton(
 
     AnimatedVisibility(
         visible = availability is FloatingActionButtonAvailability.Available,
-        modifier,
         enter = fadeIn() + scaleIn(),
         exit = fadeOut() + scaleOut()
     ) {
@@ -71,6 +72,13 @@ fun FloatingActionButton(
                         it.isInteractive
                     ) {
                         onClick()
+                    }
+                }
+            },
+            modifier.semantics {
+                enableability?.let {
+                    if (!it.isEnabled()) {
+                        disabled()
                     }
                 }
             },

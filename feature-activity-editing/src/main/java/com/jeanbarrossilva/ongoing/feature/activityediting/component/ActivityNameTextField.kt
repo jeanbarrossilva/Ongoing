@@ -32,7 +32,6 @@ internal fun ActivityNameTextField(
     TextField(
         name,
         onChange,
-        label = { Text(stringResource(R.string.feature_activity_editing_name)) },
         modifier.testTag(TAG),
         TextFieldEnableability.Enabled(
             rules = listOf(
@@ -42,7 +41,8 @@ internal fun ActivityNameTextField(
                 )
             ),
             submitter = submitter
-        )
+        ),
+        label = { Text(stringResource(R.string.feature_activity_editing_name)) },
     )
 }
 

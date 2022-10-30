@@ -20,7 +20,8 @@ buildscript {
                     versions.compose_material,
                 ui: [
                     test: [
-                        junit4: "androidx.compose.ui:ui-test-junit4:${versions.compose_ui}"
+                        junit4: "androidx.compose.ui:ui-test-junit4:${versions.compose_ui}",
+                        manifest: "androidx.compose.ui:ui-test-manifest:${versions.compose_ui}"
                     ],
                     tooling: "androidx.compose.ui:ui-tooling:${versions.compose_ui}"
                 ]

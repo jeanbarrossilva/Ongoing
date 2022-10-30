@@ -30,9 +30,9 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfie
 fun TextField(
     value: String,
     onValueChange: (value: String, isValid: Boolean) -> Unit,
-    label: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    enableability: TextFieldEnableability,
+    enableability: TextFieldEnableability = TextFieldEnableability.Enabled(),
+    label: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
     colors: TextFieldColors = textFieldColors(),
     onPlacement: (coordinates: LayoutCoordinates) -> Unit = { }
@@ -82,9 +82,9 @@ private fun TextField(isEnabled: Boolean, modifier: Modifier = Modifier) {
     _TextField(
         "Jean",
         onValueChange = { _, _ -> },
-        label = { Text("Name") },
         modifier,
-        TextFieldEnableability of isEnabled
+        TextFieldEnableability of isEnabled,
+        label = { Text("Name") }
     )
 }
 

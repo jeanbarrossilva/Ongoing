@@ -53,4 +53,7 @@ dependencies {
 
     implementation libraries.accompanist.placeholder
     implementation libraries.accompanist.systemuicontroller
+
+    androidTestImplementation libraries.compose.ui.test.junit4
+    androidTestImplementation libraries.compose.ui.test.manifest
 }

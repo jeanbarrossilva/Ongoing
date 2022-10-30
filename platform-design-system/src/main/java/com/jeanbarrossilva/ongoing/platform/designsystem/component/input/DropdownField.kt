@@ -58,11 +58,11 @@ fun DropdownField(
         TextField(
             value,
             onValueChange = { _, _ -> },
-            label = label,
             Modifier
                 .clickable { onExpansionToggle(true) }
                 .fillMaxWidth(),
             TextFieldEnableability.Enabled(isReadOnly = true, rules, submitter),
+            label,
             trailingIcon = {
                 Icon(
                     Icons.Rounded.ArrowDropDown,

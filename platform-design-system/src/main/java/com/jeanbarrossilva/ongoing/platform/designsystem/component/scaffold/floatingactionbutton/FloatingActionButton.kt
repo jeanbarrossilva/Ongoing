@@ -18,12 +18,11 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.disabled
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton.defaultContainerColor
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton.defaultContentColor
+import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.`if`
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton as _FloatingActionButton
 
@@ -66,22 +65,12 @@ fun FloatingActionButton(
         FloatingActionButton(
             onClick = {
                 enableability?.let {
-                    if (
-                        it.isEnabled() ||
-                        it is FloatingActionButtonEnableability.Disabled &&
-                        it.isInteractive
-                    ) {
+                    if (it.isInteractive) {
                         onClick()
                     }
                 }
             },
-            modifier.semantics {
-                enableability?.let {
-                    if (!it.isEnabled()) {
-                        disabled()
-                    }
-                }
-            },
+            modifier.`if`(enableability != null) { then(enableability!!.modifier) },
             containerColor = containerColor,
             contentColor = contentColor,
             elevation = elevation(

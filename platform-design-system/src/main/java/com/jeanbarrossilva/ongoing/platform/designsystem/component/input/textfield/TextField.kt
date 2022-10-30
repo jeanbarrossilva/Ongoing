@@ -16,15 +16,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.colors.TextFieldColors
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.submitter.OnSubmissionListener
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.message
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.textFieldColors
-import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.toDpSize
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.TextField as _TextField
 
@@ -40,14 +37,12 @@ fun TextField(
     colors: TextFieldColors = textFieldColors(),
     onPlacement: (coordinates: LayoutCoordinates) -> Unit = { }
 ) {
-    val density = LocalDensity.current
     val spacing = Size.Spacing.xs
     var coordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
-    var errorMessageHeight by remember { mutableStateOf(Dp.Unspecified) }
     var shouldShowErrors by remember { mutableStateOf(false) }
     val onSubmissionListener = remember {
         OnSubmissionListener {
-            shouldShowErrors = true
+            shouldShowErrors = !enableability.isValid(value)
         }
     }
 
@@ -77,13 +72,7 @@ fun TextField(
         )
 
         if (enableability.isEnabled() && shouldShowErrors) {
-            Text(
-                enableability.rules.message,
-                Modifier.onGloballyPositioned {
-                    errorMessageHeight = it.size.toDpSize(density).height
-                },
-                MaterialTheme.colorScheme.error
-            )
+            Text(enableability.rules.message, color = MaterialTheme.colorScheme.error)
         }
     }
 }

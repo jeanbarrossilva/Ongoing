@@ -35,14 +35,21 @@ internal fun ActivityEditing(
     onDone: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val name by viewModel.name.collectAsState()
-    val currentStatus by viewModel.currentStatus.collectAsState()
+    val props by viewModel.props.collectAsState()
 
     ActivityEditing(
-        name,
-        onNameChange = { viewModel.name.value = it },
-        currentStatus,
-        onCurrentStatusChange = { viewModel.currentStatus.value = it },
+        props.name,
+        onNameChange = {
+            viewModel.updateProps {
+                copy(name = it)
+            }
+        },
+        props.currentStatus,
+        onCurrentStatusChange = {
+            viewModel.updateProps {
+                copy(currentStatus = it)
+            }
+        },
         onNavigationRequest,
         onSaveRequest = {
             viewModel.save()

@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jeanbarrossilva.ongoing.feature.activityediting">
     <application>
-        <activity android:name=".ActivityEditingActivity" />
+        <activity
+            android:name=".ActivityEditingActivity"
+            android:theme="@style/Theme.Ongoing" />
     </application>
 </manifest>

@@ -12,17 +12,26 @@ internal class ActivityEditingViewModel private constructor(
     private val activityRegistry: ActivityRegistry,
     private val mode: ActivityEditingMode
 ): ViewModel() {
-    private val initialActivity = when (mode) {
-        is ActivityEditingMode.Addition -> null
-        is ActivityEditingMode.Modification -> mode.activity
+    private val initialProps = when (mode) {
+        is ActivityEditingMode.Addition -> ActivityEditingProps.empty
+        is ActivityEditingMode.Modification -> ActivityEditingProps(mode.activity)
     }
 
-    val name = MutableStateFlow(initialActivity?.name.orEmpty())
-    val currentStatus = MutableStateFlow(initialActivity?.currentStatus)
+    val props = MutableStateFlow(initialProps)
+
+    fun updateProps(update: ActivityEditingProps.() -> ActivityEditingProps) {
+        props.value = props.value.update()
+    }
+
+    fun onPropsChange(operation: suspend (props: ActivityEditingProps) -> Unit) {
+        viewModelScope.launch {
+            props.collect(operation)
+        }
+    }
 
     fun save() {
         viewModelScope.launch {
-            mode.save(activityRegistry, name.value, requireNotNull(currentStatus.value))
+            mode.save(activityRegistry, props.value)
         }
     }
 

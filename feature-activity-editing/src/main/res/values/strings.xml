@@ -6,4 +6,10 @@
     <string name="feature_activity_editing_current_status">Current status</string>
     <string name="feature_activity_editing_current_status_dropdown_indicator_content_description">Dropdown indicator</string>
     <string name="feature_activity_editing_fab_content_description">Done</string>
+    <string name="feature_activity_editing_confirmation_dialog_title">
+        Do you want to discard these changes?
+    </string>
+    <string name="feature_activity_editing_confirmation_dialog_message">
+        This operation cannot be undone.
+    </string>
 </resources>

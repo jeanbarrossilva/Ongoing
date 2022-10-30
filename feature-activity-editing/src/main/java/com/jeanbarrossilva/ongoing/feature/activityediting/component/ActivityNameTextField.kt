@@ -4,17 +4,23 @@ import android.content.res.Configuration
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingModel
 import com.jeanbarrossilva.ongoing.feature.activityediting.R
+import com.jeanbarrossilva.ongoing.feature.activityediting.component.ActivityNameTextField.TAG
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.TextField
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.TextFieldEnableability
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.TextFieldRule
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.submitter.TextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.rememberTextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+
+internal object ActivityNameTextField {
+    const val TAG = "activity_name_field"
+}
 
 @Composable
 internal fun ActivityNameTextField(
@@ -27,7 +33,7 @@ internal fun ActivityNameTextField(
         name,
         onChange,
         label = { Text(stringResource(R.string.feature_activity_editing_name)) },
-        modifier,
+        modifier.testTag(TAG),
         TextFieldEnableability.Enabled(
             rules = listOf(
                 TextFieldRule(

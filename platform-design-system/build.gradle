@@ -49,6 +49,7 @@ dependencies {
     api libraries.fragment
     api libraries.koin
     api libraries.lifecycle.viewmodel.savedstate
+    api libraries.material
 
     implementation libraries.accompanist.placeholder
     implementation libraries.accompanist.systemuicontroller

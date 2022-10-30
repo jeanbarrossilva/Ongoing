@@ -39,6 +39,7 @@ dependencies {
     api project(':core-registry')
     api libraries.room.ktx
 
+    implementation project(':core-session')
     implementation libraries.koin
     implementation libraries.kotlinx.coroutines.core
 

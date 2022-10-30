@@ -23,6 +23,7 @@ buildscript {
             ],
             lifecycle: '2.5.1',
             material: '1.6.1',
+            material_dialogs: '3.2.1',
             ongoing: [
                 code: 1,
                 name: '1.0.0',
@@ -35,6 +36,7 @@ buildscript {
             room: '2.4.3',
             test: [
                 core: '1.4.0',
+                espresso: '3.4.0',
                 ext: [
                     junit: '1.1.3'
                 ],

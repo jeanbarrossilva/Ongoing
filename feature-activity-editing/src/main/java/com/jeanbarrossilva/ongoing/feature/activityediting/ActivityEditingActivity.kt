@@ -1,6 +1,7 @@
 package com.jeanbarrossilva.ongoing.feature.activityediting
 
 import android.content.Context
+import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
@@ -18,14 +19,28 @@ class ActivityEditingActivity internal constructor(): ComposableActivity() {
         ActivityEditingViewModel.createFactory(activityRegistry, mode)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        addModeOnBackPressedCallback()
+    }
+
     @Composable
     override fun Content() {
         val goBack = onBackPressedDispatcher::onBackPressed
         ActivityEditing(viewModel, onNavigationRequest = goBack, onDone = goBack)
     }
 
+    private fun addModeOnBackPressedCallback() {
+        viewModel.onPropsChange { props ->
+            mode.getOnBackPressedCallback(this, props)?.let { callback ->
+                callback.remove()
+                onBackPressedDispatcher.addCallback(callback)
+            }
+        }
+    }
+
     companion object {
-        private const val MODE_KEY = "mode"
+        internal const val MODE_KEY = "mode"
 
         fun start(context: Context, activity: ContextualActivity?) {
             val mode = activity.toActivityEditingMode()

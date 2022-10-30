@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 
 internal open class OngoingApplication: Application() {
     private val sessionManager by inject<SessionManager>()
@@ -17,6 +18,11 @@ internal open class OngoingApplication: Application() {
         super.onCreate()
         setUpInjection()
         setUpSession()
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        stopKoin()
     }
 
     private fun setUpInjection() {

@@ -19,6 +19,9 @@ buildscript {
                 material_icons_extended: "androidx.compose.material:material-icons-extended:" +
                     versions.compose_material,
                 ui: [
+                    test: [
+                        junit4: "androidx.compose.ui:ui-test-junit4:${versions.compose_ui}"
+                    ],
                     tooling: "androidx.compose.ui:ui-tooling:${versions.compose_ui}"
                 ]
             ],
@@ -52,12 +55,18 @@ buildscript {
                 ]
             ],
             material: "com.google.android.material:material:${versions.material}",
+            material_dialogs: [
+                core: "com.afollestad.material-dialogs:core:${versions.material_dialogs}"
+            ],
             room: [
                 ktx: "androidx.room:room-ktx:${versions.room}",
                 testing: "androidx.room:room-testing:${versions.room}"
             ],
             test: [
                 core: "androidx.test:core-ktx:${versions.test.core}",
+                espresso: [
+                    core: "androidx.test.espresso:espresso-core:${versions.test.espresso}"
+                ],
                 ext: [
                     junit: "androidx.test.ext:junit-ktx:${versions.test.ext.junit}"
                 ],

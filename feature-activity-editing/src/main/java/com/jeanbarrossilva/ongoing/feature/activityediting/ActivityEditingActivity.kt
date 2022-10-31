@@ -2,8 +2,10 @@ package com.jeanbarrossilva.ongoing.feature.activityediting
 
 import android.content.Context
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import com.afollestad.materialdialogs.MaterialDialog
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.feature.activityediting.extensions.toActivityEditingMode
@@ -21,21 +23,32 @@ class ActivityEditingActivity internal constructor(): ComposableActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addModeOnBackPressedCallback()
+        showConfirmationDialogOnBackPressedWithChanges()
     }
 
     @Composable
     override fun Content() {
-        val goBack = onBackPressedDispatcher::onBackPressed
-        ActivityEditing(viewModel, onNavigationRequest = goBack, onDone = goBack)
+        ActivityEditing(
+            viewModel,
+            onNavigationRequest = onBackPressedDispatcher::onBackPressed,
+            onDone = ::finish
+        )
     }
 
-    private fun addModeOnBackPressedCallback() {
-        viewModel.onPropsChange { props ->
-            mode.getOnBackPressedCallback(this, props)?.let { callback ->
-                callback.remove()
-                onBackPressedDispatcher.addCallback(callback)
+    private fun showConfirmationDialogOnBackPressedWithChanges() {
+        viewModel.onPropsChange {
+            onBackPressedDispatcher.addCallback(this, enabled = mode.hasChanges(it)) {
+                showConfirmationDialog()
             }
+        }
+    }
+
+    private fun showConfirmationDialog() {
+        MaterialDialog(this).show {
+            title(R.string.feature_activity_editing_confirmation_dialog_title)
+            message(R.string.feature_activity_editing_confirmation_dialog_message)
+            positiveButton { finish() }
+            negativeButton { dismiss() }
         }
     }
 

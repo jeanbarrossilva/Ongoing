@@ -9,6 +9,9 @@ buildscript {
                 systemuicontroller: "com.google.accompanist:accompanist-systemuicontroller:" +
                     versions.accompanist
             ],
+            activity: [
+                compose: "androidx.activity:activity-compose:${versions.activity}"
+            ],
             coil: [
                 compose: "io.coil-kt:coil-compose:${versions.coil}"
             ],

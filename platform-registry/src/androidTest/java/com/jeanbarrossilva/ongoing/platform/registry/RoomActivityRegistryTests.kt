@@ -54,7 +54,7 @@ internal class RoomActivityRegistryTests {
                 assertEquals(currentUserId, activity.ownerUserId)
                 assertEquals(name, activity.name)
                 assertEquals(Icon.OTHER, activity.icon)
-                assertEquals(Status.all, activity.statuses)
+                assertEquals(Status.values, activity.statuses)
                 assertEquals(Status.TO_DO, activity.currentStatus)
             }
         }

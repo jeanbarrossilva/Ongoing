@@ -11,7 +11,7 @@ interface ActivityRegistry {
 
     suspend fun getActivityById(id: String): Flow<Activity?>
 
-    suspend fun register(name: String, statuses: List<Status> = Status.all):
+    suspend fun register(name: String, statuses: List<Status> = Status.values):
         String
 
     suspend fun unregister(id: String)

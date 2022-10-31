@@ -5,5 +5,5 @@ import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 import com.jeanbarrossilva.ongoing.platform.registry.activity.ActivityEntity
 
 internal fun ActivityEntity.toActivity(): Activity {
-    return Activity("$id", ownerUserId, name, icon, Status.all, currentStatus)
+    return Activity("$id", ownerUserId, name, icon, Status.values, currentStatus)
 }

@@ -47,7 +47,7 @@ dependencies {
     api libraries.customview
     api libraries.customview_poolingcontainer
     api libraries.fragment
-    api libraries.koin
+    api libraries.koin.android
     api libraries.lifecycle.viewmodel.savedstate
     api libraries.material
 

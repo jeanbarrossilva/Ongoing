@@ -51,6 +51,7 @@ dependencies {
     androidTestImplementation project(':core-session-in-memory')
     androidTestImplementation project(':platform-registry')
     androidTestImplementation libraries.compose.ui.test.junit4
+    androidTestImplementation libraries.koin.test_junit4
     androidTestImplementation libraries.test.core
     androidTestImplementation libraries.test.espresso.core
     androidTestImplementation libraries.test.ext.junit

@@ -11,7 +11,7 @@ internal val OngoingDatabase.activityRegistry: RoomActivityRegistry
         return getActivityRegistry(currentUserIdProvider)
     }
 
-internal fun OngoingDatabase.getActivityRegistry(currentUserIdProvider: CurrentUserIdProvider):
+fun OngoingDatabase.getActivityRegistry(currentUserIdProvider: CurrentUserIdProvider):
     RoomActivityRegistry {
     return RoomActivityRegistry(activityDao, statusDao, currentUserIdProvider)
 }

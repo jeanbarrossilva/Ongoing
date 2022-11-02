@@ -9,12 +9,10 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 
 internal inline fun <reified T: ComponentActivity> createAndroidComposeRule(
     context: Context,
-    vararg args: Pair<String, Any?>,
-    setup: () -> Unit = { }
+    vararg args: Pair<String, Any?>
 ): AndroidComposeTestRule<ActivityScenarioRule<T>, T> {
     val extras = bundleOf(*args)
     val intent = Intent(context, T::class.java).apply { putExtras(extras) }
     val activityScenarioRule = ActivityScenarioRule<T>(intent)
-    setup()
     return AndroidComposeTestRule(activityScenarioRule, ActivityScenarioRule<T>::activity)
 }

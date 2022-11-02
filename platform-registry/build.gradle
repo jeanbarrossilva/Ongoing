@@ -40,7 +40,7 @@ dependencies {
     api libraries.room.ktx
 
     implementation project(':core-session')
-    implementation libraries.koin
+    implementation libraries.koin.android
     implementation libraries.kotlinx.coroutines.core
 
     testImplementation libraries.kotlinx.coroutines.test

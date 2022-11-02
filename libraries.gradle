@@ -40,7 +40,10 @@ buildscript {
                     api: "org.junit.jupiter:junit-jupiter-api:${versions.junit5.jupiter}"
                 ]
             ],
-            koin: "io.insert-koin:koin-android:${versions.koin}",
+            koin: [
+                android: "io.insert-koin:koin-android:${versions.koin}",
+                test_junit4: "io.insert-koin:koin-test-junit4:${versions.koin}"
+            ],
             kotlin: [
                 test: 'org.jetbrains.kotlin:kotlin-test'
             ],

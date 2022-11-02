@@ -22,8 +22,17 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topa
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
+object ActivityDetails {
+    const val ROUTE = "activity/{activityId}"
+    const val ARGUMENT_NAME = "activityId"
+
+    fun route(activityId: String): String {
+        return ROUTE.replace("{$ARGUMENT_NAME}", activityId)
+    }
+}
+
 @Composable
-internal fun ActivityDetails(
+fun ActivityDetails(
     boundary: ActivityDetailsBoundary,
     viewModel: ActivityDetailsViewModel,
     onNavigationRequest: () -> Unit,

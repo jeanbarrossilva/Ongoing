@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
@@ -33,6 +34,7 @@ object Activities {
 
 @Composable
 fun Activities(
+    navController: NavController,
     viewModel: ActivitiesViewModel,
     boundary: ActivitiesBoundary,
     modifier: Modifier = Modifier
@@ -43,7 +45,7 @@ fun Activities(
     Activities(
         activities,
         onActivityDetailsNavigationRequest = {
-            boundary.navigateToActivityDetails(context, it.id)
+            boundary.navigateToActivityDetails(navController, it.id)
         },
         onAddRequest = { boundary.navigateToActivityEditing(context) },
         modifier

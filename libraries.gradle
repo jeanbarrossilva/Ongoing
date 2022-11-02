@@ -66,7 +66,8 @@ buildscript {
                 core: "com.afollestad.material-dialogs:core:${versions.material_dialogs}"
             ],
             navigation: [
-                compose: "androidx.navigation:navigation-compose:${versions.navigation}"
+                compose: "androidx.navigation:navigation-compose:${versions.navigation}",
+                runtime: "androidx.navigation:navigation-runtime-ktx:${versions.navigation}"
             ],
             room: [
                 ktx: "androidx.room:room-ktx:${versions.room}",

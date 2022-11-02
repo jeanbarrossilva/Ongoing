@@ -14,10 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
@@ -27,27 +25,23 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topa
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarRelevance
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
-
-object Activities {
-    const val ROUTE = "activities"
-}
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 fun Activities(
-    navController: NavController,
+    navigator: DestinationsNavigator,
     viewModel: ActivitiesViewModel,
     boundary: ActivitiesBoundary,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
     val activities by viewModel.activities.collectAsState(initial = emptyList())
 
     Activities(
         activities,
         onActivityDetailsNavigationRequest = {
-            boundary.navigateToActivityDetails(navController, it.id)
+            boundary.navigateToActivityDetails(navigator, it.id)
         },
-        onAddRequest = { boundary.navigateToActivityEditing(context) },
+        onAddRequest = { boundary.navigateToActivityEditing(navigator) },
         modifier
     )
 }

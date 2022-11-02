@@ -1,18 +1,19 @@
 package com.jeanbarrossilva.ongoing.app.boundary
 
-import android.content.Context
-import androidx.navigation.NavController
+import com.jeanbarrossilva.ongoing.app.destination.destinations.ActivityDetailsDestination
+import com.jeanbarrossilva.ongoing.app.destination.destinations.ActivityEditingDestination
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesBoundary
-import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetails
-import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingActivity
+import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingMode
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 internal class DefaultActivitiesBoundary: ActivitiesBoundary {
-    override fun navigateToActivityDetails(navController: NavController, activityId: String) {
-        val route = ActivityDetails.route(activityId)
-        navController.navigate(route)
+    override fun navigateToActivityDetails(navigator: DestinationsNavigator, activityId: String) {
+        val destination = ActivityDetailsDestination(activityId)
+        navigator.navigate(destination)
     }
 
-    override fun navigateToActivityEditing(context: Context) {
-        ActivityEditingActivity.start(context, activity = null)
+    override fun navigateToActivityEditing(navigator: DestinationsNavigator) {
+        val destination = ActivityEditingDestination(ActivityEditingMode.Addition)
+        navigator.navigate(destination)
     }
 }

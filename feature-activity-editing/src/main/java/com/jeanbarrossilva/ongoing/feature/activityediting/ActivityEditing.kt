@@ -13,12 +13,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualStatus
-import com.jeanbarrossilva.ongoing.feature.activityediting.component.ActivityCurrentStatusDropdownField
-import com.jeanbarrossilva.ongoing.feature.activityediting.component.ActivityNameTextField
+import com.jeanbarrossilva.ongoing.feature.activityediting.component.DiscardingChangesDialog
+import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityCurrentStatusDropdownField
+import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
@@ -29,13 +31,15 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.rememberText
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @Composable
-internal fun ActivityEditing(
+fun ActivityEditing(
     viewModel: ActivityEditingViewModel,
     onNavigationRequest: () -> Unit,
     onDone: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     val props by viewModel.props.collectAsState()
+    val hasChanges = remember(props) { viewModel.mode.hasChanges(props) }
 
     ActivityEditing(
         props.name,
@@ -50,7 +54,13 @@ internal fun ActivityEditing(
                 copy(currentStatus = it)
             }
         },
-        onNavigationRequest,
+        onNavigationRequest = {
+            if (hasChanges) {
+                DiscardingChangesDialog(context, onNavigationRequest)
+            } else {
+                onNavigationRequest()
+            }
+        },
         onSaveRequest = {
             viewModel.save()
             onDone()

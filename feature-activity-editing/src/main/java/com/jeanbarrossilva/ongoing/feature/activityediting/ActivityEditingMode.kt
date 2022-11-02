@@ -6,10 +6,10 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-internal sealed class ActivityEditingMode : Parcelable {
-    abstract fun hasChanges(props: ActivityEditingProps): Boolean
+sealed class ActivityEditingMode : Parcelable {
+    internal abstract fun hasChanges(props: ActivityEditingProps): Boolean
 
-    abstract suspend fun save(activityRegistry: ActivityRegistry, props: ActivityEditingProps)
+    internal abstract suspend fun save(activityRegistry: ActivityRegistry, props: ActivityEditingProps)
 
     object Addition: ActivityEditingMode() {
         override fun hasChanges(props: ActivityEditingProps): Boolean {
@@ -32,10 +32,6 @@ internal sealed class ActivityEditingMode : Parcelable {
                  activity.id,
                 requireNotNull(props.currentStatus).toStatus()
             )
-        }
-
-        companion object {
-            val sample = Modification(ContextualActivity.sample)
         }
     }
 }

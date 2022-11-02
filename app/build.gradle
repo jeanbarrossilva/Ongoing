@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.devtools.ksp' version '1.7.20-1.0.7'
     id 'org.jetbrains.kotlin.android'
 }
 
@@ -53,9 +54,19 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion versions.compose
     }
+
+    applicationVariants.all { variant ->
+        kotlin.sourceSets {
+            getByName(variant.name) {
+                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
+            }
+        }
+    }
 }
 
 dependencies {
+    ksp _plugins.compose_destinations
+
     implementation project(':context-registry')
     implementation project(':core-session-in-memory')
     implementation project(':feature-activities')
@@ -63,6 +74,7 @@ dependencies {
     implementation project(':feature-activity-editing')
     implementation project(':platform-design-system')
     implementation project(':platform-registry')
+    implementation libraries.koin.androidx_compose
     implementation libraries.material
     implementation libraries.navigation.compose
 }

@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityHeadline
@@ -21,30 +20,21 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topa
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarRelevance
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
-
-object ActivityDetails {
-    const val ROUTE = "activity/{activityId}"
-    const val ARGUMENT_NAME = "activityId"
-
-    fun route(activityId: String): String {
-        return ROUTE.replace("{$ARGUMENT_NAME}", activityId)
-    }
-}
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 fun ActivityDetails(
+    navigator: DestinationsNavigator,
     boundary: ActivityDetailsBoundary,
     viewModel: ActivityDetailsViewModel,
-    onNavigationRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
     val activity by viewModel.activity.collectAsState(null)
 
     ActivityDetails(
         activity,
-        onNavigationRequest,
-        onEditRequest = { boundary.navigateToActivityEditing(context, activity) },
+        onNavigationRequest = navigator::popBackStack,
+        onEditRequest = { boundary.navigateToActivityEditing(navigator, activity) },
         modifier
     )
 }

@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.feature.activityediting.component
+package com.jeanbarrossilva.ongoing.feature.activityediting.component.form
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.width

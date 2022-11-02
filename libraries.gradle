@@ -29,11 +29,12 @@ buildscript {
                     tooling: "androidx.compose.ui:ui-tooling:${versions.compose_ui}"
                 ]
             ],
+            compose_destinations: 'io.github.raamcosta.compose-destinations:core:' +
+                versions.compose_destinations,
             customview: "androidx.customview:customview:${versions.customview}",
             customview_poolingcontainer: "androidx.customview:customview-poolingcontainer:" +
                 versions.customview_poolingcontainer,
             fragment: "androidx.fragment:fragment-ktx:${versions.fragment}",
-            gson: "com.google.code.gson:gson:${versions.gson}",
             jetlime: "io.github.pushpalroy:jetlime:${versions.jetlime}",
             junit5: [
                 jupiter: [
@@ -42,6 +43,7 @@ buildscript {
             ],
             koin: [
                 android: "io.insert-koin:koin-android:${versions.koin}",
+                androidx_compose: "io.insert-koin:koin-androidx-compose:${versions.koin}",
                 test_junit4: "io.insert-koin:koin-test-junit4:${versions.koin}"
             ],
             kotlin: [

@@ -8,28 +8,28 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-internal class ActivityEditingViewModel private constructor(
+class ActivityEditingViewModel private constructor(
     private val activityRegistry: ActivityRegistry,
-    private val mode: ActivityEditingMode
+    internal val mode: ActivityEditingMode
 ): ViewModel() {
     private val initialProps = when (mode) {
         is ActivityEditingMode.Addition -> ActivityEditingProps.empty
         is ActivityEditingMode.Modification -> ActivityEditingProps(mode.activity)
     }
 
-    val props = MutableStateFlow(initialProps)
+    internal val props = MutableStateFlow(initialProps)
 
-    fun updateProps(update: ActivityEditingProps.() -> ActivityEditingProps) {
+    internal fun updateProps(update: ActivityEditingProps.() -> ActivityEditingProps) {
         props.value = props.value.update()
     }
 
-    fun onPropsChange(operation: suspend (props: ActivityEditingProps) -> Unit) {
+    internal fun onPropsChange(operation: suspend (props: ActivityEditingProps) -> Unit) {
         viewModelScope.launch {
             props.collect(operation)
         }
     }
 
-    fun save() {
+    internal fun save() {
         viewModelScope.launch {
             mode.save(activityRegistry, props.value)
         }

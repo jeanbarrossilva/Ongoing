@@ -27,8 +27,12 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topa
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
+object Activities {
+    const val ROUTE = "activities"
+}
+
 @Composable
-internal fun Activities(
+fun Activities(
     viewModel: ActivitiesViewModel,
     boundary: ActivitiesBoundary,
     modifier: Modifier = Modifier

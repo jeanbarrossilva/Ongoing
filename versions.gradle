@@ -25,6 +25,7 @@ buildscript {
             lifecycle: '2.5.1',
             material: '1.6.1',
             material_dialogs: '3.2.1',
+            navigation: '2.5.3',
             ongoing: [
                 code: 1,
                 name: '1.0.0',

@@ -15,11 +15,11 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-internal class ActivitiesViewModel private constructor(
+class ActivitiesViewModel private constructor(
     private val userRepository: UserRepository,
     private val activityRegistry: ActivityRegistry
 ): ViewModel() {
-    val activities = flow {
+    internal val activities = flow {
         emitAll(activityRegistry.getActivities().map { it.mapToContextualActivity(userRepository) })
     }
 

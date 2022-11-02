@@ -46,7 +46,7 @@ internal fun ActivityCurrentStatusDropdownField(
         ),
         submitter
     ) { width ->
-        ContextualStatus.all.forEach { status ->
+        ContextualStatus.values.forEach { status ->
             DropdownMenuItem(
                 text = { Text(status.title) },
                 onClick = {
@@ -65,7 +65,7 @@ internal fun ActivityCurrentStatusDropdownField(
 private fun ActivityCurrentStatusDropdownFieldPreview() {
     OngoingTheme {
         ActivityCurrentStatusDropdownField(
-            ContextualActivity.sample.currentStatus,
+            ContextualActivity.sample.status,
             onChange = { },
             rememberTextFieldSubmitter()
         )

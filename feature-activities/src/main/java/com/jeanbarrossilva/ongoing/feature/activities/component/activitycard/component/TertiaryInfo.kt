@@ -23,7 +23,7 @@ internal object TertiaryInfo {
 internal fun TertiaryInfo(activity: ContextualActivity, modifier: Modifier = Modifier) {
     Row(modifier, Arrangement.spacedBy(Size.Spacing.s), Alignment.CenterVertically) {
         Avatar(activity.owner, Modifier.size(Height))
-        StatusIndicator(activity.currentStatus)
+        StatusIndicator(activity.status)
     }
 }
 

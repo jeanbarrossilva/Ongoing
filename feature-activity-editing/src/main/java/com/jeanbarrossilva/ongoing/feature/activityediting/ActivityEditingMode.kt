@@ -23,12 +23,12 @@ internal sealed class ActivityEditingMode : Parcelable {
 
     class Modification(val activity: ContextualActivity): ActivityEditingMode() {
         override fun hasChanges(props: ActivityEditingProps): Boolean {
-            return props.name != activity.name || props.currentStatus != activity.currentStatus
+            return props.name != activity.name || props.currentStatus != activity.status
         }
 
         override suspend fun save(activityRegistry: ActivityRegistry, props: ActivityEditingProps) {
             activityRegistry.recorder.name(activity.id, props.name)
-            activityRegistry.recorder.currentStatus(
+            activityRegistry.recorder.status(
                  activity.id,
                 requireNotNull(props.currentStatus).toStatus()
             )

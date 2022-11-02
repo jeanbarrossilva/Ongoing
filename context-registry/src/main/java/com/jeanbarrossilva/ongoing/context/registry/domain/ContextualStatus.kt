@@ -38,6 +38,6 @@ enum class ContextualStatus {
     abstract fun toStatus(): Status
 
     companion object {
-        val all = values().toList()
+        val values = values().toList()
     }
 }

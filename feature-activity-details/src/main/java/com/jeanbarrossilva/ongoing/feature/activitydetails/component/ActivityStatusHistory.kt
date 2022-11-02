@@ -18,8 +18,9 @@ import com.pushpal.jetlime.ui.JetLimeView
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun ActivityStatusHistory(activity: ContextualActivity?, modifier: Modifier = Modifier) {
-    val item = activity?.currentStatus?.toJetLimeItem()
-    val items = listOfNotNull(item)
+    val items = activity?.statuses.orEmpty().map {
+        it.toJetLimeItem()
+    }
 
     JetLimeView(
         modifier,

@@ -17,7 +17,7 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySessionManager
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.extensions.createAndroidComposeRule
-import com.jeanbarrossilva.ongoing.platform.registry.activity.RoomActivityRegistry
+import com.jeanbarrossilva.ongoing.platform.registry.activity.registry.RoomActivityRegistry
 import com.jeanbarrossilva.ongoing.platform.registry.authorization.CurrentUserIdProvider
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.database
 import org.junit.After

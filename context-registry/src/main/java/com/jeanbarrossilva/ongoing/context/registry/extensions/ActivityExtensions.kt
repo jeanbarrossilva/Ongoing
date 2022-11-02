@@ -10,6 +10,5 @@ suspend fun Activity.toContextualActivity(userRepository: UserRepository):
     val owner = userRepository.getUserById(ownerUserId) ?: throw IllegalArgumentException()
     val icon = icon.toContextualIcon()
     val statuses = statuses.map(Status::toContextualStatus)
-    val currentStatus = currentStatus.toContextualStatus()
-    return ContextualActivity(id, owner, name, icon, statuses, currentStatus)
+    return ContextualActivity(id, owner, name, icon, statuses)
 }

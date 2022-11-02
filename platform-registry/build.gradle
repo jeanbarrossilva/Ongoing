@@ -43,9 +43,11 @@ dependencies {
     implementation libraries.koin
     implementation libraries.kotlinx.coroutines.core
 
+    testImplementation libraries.kotlinx.coroutines.test
+    testImplementation libraries.test.ext.junit
+
     androidTestImplementation libraries.kotlinx.coroutines.test
     androidTestImplementation libraries.room.testing
     androidTestImplementation libraries.test.core
-    androidTestImplementation libraries.test.ext.junit
     androidTestImplementation libraries.test.runner
 }

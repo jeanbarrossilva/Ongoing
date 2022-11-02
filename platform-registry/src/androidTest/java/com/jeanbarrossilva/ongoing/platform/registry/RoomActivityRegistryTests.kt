@@ -1,15 +1,12 @@
 package com.jeanbarrossilva.ongoing.platform.registry
 
-import android.content.Context
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
-import com.jeanbarrossilva.ongoing.platform.registry.activity.RoomActivityRegistry
 import com.jeanbarrossilva.ongoing.platform.registry.authorization.CurrentUserIdProvider
+import com.jeanbarrossilva.ongoing.platform.registry.extensions.getActivityRegistry
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.uuid
+import com.jeanbarrossilva.ongoing.platform.registry.rule.OngoingDatabaseRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -18,31 +15,36 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
-import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@RunWith(AndroidJUnit4::class)
 internal class RoomActivityRegistryTests {
-    private lateinit var database: OngoingDatabase
     private val currentUserId = uuid()
     private val currentUserIdProvider = CurrentUserIdProvider { currentUserId }
 
-    private val context
-        get() = ApplicationProvider.getApplicationContext<Context>()
     private val activityRegistry
-        get() = RoomActivityRegistry(database.activityDao, currentUserIdProvider)
+        get() = databaseRule.database.getActivityRegistry(currentUserIdProvider)
 
-    @Before
-    fun setUp() {
-        database = Room.inMemoryDatabaseBuilder(context, OngoingDatabase::class.java).build()
-    }
+    @get:Rule
+    val databaseRule = OngoingDatabaseRule()
 
     @After
     fun tearDown() {
-        runTest { activityRegistry.clear() }
-        database.close()
+        runTest {
+            activityRegistry.clear()
+        }
+    }
+
+    @Test
+    fun getActivities() {
+        runTest {
+            0.until(11).forEach { activityRegistry.register("Activity #$it") }
+            assertEquals(
+                0.until(11).map { "Activity #$it" },
+                activityRegistry.getActivities().first().map(Activity::name)
+            )
+        }
     }
 
     @Test
@@ -54,8 +56,7 @@ internal class RoomActivityRegistryTests {
                 assertEquals(currentUserId, activity.ownerUserId)
                 assertEquals(name, activity.name)
                 assertEquals(Icon.OTHER, activity.icon)
-                assertEquals(Status.values, activity.statuses)
-                assertEquals(Status.TO_DO, activity.currentStatus)
+                assertEquals(listOf(Status.TO_DO), activity.statuses)
             }
         }
     }

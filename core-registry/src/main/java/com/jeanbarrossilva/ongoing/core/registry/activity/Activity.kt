@@ -7,15 +7,17 @@ data class Activity(
     val ownerUserId: String,
     val name: String,
     val icon: Icon,
-    val statuses: List<Status>,
-    val currentStatus: Status
+    val statuses: List<Status>
 ) {
+    val status
+        get() = statuses.last()
+
     abstract class Recorder {
         abstract suspend fun name(id: String, name: String)
 
         abstract suspend fun icon(id: String, icon: Icon)
 
-        abstract suspend fun currentStatus(id: String, currentStatus: Status)
+        abstract suspend fun status(id: String, status: Status)
 
         abstract suspend fun doOnStatusChange(listener: OnStatusChangeListener)
     }

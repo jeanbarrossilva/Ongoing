@@ -129,7 +129,7 @@ private fun FilledActivityEditingPreview() {
         ActivityEditing(
             ContextualActivity.sample.name,
             onNameChange = { },
-            ContextualActivity.sample.currentStatus,
+            ContextualActivity.sample.status,
             onCurrentStatusChange = { },
             onNavigationRequest = { },
             onSaveRequest = { }

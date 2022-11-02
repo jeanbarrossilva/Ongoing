@@ -5,7 +5,7 @@ import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySessionManager
 import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
-import com.jeanbarrossilva.ongoing.platform.registry.activity.RoomActivityRegistry
+import com.jeanbarrossilva.ongoing.platform.registry.activity.registry.RoomActivityRegistry
 import com.jeanbarrossilva.ongoing.platform.registry.authorization.CurrentUserIdProvider
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.database
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.invoke
@@ -15,6 +15,10 @@ internal val coreModule = module {
     single<SessionManager> { InMemorySessionManager() }
     single<UserRepository> { InMemoryUserRepository(sessionManager = get()) }
     single<ActivityRegistry> {
-        RoomActivityRegistry(database.activityDao, CurrentUserIdProvider(sessionManager = get()))
+        RoomActivityRegistry(
+            database.activityDao,
+            database.statusDao,
+            CurrentUserIdProvider(sessionManager = get())
+        )
     }
 }

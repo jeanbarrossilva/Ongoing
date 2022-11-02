@@ -12,14 +12,15 @@ data class ContextualActivity(
     val owner: User,
     val name: String,
     val icon: ContextualIcon,
-    val statuses: List<ContextualStatus>,
-    val currentStatus: ContextualStatus
+    val statuses: List<ContextualStatus>
 ): Parcelable {
+    val status
+        get() = statuses.last()
+
     fun toActivity(): Activity {
         val icon = icon.toIcon()
         val statuses = statuses.map(ContextualStatus::toStatus)
-        val currentStatus = currentStatus.toStatus()
-        return Activity(id, owner.id, name, icon, statuses, currentStatus)
+        return Activity(id, owner.id, name, icon, statuses)
     }
 
     companion object {
@@ -27,22 +28,21 @@ data class ContextualActivity(
             sampleOf(name = "Go to History class", ContextualIcon.BOOK),
             sampleOf(name = "Practice for football finals"),
             sampleOf(name = "Create a new app"),
-            sampleOf(name = "Buy a water bottle", currentStatus = ContextualStatus.DONE)
+            sampleOf(name = "Buy a water bottle", statuses = arrayOf(ContextualStatus.DONE))
         )
         val sample = samples.first()
 
         private fun sampleOf(
             name: String,
             icon: ContextualIcon = ContextualIcon.BOOK,
-            currentStatus: ContextualStatus = ContextualStatus.TO_DO
+            vararg statuses: ContextualStatus
         ): ContextualActivity {
             return ContextualActivity(
                 uuid(),
                 User.sample,
                 name,
                 icon,
-                ContextualStatus.all,
-                currentStatus
+                statuses = statuses.toList().ifEmpty { listOf(ContextualStatus.TO_DO) }
             )
         }
     }

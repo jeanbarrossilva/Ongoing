@@ -74,6 +74,7 @@ dependencies {
     implementation project(':feature-activity-editing')
     implementation project(':platform-design-system')
     implementation project(':platform-registry')
+    implementation libraries.compose_destinations.animations_core
     implementation libraries.koin.androidx_compose
     implementation libraries.material
     implementation libraries.navigation.compose

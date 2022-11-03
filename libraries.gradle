@@ -4,9 +4,9 @@ buildscript {
     ext {
         libraries = [
             accompanist: [
-                placeholder: "com.google.accompanist:accompanist-placeholder-material:" +
+                placeholder: 'com.google.accompanist:accompanist-placeholder-material:' +
                     versions.accompanist,
-                systemuicontroller: "com.google.accompanist:accompanist-systemuicontroller:" +
+                systemuicontroller: 'com.google.accompanist:accompanist-systemuicontroller:' +
                     versions.accompanist
             ],
             activity: [
@@ -29,8 +29,12 @@ buildscript {
                     tooling: "androidx.compose.ui:ui-tooling:${versions.compose_ui}"
                 ]
             ],
-            compose_destinations: 'io.github.raamcosta.compose-destinations:core:' +
-                versions.compose_destinations,
+            compose_destinations: [
+                animations_core: 'io.github.raamcosta.compose-destinations:animations-core:' +
+                    versions.compose_destinations,
+                core: 'io.github.raamcosta.compose-destinations:core:' +
+                    versions.compose_destinations
+            ],
             customview: "androidx.customview:customview:${versions.customview}",
             customview_poolingcontainer: "androidx.customview:customview-poolingcontainer:" +
                 versions.customview_poolingcontainer,

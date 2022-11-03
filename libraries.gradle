@@ -43,8 +43,7 @@ buildscript {
             ],
             koin: [
                 android: "io.insert-koin:koin-android:${versions.koin}",
-                androidx_compose: "io.insert-koin:koin-androidx-compose:${versions.koin}",
-                test_junit4: "io.insert-koin:koin-test-junit4:${versions.koin}"
+                androidx_compose: "io.insert-koin:koin-androidx-compose:${versions.koin}"
             ],
             kotlin: [
                 test: 'org.jetbrains.kotlin:kotlin-test'
@@ -77,9 +76,6 @@ buildscript {
             ],
             test: [
                 core: "androidx.test:core-ktx:${versions.test.core}",
-                espresso: [
-                    core: "androidx.test.espresso:espresso-core:${versions.test.espresso}"
-                ],
                 ext: [
                     junit: "androidx.test.ext:junit-ktx:${versions.test.ext.junit}"
                 ],

@@ -19,7 +19,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.rememberText
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 internal object ActivityNameTextField {
-    const val TAG = "activity_name_field"
+    const val TAG = "activity_name_text_field"
 }
 
 @Composable

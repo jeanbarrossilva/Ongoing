@@ -8,7 +8,7 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class ActivityEditingViewModel private constructor(
+class ActivityEditingViewModel internal constructor(
     private val activityRegistry: ActivityRegistry,
     internal val mode: ActivityEditingMode
 ): ViewModel() {

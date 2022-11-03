@@ -39,7 +39,6 @@ buildscript {
             room: '2.4.3',
             test: [
                 core: '1.4.0',
-                espresso: '3.4.0',
                 ext: [
                     junit: '1.1.3'
                 ],

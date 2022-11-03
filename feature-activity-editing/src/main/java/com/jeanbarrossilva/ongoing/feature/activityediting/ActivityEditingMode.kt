@@ -9,11 +9,14 @@ import kotlinx.parcelize.Parcelize
 sealed class ActivityEditingMode : Parcelable {
     internal abstract fun hasChanges(props: ActivityEditingProps): Boolean
 
-    internal abstract suspend fun save(activityRegistry: ActivityRegistry, props: ActivityEditingProps)
+    internal abstract suspend fun save(
+        activityRegistry: ActivityRegistry,
+        props: ActivityEditingProps
+    )
 
     object Addition: ActivityEditingMode() {
         override fun hasChanges(props: ActivityEditingProps): Boolean {
-            return props.name.isNotBlank() && props.currentStatus != null
+            return props.name.isNotBlank() || props.currentStatus != null
         }
 
         override suspend fun save(activityRegistry: ActivityRegistry, props: ActivityEditingProps) {
@@ -32,6 +35,10 @@ sealed class ActivityEditingMode : Parcelable {
                  activity.id,
                 requireNotNull(props.currentStatus).toStatus()
             )
+        }
+
+        companion object {
+            internal val sample = Modification(ContextualActivity.sample)
         }
     }
 }

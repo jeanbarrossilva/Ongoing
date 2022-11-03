@@ -26,7 +26,6 @@ internal fun ActivityEditing(
 
     ActivityEditing(
         viewModel,
-        onNavigationRequest = navigator::popBackStack,
         onDone = navigator::popBackStack,
         modifier
     )

@@ -1,0 +1,8 @@
+INSTRUMENTATION_STATUS: class=com.jeanbarrossilva.ongoing.platform.session.GoogleSignInSessionManagerTests
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+com.jeanbarrossilva.ongoing.platform.session.GoogleSignInSessionManagerTests:
+INSTRUMENTATION_STATUS: test=authenticate
+INSTRUMENTATION_STATUS_CODE: 1

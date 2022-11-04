@@ -2,9 +2,12 @@ package com.jeanbarrossilva.ongoing.feature.activityediting
 
 import android.content.Context
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -15,9 +18,10 @@ import com.jeanbarrossilva.ongoing.feature.activityediting.component.Confirmatio
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownMenuItem
+import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.feature.activityediting.extensions.pressBack
-import com.jeanbarrossilva.ongoing.platform.registry.OngoingDatabase
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.activityRegistry
+import com.jeanbarrossilva.ongoing.platform.registry.test.OngoingDatabaseRule
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -25,6 +29,9 @@ import org.junit.Test
 internal class ActivityEditingTests {
     private val context
         get() = ApplicationProvider.getApplicationContext<Context>()
+
+    @get:Rule
+    val databaseRule = OngoingDatabaseRule()
 
     @Suppress("UNCHECKED_CAST")
     @get:Rule
@@ -64,13 +71,35 @@ internal class ActivityEditingTests {
         assertConfirmationDialogDisplayedOnBackPress(true)
     }
 
-    private fun setContent(mode: ActivityEditingMode, onNavigationRequest: () -> Unit = { }) {
-        val database = OngoingDatabase.getInstance(context)
-        val viewModel = ActivityEditingViewModel(database.activityRegistry, mode)
+    @Test
+    fun save() {
+        var isDone = false
+        setContent(ActivityEditingMode.Addition, onDone = { isDone = true })
+        composeRule.onNodeWithTag(ActivityNameTextField.TAG).performTextInput("Name")
+        composeRule.onNodeWithTag(ActivityStatusDropdownField.TAG).performClick()
+        composeRule
+            .onNodeWithTag(ActivityStatusDropdownMenuItem.getTag(ContextualStatus.ONGOING))
+            .performClick()
+        composeRule
+            .onAllNodesWithText(
+                context.getString(R.string.feature_activity_editing_error_blank_field)
+            )
+            .assertCountEquals(0)
+        composeRule.onNodeWithTag(FloatingActionButton.TAG).assertIsEnabled()
+        composeRule.onNodeWithTag(FloatingActionButton.TAG).performClick()
+        assertTrue(isDone)
+    }
+
+    private fun setContent(
+        mode: ActivityEditingMode,
+        onDone: () -> Unit = { },
+        onNavigationRequest: () -> Unit = { }
+    ) {
+        val viewModel = ActivityEditingViewModel(databaseRule.database.activityRegistry, mode)
         composeRule.setContent {
             ActivityEditing(
                 viewModel,
-                onDone = { },
+                onDone,
                 onNavigationRequest = { onNavigationRequest() }
             )
         }

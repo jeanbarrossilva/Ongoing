@@ -1,0 +1,25 @@
+#Fri Nov 04 09:23:37 BRT 2022
+path.4=9/classes.dex
+path.3=8/classes.dex
+path.2=3/classes.dex
+path.1=2/classes.dex
+path.7=8/classes.dex
+path.6=2/classes.dex
+path.5=0/classes.dex
+path.0=classes.dex
+base.4=/Users/jeansilva/Desktop/Other/Android/Ongoing/platform-session/build/intermediates/dex/debugAndroidTest/mergeLibDexDebugAndroidTest/9/classes.dex
+base.3=/Users/jeansilva/Desktop/Other/Android/Ongoing/platform-session/build/intermediates/dex/debugAndroidTest/mergeLibDexDebugAndroidTest/8/classes.dex
+base.2=/Users/jeansilva/Desktop/Other/Android/Ongoing/platform-session/build/intermediates/dex/debugAndroidTest/mergeLibDexDebugAndroidTest/3/classes.dex
+base.1=/Users/jeansilva/Desktop/Other/Android/Ongoing/platform-session/build/intermediates/dex/debugAndroidTest/mergeLibDexDebugAndroidTest/2/classes.dex
+base.0=/Users/jeansilva/Desktop/Other/Android/Ongoing/platform-session/build/intermediates/dex/debugAndroidTest/mergeExtDexDebugAndroidTest/classes.dex
+renamed.3=classes4.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+renamed.7=classes8.dex
+renamed.6=classes7.dex
+base.7=/Users/jeansilva/Desktop/Other/Android/Ongoing/platform-session/build/intermediates/dex/debugAndroidTest/mergeProjectDexDebugAndroidTest/8/classes.dex
+renamed.5=classes6.dex
+base.6=/Users/jeansilva/Desktop/Other/Android/Ongoing/platform-session/build/intermediates/dex/debugAndroidTest/mergeProjectDexDebugAndroidTest/2/classes.dex
+renamed.4=classes5.dex
+base.5=/Users/jeansilva/Desktop/Other/Android/Ongoing/platform-session/build/intermediates/dex/debugAndroidTest/mergeProjectDexDebugAndroidTest/0/classes.dex

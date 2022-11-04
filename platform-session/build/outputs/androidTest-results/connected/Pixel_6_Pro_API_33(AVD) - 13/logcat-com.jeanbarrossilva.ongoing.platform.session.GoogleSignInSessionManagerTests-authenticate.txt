@@ -1,0 +1,281 @@
+11-04 09:23:40.285  9186  9211 I TestRunner: started: authenticate(com.jeanbarrossilva.ongoing.platform.session.GoogleSignInSessionManagerTests)
+11-04 09:23:40.311   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode 1
+11-04 09:23:40.311   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:40.311   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:40.314  8425  8425 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.auth.api.signin.service.START pkg=com.google.android.gms }
+11-04 09:23:40.314  8425  8425 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.auth.api.signin.service.START pkg=com.google.android.gms }
+11-04 09:23:40.322  1146  4002 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 268)
+11-04 09:23:40.323  9186  9214 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 380)
+11-04 09:23:40.324  9186  9214 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:40.324  9186  9214 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:40.324  9186  9214 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:40.324  9186  9214 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:40.324  9186  9214 W GmsClient: 	at com.google.android.gms.common.internal.zzac.getService(com.google.android.gms:play-services-basement@@18.1.0:8)
+11-04 09:23:40.324  9186  9214 W GmsClient: 	at com.google.android.gms.common.internal.BaseGmsClient.getRemoteService(com.google.android.gms:play-services-basement@@18.1.0:14)
+11-04 09:23:40.324  9186  9214 W GmsClient: 	at com.google.android.gms.common.api.internal.zabt.run(com.google.android.gms:play-services-base@@18.0.1:7)
+11-04 09:23:40.324  9186  9214 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:40.324  9186  9214 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:40.324  9186  9214 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:40.324  9186  9214 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:40.324  9186  9214 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:40.443  8425  8494 W Icing   : Failed to get Lockbox signed-in status: java.util.concurrent.TimeoutException: Timed out waiting for Task
+11-04 09:23:40.443  8425  8494 W Icing   : getSignedInTimestampMs: Falling back to default value
+11-04 09:23:40.443  8425  8494 W Icing   : No valid account for uploading user actions
+11-04 09:23:42.444  8425  8494 W Icing   : Usage reports not received in time.: java.util.concurrent.TimeoutException: Timed out waiting for Task
+11-04 09:23:42.448  8425  8494 I Icing   : Usage reports ok 0, Failed Usage reports 0, indexed 0, rejected 0
+11-04 09:23:42.451  8425  8494 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+11-04 09:23:42.452  8425  8494 I Icing   : Indexing done com.google.android.gms-apps
+11-04 09:23:42.454  8425  8494 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+11-04 09:23:42.454  8425  8494 I Icing   : Indexing done com.google.android.gms-apps
+11-04 09:23:43.883  8777  8814 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 408)
+11-04 09:23:43.883  8777  8814 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:43.883  8777  8814 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at com.google.android.gms.common.internal.IGmsServiceBroker$Stub$zza.getService(IGmsServiceBroker.java:13)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at com.google.android.gms.common.internal.zzr.zza(GmsClientTracer.java:3)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at com.google.android.gms.common.internal.BaseGmsClient.getRemoteService(BaseGmsClient.java:269)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at com.google.android.gms.common.api.internal.zzbb.run(GoogleApiManager.java:11)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at com.google.android.gms.libs.punchclock.threads.TracingHandler.dispatchMessageTraced(TracingHandler.java:14)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at com.google.android.gms.libs.punchclock.threads.TracingHandler.dispatchMessage(TracingHandler.java:12)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:43.883  8777  8814 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:44.755  1146  1328 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 496)
+11-04 09:23:44.755  1146  1328 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:44.755  1146  1328 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at wik.gf(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at wgq.y(:com.google.android.gms@221821044@22.18.21 (190400-453244992):13)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at vpy.run(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at amoz.ki(:com.google.android.gms@221821044@22.18.21 (190400-453244992):0)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at amoz.dispatchMessage(:com.google.android.gms@221821044@22.18.21 (190400-453244992):11)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:44.755  1146  1328 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 444)
+11-04 09:23:44.755  1146  1328 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:44.755  1146  1328 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at wik.gf(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at wgq.y(:com.google.android.gms@221821044@22.18.21 (190400-453244992):13)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at vpy.run(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at amoz.ki(:com.google.android.gms@221821044@22.18.21 (190400-453244992):0)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at amoz.dispatchMessage(:com.google.android.gms@221821044@22.18.21 (190400-453244992):11)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:44.755  1146  1328 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:44.758  1146  1328 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 400)
+11-04 09:23:44.758  1146  1328 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:44.758  1146  1328 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at wik.gf(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at wgq.y(:com.google.android.gms@221821044@22.18.21 (190400-453244992):13)
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at vpy.run(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at amoz.ki(:com.google.android.gms@221821044@22.18.21 (190400-453244992):0)
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at amoz.dispatchMessage(:com.google.android.gms@221821044@22.18.21 (190400-453244992):11)
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:44.758  1146  1328 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:45.334   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode 1
+11-04 09:23:45.334   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:45.334   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:45.335  8425  8425 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.auth.api.signin.service.START pkg=com.google.android.gms }
+11-04 09:23:45.353   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode 1
+11-04 09:23:45.353   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:45.353   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:45.354  8425  8425 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.auth.api.signin.service.START pkg=com.google.android.gms }
+11-04 09:23:45.354  8425  8425 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.auth.api.signin.service.START pkg=com.google.android.gms }
+11-04 09:23:45.355  9186  9214 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 380)
+11-04 09:23:45.355  9186  9214 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:45.355  9186  9214 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:45.355  9186  9214 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:45.355  9186  9214 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:45.355  9186  9214 W GmsClient: 	at com.google.android.gms.common.internal.zzac.getService(com.google.android.gms:play-services-basement@@18.1.0:8)
+11-04 09:23:45.355  9186  9214 W GmsClient: 	at com.google.android.gms.common.internal.BaseGmsClient.getRemoteService(com.google.android.gms:play-services-basement@@18.1.0:14)
+11-04 09:23:45.355  9186  9214 W GmsClient: 	at com.google.android.gms.common.api.internal.zabt.run(com.google.android.gms:play-services-base@@18.0.1:7)
+11-04 09:23:45.355  9186  9214 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:45.355  9186  9214 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:45.355  9186  9214 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:45.355  9186  9214 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:45.355  9186  9214 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:48.912  8777  8814 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 408)
+11-04 09:23:48.912  8777  8814 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:48.912  8777  8814 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at com.google.android.gms.common.internal.IGmsServiceBroker$Stub$zza.getService(IGmsServiceBroker.java:13)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at com.google.android.gms.common.internal.zzr.zza(GmsClientTracer.java:3)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at com.google.android.gms.common.internal.BaseGmsClient.getRemoteService(BaseGmsClient.java:269)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at com.google.android.gms.common.api.internal.zzbb.run(GoogleApiManager.java:11)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at com.google.android.gms.libs.punchclock.threads.TracingHandler.dispatchMessageTraced(TracingHandler.java:14)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at com.google.android.gms.libs.punchclock.threads.TracingHandler.dispatchMessage(TracingHandler.java:12)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:48.912  8777  8814 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:49.760  1146  1328 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 444)
+11-04 09:23:49.760  1146  1328 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:49.760  1146  1328 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at wik.gf(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at wgq.y(:com.google.android.gms@221821044@22.18.21 (190400-453244992):13)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at vpy.run(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at amoz.ki(:com.google.android.gms@221821044@22.18.21 (190400-453244992):0)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at amoz.dispatchMessage(:com.google.android.gms@221821044@22.18.21 (190400-453244992):11)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:49.760  1146  1328 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 400)
+11-04 09:23:49.760  1146  1328 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:49.760  1146  1328 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at wik.gf(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at wgq.y(:com.google.android.gms@221821044@22.18.21 (190400-453244992):13)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at vpy.run(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at amoz.ki(:com.google.android.gms@221821044@22.18.21 (190400-453244992):0)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at amoz.dispatchMessage(:com.google.android.gms@221821044@22.18.21 (190400-453244992):11)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:49.760  1146  1328 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 496)
+11-04 09:23:49.760  1146  1328 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:49.760  1146  1328 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at wik.gf(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at wgq.y(:com.google.android.gms@221821044@22.18.21 (190400-453244992):13)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at vpy.run(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at amoz.ki(:com.google.android.gms@221821044@22.18.21 (190400-453244992):0)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at amoz.dispatchMessage(:com.google.android.gms@221821044@22.18.21 (190400-453244992):11)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:49.760  1146  1328 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:50.362  8425  8425 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.auth.api.signin.service.START pkg=com.google.android.gms }
+11-04 09:23:50.363   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode 1
+11-04 09:23:50.363   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:50.363   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:50.368   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode 1
+11-04 09:23:50.368   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:50.368   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:50.369  8425  8425 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.auth.api.signin.service.START pkg=com.google.android.gms }
+11-04 09:23:50.369  8425  8425 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.auth.api.signin.service.START pkg=com.google.android.gms }
+11-04 09:23:50.370  9186  9214 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 380)
+11-04 09:23:50.371  9186  9214 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:50.371  9186  9214 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:50.371  9186  9214 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:50.371  9186  9214 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:50.371  9186  9214 W GmsClient: 	at com.google.android.gms.common.internal.zzac.getService(com.google.android.gms:play-services-basement@@18.1.0:8)
+11-04 09:23:50.371  9186  9214 W GmsClient: 	at com.google.android.gms.common.internal.BaseGmsClient.getRemoteService(com.google.android.gms:play-services-basement@@18.1.0:14)
+11-04 09:23:50.371  9186  9214 W GmsClient: 	at com.google.android.gms.common.api.internal.zabt.run(com.google.android.gms:play-services-base@@18.0.1:7)
+11-04 09:23:50.371  9186  9214 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:50.371  9186  9214 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:50.371  9186  9214 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:50.371  9186  9214 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:50.371  9186  9214 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:53.915  8777  8814 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 408)
+11-04 09:23:53.915  8777  8814 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:53.915  8777  8814 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at com.google.android.gms.common.internal.IGmsServiceBroker$Stub$zza.getService(IGmsServiceBroker.java:13)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at com.google.android.gms.common.internal.zzr.zza(GmsClientTracer.java:3)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at com.google.android.gms.common.internal.BaseGmsClient.getRemoteService(BaseGmsClient.java:269)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at com.google.android.gms.common.api.internal.zzbb.run(GoogleApiManager.java:11)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at com.google.android.gms.libs.punchclock.threads.TracingHandler.dispatchMessageTraced(TracingHandler.java:14)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at com.google.android.gms.libs.punchclock.threads.TracingHandler.dispatchMessage(TracingHandler.java:12)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:53.915  8777  8814 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:54.788  8425  8425 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.feedback.internal.IFeedbackService dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+11-04 09:23:54.788  8425  8425 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.feedback.internal.IFeedbackService dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+11-04 09:23:54.788  1146  1328 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 444)
+11-04 09:23:54.788  1146  1328 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:54.788  1146  1328 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at wik.gf(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at wgq.y(:com.google.android.gms@221821044@22.18.21 (190400-453244992):13)
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at vpy.run(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at amoz.ki(:com.google.android.gms@221821044@22.18.21 (190400-453244992):0)
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at amoz.dispatchMessage(:com.google.android.gms@221821044@22.18.21 (190400-453244992):11)
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:54.788  1146  1328 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:54.790  1146  1328 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 400)
+11-04 09:23:54.790  1146  1328 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:54.790  1146  1328 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at wik.gf(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at wgq.y(:com.google.android.gms@221821044@22.18.21 (190400-453244992):13)
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at vpy.run(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at amoz.ki(:com.google.android.gms@221821044@22.18.21 (190400-453244992):0)
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at amoz.dispatchMessage(:com.google.android.gms@221821044@22.18.21 (190400-453244992):11)
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:54.790  1146  1328 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:54.791  1146  1328 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 496)
+11-04 09:23:54.791  1146  1328 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:54.791  1146  1328 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at wik.gf(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at wgq.y(:com.google.android.gms@221821044@22.18.21 (190400-453244992):13)
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at vpy.run(:com.google.android.gms@221821044@22.18.21 (190400-453244992):5)
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at amoz.ki(:com.google.android.gms@221821044@22.18.21 (190400-453244992):0)
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at amoz.dispatchMessage(:com.google.android.gms@221821044@22.18.21 (190400-453244992):11)
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:54.791  1146  1328 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:55.378   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode 1
+11-04 09:23:55.378   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:55.378   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:55.379  8425  8425 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.auth.api.signin.service.START pkg=com.google.android.gms }
+11-04 09:23:55.380   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode 1
+11-04 09:23:55.380   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:55.380   867  1190 D BtGatt.ScanManager: uid 10101 isForeground true scanMode -1
+11-04 09:23:55.381  8425  8425 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.auth.api.signin.service.START pkg=com.google.android.gms }
+11-04 09:23:55.381  8425  8425 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.auth.api.signin.service.START pkg=com.google.android.gms }
+11-04 09:23:55.383  9186  9214 E JavaBinder: !!! FAILED BINDER TRANSACTION !!!  (parcel size = 380)
+11-04 09:23:55.383  9186  9214 W GmsClient: IGmsServiceBroker.getService failed
+11-04 09:23:55.383  9186  9214 W GmsClient: android.os.DeadObjectException: Transaction failed on small parcel; remote process probably died, but this could also be caused by running out of binder buffe
+11-04 09:23:55.383  9186  9214 W GmsClient: 	at android.os.BinderProxy.transactNative(Native Method)
+11-04 09:23:55.383  9186  9214 W GmsClient: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-04 09:23:55.383  9186  9214 W GmsClient: 	at com.google.android.gms.common.internal.zzac.getService(com.google.android.gms:play-services-basement@@18.1.0:8)
+11-04 09:23:55.383  9186  9214 W GmsClient: 	at com.google.android.gms.common.internal.BaseGmsClient.getRemoteService(com.google.android.gms:play-services-basement@@18.1.0:14)
+11-04 09:23:55.383  9186  9214 W GmsClient: 	at com.google.android.gms.common.api.internal.zabt.run(com.google.android.gms:play-services-base@@18.0.1:7)
+11-04 09:23:55.383  9186  9214 W GmsClient: 	at android.os.Handler.handleCallback(Handler.java:942)
+11-04 09:23:55.383  9186  9214 W GmsClient: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-04 09:23:55.383  9186  9214 W GmsClient: 	at android.os.Looper.loopOnce(Looper.java:201)
+11-04 09:23:55.383  9186  9214 W GmsClient: 	at android.os.Looper.loop(Looper.java:288)
+11-04 09:23:55.383  9186  9214 W GmsClient: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-04 09:23:57.713  1146  9029 E WakeLock: GCM_HB_ALARM release without a matched acquire!

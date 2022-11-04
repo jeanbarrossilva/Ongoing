@@ -1,12 +1,16 @@
 package com.jeanbarrossilva.ongoing.feature.activityediting
 
 import android.content.res.Configuration
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,8 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualStatus
-import com.jeanbarrossilva.ongoing.feature.activityediting.component.ActivityCurrentStatusDropdownField
-import com.jeanbarrossilva.ongoing.feature.activityediting.component.ActivityNameTextField
+import com.jeanbarrossilva.ongoing.feature.activityediting.component.ConfirmationDialog
+import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
+import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
@@ -28,14 +33,45 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.rememberTextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
+@Suppress("NAME_SHADOWING")
 @Composable
-internal fun ActivityEditing(
+fun ActivityEditing(
     viewModel: ActivityEditingViewModel,
-    onNavigationRequest: () -> Unit,
     onDone: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNavigationRequest: (OnBackPressedDispatcher?) -> Unit = { it?.onBackPressed() }
 ) {
+    val onBackPressedDispatcherOwner = LocalOnBackPressedDispatcherOwner.current
+    val onBackPressedDispatcher = remember(onBackPressedDispatcherOwner) {
+        onBackPressedDispatcherOwner?.onBackPressedDispatcher
+    }
     val props by viewModel.props.collectAsState()
+    val hasChanges = remember(props) { viewModel.mode.hasChanges(props) }
+    var isConfirmationDialogVisible by remember { mutableStateOf(false) }
+    val onNavigationRequest = {
+        isConfirmationDialogVisible = false
+        onNavigationRequest(onBackPressedDispatcher)
+    }
+    val onBackPressedCallback = remember(hasChanges) {
+        object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                remove()
+                if (hasChanges) isConfirmationDialogVisible = true else onNavigationRequest()
+            }
+        }
+    }
+
+    DisposableEffect(hasChanges) {
+        onBackPressedDispatcher?.addCallback(onBackPressedCallback)
+        onDispose { onBackPressedCallback.remove() }
+    }
+
+    if (isConfirmationDialogVisible) {
+        ConfirmationDialog(
+            onConfirmationRequest = onNavigationRequest,
+            onDismissRequest = { isConfirmationDialogVisible = false }
+        )
+    }
 
     ActivityEditing(
         props.name,
@@ -50,7 +86,7 @@ internal fun ActivityEditing(
                 copy(currentStatus = it)
             }
         },
-        onNavigationRequest,
+        onNavigationRequest = onNavigationRequest,
         onSaveRequest = {
             viewModel.save()
             onDone()
@@ -110,7 +146,7 @@ internal fun ActivityEditing(
                     Modifier.fillMaxWidth()
                 )
 
-                ActivityCurrentStatusDropdownField(
+                ActivityStatusDropdownField(
                     currentStatus,
                     onCurrentStatusChange,
                     currentStatusSubmitter,

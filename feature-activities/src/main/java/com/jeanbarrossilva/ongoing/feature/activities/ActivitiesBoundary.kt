@@ -1,9 +1,9 @@
 package com.jeanbarrossilva.ongoing.feature.activities
 
-import android.content.Context
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 interface ActivitiesBoundary {
-    fun navigateToActivityDetails(context: Context, activityId: String)
+    fun navigateToActivityDetails(navigator: DestinationsNavigator, activityId: String)
 
-    fun navigateToActivityEditing(context: Context)
+    fun navigateToActivityEditing(navigator: DestinationsNavigator)
 }

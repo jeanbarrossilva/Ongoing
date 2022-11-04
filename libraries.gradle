@@ -4,9 +4,9 @@ buildscript {
     ext {
         libraries = [
             accompanist: [
-                placeholder: "com.google.accompanist:accompanist-placeholder-material:" +
+                placeholder: 'com.google.accompanist:accompanist-placeholder-material:' +
                     versions.accompanist,
-                systemuicontroller: "com.google.accompanist:accompanist-systemuicontroller:" +
+                systemuicontroller: 'com.google.accompanist:accompanist-systemuicontroller:' +
                     versions.accompanist
             ],
             activity: [
@@ -29,11 +29,16 @@ buildscript {
                     tooling: "androidx.compose.ui:ui-tooling:${versions.compose_ui}"
                 ]
             ],
+            compose_destinations: [
+                animations_core: 'io.github.raamcosta.compose-destinations:animations-core:' +
+                    versions.compose_destinations,
+                core: 'io.github.raamcosta.compose-destinations:core:' +
+                    versions.compose_destinations
+            ],
             customview: "androidx.customview:customview:${versions.customview}",
             customview_poolingcontainer: "androidx.customview:customview-poolingcontainer:" +
                 versions.customview_poolingcontainer,
             fragment: "androidx.fragment:fragment-ktx:${versions.fragment}",
-            gson: "com.google.code.gson:gson:${versions.gson}",
             jetlime: "io.github.pushpalroy:jetlime:${versions.jetlime}",
             junit5: [
                 jupiter: [
@@ -42,7 +47,7 @@ buildscript {
             ],
             koin: [
                 android: "io.insert-koin:koin-android:${versions.koin}",
-                test_junit4: "io.insert-koin:koin-test-junit4:${versions.koin}"
+                androidx_compose: "io.insert-koin:koin-androidx-compose:${versions.koin}"
             ],
             kotlin: [
                 test: 'org.jetbrains.kotlin:kotlin-test'
@@ -65,15 +70,16 @@ buildscript {
             material_dialogs: [
                 core: "com.afollestad.material-dialogs:core:${versions.material_dialogs}"
             ],
+            navigation: [
+                compose: "androidx.navigation:navigation-compose:${versions.navigation}",
+                runtime: "androidx.navigation:navigation-runtime-ktx:${versions.navigation}"
+            ],
             room: [
                 ktx: "androidx.room:room-ktx:${versions.room}",
                 testing: "androidx.room:room-testing:${versions.room}"
             ],
             test: [
                 core: "androidx.test:core-ktx:${versions.test.core}",
-                espresso: [
-                    core: "androidx.test.espresso:espresso-core:${versions.test.espresso}"
-                ],
                 ext: [
                     junit: "androidx.test.ext:junit-ktx:${versions.test.ext.junit}"
                 ],

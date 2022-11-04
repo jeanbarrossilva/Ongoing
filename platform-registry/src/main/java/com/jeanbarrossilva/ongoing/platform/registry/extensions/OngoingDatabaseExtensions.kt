@@ -4,7 +4,7 @@ import com.jeanbarrossilva.ongoing.platform.registry.OngoingDatabase
 import com.jeanbarrossilva.ongoing.platform.registry.activity.registry.RoomActivityRegistry
 import com.jeanbarrossilva.ongoing.platform.registry.authorization.CurrentUserIdProvider
 
-internal val OngoingDatabase.activityRegistry: RoomActivityRegistry
+val OngoingDatabase.activityRegistry: RoomActivityRegistry
     get() {
         val currentUserId = uuid()
         val currentUserIdProvider = CurrentUserIdProvider { currentUserId }

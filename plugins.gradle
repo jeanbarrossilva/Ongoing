@@ -3,6 +3,8 @@ buildscript {
 
     ext {
         _plugins = [
+            compose_destinations: 'io.github.raamcosta.compose-destinations:ksp:' +
+                versions.compose_destinations,
             gradle: "com.android.tools.build:gradle:${versions.gradle}",
             kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
             room: "androidx.room:room-compiler:${versions.room}"

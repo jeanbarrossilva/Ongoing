@@ -9,7 +9,7 @@
     <string name="feature_activity_editing_confirmation_dialog_title">
         Do you want to discard these changes?
     </string>
-    <string name="feature_activity_editing_confirmation_dialog_message">
+    <string name="feature_activity_editing_confirmation_dialog_text">
         This operation cannot be undone.
     </string>
 </resources>

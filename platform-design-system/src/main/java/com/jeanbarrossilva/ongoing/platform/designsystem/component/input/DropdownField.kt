@@ -54,11 +54,11 @@ fun DropdownField(
     var size by remember { mutableStateOf(DpSize.Zero) }
     val indicatorRotationDegrees by animateFloatAsState(if (isExpanded) -180f else 0f)
 
-    Box(modifier) {
+    Box {
         TextField(
             value,
             onValueChange = { _, _ -> },
-            Modifier
+            modifier
                 .clickable { onExpansionToggle(true) }
                 .fillMaxWidth(),
             TextFieldEnableability.Enabled(isReadOnly = true, rules, submitter),

@@ -5,15 +5,18 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
-internal sealed class ActivityEditingMode : Parcelable {
-    abstract fun hasChanges(props: ActivityEditingProps): Boolean
+sealed class ActivityEditingMode : Parcelable {
+    internal abstract fun hasChanges(props: ActivityEditingProps): Boolean
 
-    abstract suspend fun save(activityRegistry: ActivityRegistry, props: ActivityEditingProps)
+    internal abstract suspend fun save(
+        activityRegistry: ActivityRegistry,
+        props: ActivityEditingProps
+    )
 
+    @Parcelize
     object Addition: ActivityEditingMode() {
         override fun hasChanges(props: ActivityEditingProps): Boolean {
-            return props.name.isNotBlank() && props.currentStatus != null
+            return props.name.isNotBlank() || props.currentStatus != null
         }
 
         override suspend fun save(activityRegistry: ActivityRegistry, props: ActivityEditingProps) {
@@ -21,6 +24,7 @@ internal sealed class ActivityEditingMode : Parcelable {
         }
     }
 
+    @Parcelize
     class Modification(val activity: ContextualActivity): ActivityEditingMode() {
         override fun hasChanges(props: ActivityEditingProps): Boolean {
             return props.name != activity.name || props.currentStatus != activity.status
@@ -35,7 +39,7 @@ internal sealed class ActivityEditingMode : Parcelable {
         }
 
         companion object {
-            val sample = Modification(ContextualActivity.sample)
+            internal val sample = Modification(ContextualActivity.sample)
         }
     }
 }

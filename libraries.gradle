@@ -74,10 +74,7 @@ buildscript {
                 compose: "androidx.navigation:navigation-compose:${versions.navigation}",
                 runtime: "androidx.navigation:navigation-runtime-ktx:${versions.navigation}"
             ],
-            room: [
-                ktx: "androidx.room:room-ktx:${versions.room}",
-                testing: "androidx.room:room-testing:${versions.room}"
-            ],
+            room: "androidx.room:room-ktx:${versions.room}",
             test: [
                 core: "androidx.test:core-ktx:${versions.test.core}",
                 ext: [

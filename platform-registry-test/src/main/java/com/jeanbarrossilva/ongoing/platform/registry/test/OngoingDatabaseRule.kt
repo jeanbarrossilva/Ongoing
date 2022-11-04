@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.platform.registry.rule
+package com.jeanbarrossilva.ongoing.platform.registry.test
 
 import android.content.Context
 import androidx.room.Room
@@ -6,7 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.jeanbarrossilva.ongoing.platform.registry.OngoingDatabase
 import org.junit.rules.ExternalResource
 
-internal class OngoingDatabaseRule: ExternalResource() {
+class OngoingDatabaseRule: ExternalResource() {
     private val context
         get() = ApplicationProvider.getApplicationContext<Context>()
 

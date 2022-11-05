@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_authentication_logo_content_description">Logo</string>
+    <string name="feature_authentication_log_in">Log in</string>
+    <string name="feature_authentication_dismiss">Not now</string>
+</resources>

@@ -9,9 +9,17 @@ buildscript {
             compose_material: '1.2.1',
             compose_material3: '1.0.0-rc01',
             compose_ui: '1.2.1',
+            constraintlayout: [
+                compose: '1.0.1'
+            ],
             customview: '1.1.0',
             customview_poolingcontainer: '1.0.0',
             fragment: '1.5.3',
+            gms: [
+                play_services: [
+                    auth: '20.3.0'
+                ]
+            ],
             gradle: '7.2.2',
             jetlime: '1.0.3',
             java: JavaVersion.VERSION_1_8,
@@ -36,7 +44,9 @@ buildscript {
                     target: 33
                 ]
             ],
+            preference: '1.2.0',
             room: '2.4.3',
+            secrets: '2.0.1',
             test: [
                 core: '1.4.0',
                 ext: [

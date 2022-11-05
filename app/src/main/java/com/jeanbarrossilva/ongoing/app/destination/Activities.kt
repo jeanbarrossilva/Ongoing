@@ -13,7 +13,6 @@ import com.jeanbarrossilva.ongoing.feature.activities.Activities
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesBoundary
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesViewModel
 import com.jeanbarrossilva.ongoing.feature.authentication.prompter.AuthenticationPrompter
-import com.jeanbarrossilva.ongoing.platform.extensions.onFirstRun
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.get
@@ -31,10 +30,8 @@ internal fun Activities(navigator: DestinationsNavigator, modifier: Modifier = M
     val viewModel = viewModel<ActivitiesViewModel>(factory = viewModelFactory)
 
     LaunchedEffect(Unit) {
-        context.onFirstRun {
-            authenticationPrompter.prompt {
-                navigator.navigate(AuthenticationDestination)
-            }
+        authenticationPrompter.prompt(context) {
+            navigator.navigate(AuthenticationDestination)
         }
     }
 

@@ -46,7 +46,6 @@ buildscript {
             ],
             preference: '1.2.0',
             room: '2.4.3',
-            secrets: '2.0.1',
             test: [
                 core: '1.4.0',
                 ext: [

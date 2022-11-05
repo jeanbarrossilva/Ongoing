@@ -5,7 +5,7 @@ import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.platform.extensions.onFirstRun
 import kotlinx.coroutines.flow.first
 
-class AuthenticationPrompter(private val sessionManager: SessionManager) {
+class AuthenticationPrompter internal constructor(private val sessionManager: SessionManager) {
     suspend fun prompt(context: Context, listener: OnPromptListener) {
         context.onFirstRun {
             promptIfUnauthenticated(listener)

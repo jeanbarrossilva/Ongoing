@@ -1,9 +1,9 @@
-package com.jeanbarrossilva.ongoing.app.module.feature
+package com.jeanbarrossilva.ongoing.feature.authentication
 
 import com.jeanbarrossilva.ongoing.feature.authentication.prompter.AuthenticationPrompter
 import org.koin.dsl.module
 
-internal val authenticationModule = module {
+ val authenticationModule = module {
     single {
         AuthenticationPrompter(sessionManager = get())
     }

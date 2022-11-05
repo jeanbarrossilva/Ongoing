@@ -3,7 +3,7 @@ package com.jeanbarrossilva.ongoing.platform.extensions
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.jeanbarrossilva.ongoing.platform.extensions.identification.ApplicationIdProvider
+import androidx.preference.PreferenceManager
 import com.jeanbarrossilva.ongoing.platform.extensions.identification.CurrentVersionCodeProvider
 import com.jeanbarrossilva.ongoing.platform.extensions.internal.inject
 
@@ -15,11 +15,7 @@ internal const val NONEXISTENT_LAST_VERSION_CODE = -1
 
 @PublishedApi
 internal val Context.preferences: SharedPreferences
-    get() {
-        val appIdProvider by inject<ApplicationIdProvider>()
-        val appId = appIdProvider.provide()
-        return getSharedPreferences(appId, Context.MODE_PRIVATE)
-    }
+    get() = PreferenceManager.getDefaultSharedPreferences(this)
 
 inline fun Context.onFirstRun(operation: () -> Unit) {
     val currentVersionCodeProvider by inject<CurrentVersionCodeProvider>()

@@ -1,16 +1,14 @@
 package com.jeanbarrossilva.ongoing.app
 
-import com.jeanbarrossilva.ongoing.platform.extensions.onFirstRun
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
-import com.jeanbarrossilva.ongoing.core.session.SessionManager
+import com.jeanbarrossilva.ongoing.platform.extensions.onFirstRun
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 internal class DemoOngoingApplication: OngoingApplication() {
-    private val sessionManager by inject<SessionManager>()
     private val activityRegistry by inject<ActivityRegistry>()
 
     override fun onCreate() {

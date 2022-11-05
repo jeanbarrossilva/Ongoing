@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ContextualActivity(
     val id: String,
-    val owner: User,
+    val owner: User?,
     val name: String,
     val icon: ContextualIcon,
     val statuses: List<ContextualStatus>
@@ -20,7 +20,7 @@ data class ContextualActivity(
     fun toActivity(): Activity {
         val icon = icon.toIcon()
         val statuses = statuses.map(ContextualStatus::toStatus)
-        return Activity(id, owner.id, name, icon, statuses)
+        return Activity(id, owner?.id, name, icon, statuses)
     }
 
     companion object {

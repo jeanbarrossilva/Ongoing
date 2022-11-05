@@ -4,7 +4,7 @@ import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
 
 data class Activity(
     val id: String,
-    val ownerUserId: String,
+    val ownerUserId: String?,
     val name: String,
     val icon: Icon,
     val statuses: List<Status>
@@ -13,6 +13,8 @@ data class Activity(
         get() = statuses.last()
 
     abstract class Recorder {
+        abstract suspend fun ownerUserId(id: String, ownerUserId: String)
+
         abstract suspend fun name(id: String, name: String)
 
         abstract suspend fun icon(id: String, icon: Icon)

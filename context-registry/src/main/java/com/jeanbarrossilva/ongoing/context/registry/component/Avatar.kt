@@ -1,6 +1,7 @@
 package com.jeanbarrossilva.ongoing.context.registry.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -14,13 +15,14 @@ import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @Composable
-fun Avatar(user: User, modifier: Modifier = Modifier) {
+fun Avatar(user: User?, modifier: Modifier = Modifier) {
     AsyncImage(
-        user.avatarUrl,
+        user?.avatarUrl,
         contentDescription = stringResource(R.string.platform_registry_avatar_content_description),
         modifier
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.secondaryContainer)
+            .aspectRatio(1f)
     )
 }
 

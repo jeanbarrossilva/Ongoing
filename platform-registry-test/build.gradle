@@ -34,20 +34,6 @@ android {
 }
 
 dependencies {
-    kapt _plugins.room
-
-    api project(':core-registry')
-    api libraries.room
-
-    implementation project(':core-session')
-    implementation libraries.koin.android
-    implementation libraries.kotlinx.coroutines.core
-
-    testImplementation libraries.kotlinx.coroutines.test
-    testImplementation libraries.test.ext.junit
-
-    androidTestImplementation project(':platform-registry-test')
-    androidTestImplementation libraries.kotlinx.coroutines.test
-    androidTestImplementation libraries.test.core
-    androidTestImplementation libraries.test.runner
+    implementation project(':platform-registry')
+    implementation libraries.test.ext.junit
 }

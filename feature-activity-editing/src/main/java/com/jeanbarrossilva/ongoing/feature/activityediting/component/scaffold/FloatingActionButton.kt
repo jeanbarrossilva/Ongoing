@@ -6,14 +6,21 @@ import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.feature.activityediting.R
+import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton.TAG
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.submitter.TextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButtonEnableability
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
+internal object FloatingActionButton {
+    const val TAG = "activity_editing_fab"
+}
+
+@Suppress("NAME_SHADOWING")
 @Composable
 internal fun FloatingActionButton(
     isEnabled: Boolean,
@@ -26,6 +33,11 @@ internal fun FloatingActionButton(
     } else {
         FloatingActionButtonEnableability.Disabled(isInteractive = true)
     }
+    val onClick = {
+        if (isEnabled) {
+            onClick()
+        }
+    }
 
     FloatingActionButton(
         enableability,
@@ -33,7 +45,7 @@ internal fun FloatingActionButton(
             submitters.forEach(TextFieldSubmitter::submit)
             onClick()
         },
-        modifier
+        modifier.testTag(TAG)
     ) {
         Icon(
             Icons.Rounded.Done,

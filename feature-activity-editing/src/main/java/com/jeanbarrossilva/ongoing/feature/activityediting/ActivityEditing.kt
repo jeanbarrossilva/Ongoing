@@ -108,7 +108,12 @@ internal fun ActivityEditing(
     val spacing = Size.Spacing.xxl
     val nameSubmitter = rememberTextFieldSubmitter()
     val currentStatusSubmitter = rememberTextFieldSubmitter()
-    var isValid by remember { mutableStateOf(ActivityEditingModel.isNameValid(name)) }
+    var isValid by remember {
+        mutableStateOf(
+            ActivityEditingModel.isNameValid(name) &&
+                ActivityEditingModel.isCurrentStatusValid(currentStatus)
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -119,11 +124,7 @@ internal fun ActivityEditing(
         floatingActionButton = {
             FloatingActionButton(
                 isEnabled = isValid,
-                onClick = {
-                    if (isValid) {
-                        onSaveRequest()
-                    }
-                },
+                onClick = onSaveRequest,
                 nameSubmitter,
                 currentStatusSubmitter
             )
@@ -139,7 +140,7 @@ internal fun ActivityEditing(
                 ActivityNameTextField(
                     name,
                     onChange = { newName, isNameValid ->
-                        isValid = isValid && isNameValid
+                        isValid = isNameValid
                         onNameChange(newName)
                     },
                     nameSubmitter,

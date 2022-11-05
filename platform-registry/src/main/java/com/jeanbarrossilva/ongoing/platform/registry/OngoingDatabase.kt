@@ -17,7 +17,7 @@ abstract class OngoingDatabase internal constructor(): RoomDatabase() {
     companion object {
         private lateinit var instance: OngoingDatabase
 
-        fun getInstance(context: Context): OngoingDatabase {
+        internal fun getInstance(context: Context): OngoingDatabase {
             return if (this::instance.isInitialized) {
                 instance
             } else {

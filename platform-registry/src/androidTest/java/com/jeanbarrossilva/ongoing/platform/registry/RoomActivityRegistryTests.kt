@@ -6,7 +6,7 @@ import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 import com.jeanbarrossilva.ongoing.platform.registry.authorization.CurrentUserIdProvider
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.getActivityRegistry
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.uuid
-import com.jeanbarrossilva.ongoing.platform.registry.rule.OngoingDatabaseRule
+import com.jeanbarrossilva.ongoing.platform.registry.test.OngoingDatabaseRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map

@@ -86,6 +86,7 @@ buildscript {
                 compose: "androidx.navigation:navigation-compose:${versions.navigation}",
                 runtime: "androidx.navigation:navigation-runtime-ktx:${versions.navigation}"
             ],
+            preference: "androidx.preference:preference-ktx:${versions.preference}",
             room: "androidx.room:room-ktx:${versions.room}",
             test: [
                 core: "androidx.test:core-ktx:${versions.test.core}",

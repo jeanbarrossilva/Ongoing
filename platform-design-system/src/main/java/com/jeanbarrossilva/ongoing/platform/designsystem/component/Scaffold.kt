@@ -24,8 +24,8 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold as _
 @Composable
 fun Scaffold(
     topBar: @Composable () -> Unit,
-    floatingActionButton: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    floatingActionButton: @Composable () -> Unit = { },
     content: @Composable (padding: PaddingValues) -> Unit
 ) {
     Scaffold(

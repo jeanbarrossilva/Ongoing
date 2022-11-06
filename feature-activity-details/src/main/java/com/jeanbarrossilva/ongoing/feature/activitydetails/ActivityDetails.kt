@@ -48,13 +48,13 @@ private fun ActivityDetails(
 ) {
     Scaffold(
         topBar = { TopAppBar(TopAppBarStyle.Navigable(onNavigationRequest)) },
+        modifier,
         floatingActionButton = {
             FloatingActionButton(
                 isAvailable = activity != null,
                 onClick = onEditRequest
             )
-        },
-        modifier
+        }
     ) {
         Background(
             Modifier

@@ -12,6 +12,7 @@ buildscript {
     dependencies {
         classpath _plugins.gradle
         classpath _plugins.kotlin
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20'
     }
 }
 

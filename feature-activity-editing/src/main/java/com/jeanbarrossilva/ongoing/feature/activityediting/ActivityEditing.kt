@@ -122,6 +122,7 @@ internal fun ActivityEditing(
                 title = { Text(stringResource(R.string.feature_activity_editing)) }
             )
         },
+        modifier,
         floatingActionButton = {
             FloatingActionButton(
                 isEnabled = isValid,
@@ -130,7 +131,6 @@ internal fun ActivityEditing(
                 currentStatusSubmitter
             )
        },
-        modifier
     ) { padding ->
         Background(
             Modifier

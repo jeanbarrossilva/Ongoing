@@ -25,7 +25,7 @@ internal fun DismissButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
         modifier
             .fillMaxWidth()
             .testTag(TAG),
-        ButtonRelevance.SECONDARY
+        ButtonRelevance.Secondary()
     ) {
         Text(stringResource(R.string.feature_authentication_dismiss))
     }

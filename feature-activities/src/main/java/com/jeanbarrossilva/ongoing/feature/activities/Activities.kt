@@ -39,7 +39,10 @@ fun Activities(
     Activities(
         user,
         activities,
-        onAccountDetailsRequest = { },
+        onAccountDetailsRequest = {
+            user?.let { boundary.navigateToAccount(navigator, it) }
+                ?: boundary.navigateToAuthentication(navigator)
+        },
         onActivityDetailsNavigationRequest = {
             boundary.navigateToActivityDetails(navigator, it.id)
         },

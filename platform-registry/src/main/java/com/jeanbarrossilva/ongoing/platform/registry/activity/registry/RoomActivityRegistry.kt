@@ -56,7 +56,7 @@ class RoomActivityRegistry(
         activityDao.deleteAll()
     }
 
-    private suspend fun currentUserId(): String {
+    private suspend fun currentUserId(): String? {
         return currentUserIdProvider.provide()
     }
 

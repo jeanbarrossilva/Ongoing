@@ -1,9 +1,9 @@
 package com.jeanbarrossilva.ongoing.app
 
-import com.jeanbarrossilva.ongoing.app.extensions.onFirstRun
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
+import com.jeanbarrossilva.ongoing.platform.extensions.onFirstRun
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -17,16 +17,16 @@ internal class DemoOngoingApplication: OngoingApplication() {
     }
 
     private fun registerSampleActivitiesOnFirstRun() {
-        onFirstRun {
-            registerSampleActivities()
+        MainScope().launch {
+            onFirstRun {
+                registerSampleActivities()
+            }
         }
     }
 
-    private fun registerSampleActivities() {
-        MainScope().launch {
-            withEachActivity {
-                activityRegistry.register(name, statuses)
-            }
+    private suspend fun registerSampleActivities() {
+        withEachActivity {
+            activityRegistry.register(name, statuses)
         }
     }
 

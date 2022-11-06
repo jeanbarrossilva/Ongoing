@@ -2,6 +2,7 @@ package com.jeanbarrossilva.ongoing.platform.designsystem.configuration
 
 import androidx.compose.material3.Typography
 
+@Suppress("Unused")
 internal object TypographyTokens {
     private val typography = Typography()
 

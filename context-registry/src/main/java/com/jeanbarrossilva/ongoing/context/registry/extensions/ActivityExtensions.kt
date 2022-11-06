@@ -7,7 +7,7 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 
 suspend fun Activity.toContextualActivity(userRepository: UserRepository):
     ContextualActivity {
-    val owner = userRepository.getUserById(ownerUserId) ?: throw IllegalArgumentException()
+    val owner = ownerUserId?.let { userRepository.getUserById(it) }
     val icon = icon.toContextualIcon()
     val statuses = statuses.map(Status::toContextualStatus)
     return ContextualActivity(id, owner, name, icon, statuses)

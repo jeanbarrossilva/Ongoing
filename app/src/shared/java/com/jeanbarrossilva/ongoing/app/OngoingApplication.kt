@@ -3,21 +3,16 @@ package com.jeanbarrossilva.ongoing.app
 import android.app.Application
 import com.jeanbarrossilva.ongoing.app.module.boundaryModule
 import com.jeanbarrossilva.ongoing.app.module.coreModule
-import com.jeanbarrossilva.ongoing.core.session.SessionManager
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import com.jeanbarrossilva.ongoing.app.module.feature.extensionsModule
+import com.jeanbarrossilva.ongoing.feature.authentication.authenticationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 
 internal open class OngoingApplication: Application() {
-    private val sessionManager by inject<SessionManager>()
-
     override fun onCreate() {
         super.onCreate()
         setUpInjection()
-        setUpSession()
     }
 
     override fun onTerminate() {
@@ -29,12 +24,7 @@ internal open class OngoingApplication: Application() {
         startKoin {
             androidContext(this@OngoingApplication)
             modules(coreModule, boundaryModule)
-        }
-    }
-
-    private fun setUpSession() {
-        MainScope().launch {
-            sessionManager.authenticate()
+            modules(authenticationModule, extensionsModule)
         }
     }
 }

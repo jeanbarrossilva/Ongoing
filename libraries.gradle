@@ -35,10 +35,21 @@ buildscript {
                 core: 'io.github.raamcosta.compose-destinations:core:' +
                     versions.compose_destinations
             ],
+            constraintlayout: [
+                compose: 'androidx.constraintlayout:constraintlayout-compose:' +
+                    versions.constraintlayout.compose
+            ],
             customview: "androidx.customview:customview:${versions.customview}",
             customview_poolingcontainer: "androidx.customview:customview-poolingcontainer:" +
                 versions.customview_poolingcontainer,
+            datastore: "androidx.datastore:datastore-preferences:${versions.datastore}",
             fragment: "androidx.fragment:fragment-ktx:${versions.fragment}",
+            gms: [
+                play_services: [
+                    auth: 'com.google.android.gms:play-services-auth:' +
+                        versions.gms.play_services.auth
+                ]
+            ],
             jetlime: "io.github.pushpalroy:jetlime:${versions.jetlime}",
             junit5: [
                 jupiter: [
@@ -47,16 +58,19 @@ buildscript {
             ],
             koin: [
                 android: "io.insert-koin:koin-android:${versions.koin}",
-                androidx_compose: "io.insert-koin:koin-androidx-compose:${versions.koin}"
+                androidx_compose: "io.insert-koin:koin-androidx-compose:${versions.koin}",
+                test: "io.insert-koin:koin-test-junit4:${versions.koin}"
             ],
             kotlin: [
                 test: 'org.jetbrains.kotlin:kotlin-test'
             ],
             kotlinx: [
                 coroutines: [
-                    core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:" +
+                    core: 'org.jetbrains.kotlinx:kotlinx-coroutines-core:' +
                         versions.kotlinx.coroutines,
-                    test: "org.jetbrains.kotlinx:kotlinx-coroutines-test:" +
+                    play_services: 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:' +
+                        versions.kotlinx.coroutines,
+                    test: 'org.jetbrains.kotlinx:kotlinx-coroutines-test:' +
                         versions.kotlinx.coroutines
                 ]
             ],

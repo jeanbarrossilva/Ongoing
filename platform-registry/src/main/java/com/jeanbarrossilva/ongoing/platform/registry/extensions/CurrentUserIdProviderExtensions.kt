@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.first
 operator fun CurrentUserIdProvider.Companion.invoke(sessionManager: SessionManager):
     CurrentUserIdProvider {
     return CurrentUserIdProvider {
-        sessionManager.getUser().first()!!.id
+        sessionManager.getUser().first()?.id
     }
 }

@@ -8,7 +8,7 @@ import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 @Entity(tableName = "activities")
 internal data class ActivityEntity(
     @PrimaryKey(autoGenerate = true) val id: Long,
-    @ColumnInfo(name = "owner_user_id") val ownerUserId: String,
+    @ColumnInfo(name = "owner_user_id") val ownerUserId: String?,
     val name: String,
     val icon: Icon
 )

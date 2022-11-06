@@ -28,7 +28,7 @@ import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.Fl
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarRelevance
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarStyle
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.rememberTextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
@@ -117,10 +117,12 @@ internal fun ActivityEditing(
 
     Scaffold(
         topBar = {
-            TopAppBar(TopAppBarRelevance.Subsequent(onNavigationRequest)) {
-                Text(stringResource(R.string.feature_activity_editing))
-            }
+            TopAppBar(
+                TopAppBarStyle.Navigable(onNavigationRequest),
+                title = { Text(stringResource(R.string.feature_activity_editing)) }
+            )
         },
+        modifier,
         floatingActionButton = {
             FloatingActionButton(
                 isEnabled = isValid,
@@ -129,7 +131,6 @@ internal fun ActivityEditing(
                 currentStatusSubmitter
             )
        },
-        modifier
     ) { padding ->
         Background(
             Modifier

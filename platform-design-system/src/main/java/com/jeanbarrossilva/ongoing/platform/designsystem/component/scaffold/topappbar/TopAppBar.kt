@@ -1,6 +1,7 @@
 package com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -16,20 +17,22 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBar(
-    relevance: TopAppBarRelevance,
+    style: TopAppBarStyle,
     modifier: Modifier = Modifier,
-    title: @Composable () -> Unit = { }
+    title: @Composable () -> Unit = { },
+    actions: @Composable RowScope.() -> Unit = { }
 ) {
     val backgroundColor = MaterialTheme.colorScheme.primaryContainer
 
     CenterAlignedTopAppBar(
-        title = { ProvideTextStyle(relevance.textStyle, title) },
+        title = { ProvideTextStyle(MaterialTheme.typography.titleSmall, title) },
         modifier,
         navigationIcon = {
-            if (relevance is TopAppBarRelevance.Subsequent) {
-                NavigationButton(onClick = relevance.onNavigationRequest)
+            if (style is TopAppBarStyle.Navigable) {
+                NavigationButton(onClick = style::onNavigationRequest)
             }
         },
+        actions,
         colors = centerAlignedTopAppBarColors(
             containerColor = backgroundColor,
             scrolledContainerColor = backgroundColor
@@ -38,26 +41,24 @@ fun TopAppBar(
 }
 
 @Composable
-private fun TopAppBar(relevance: TopAppBarRelevance, modifier: Modifier = Modifier) {
-    TopAppBar(relevance, modifier) {
-        Text("Title")
+private fun TopAppBar(relevance: TopAppBarStyle, modifier: Modifier = Modifier) {
+    TopAppBar(relevance, modifier, title = { Text("Title") })
+}
+
+@Composable
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+private fun RootTopAppBarPreview() {
+    OngoingTheme {
+        TopAppBar(TopAppBarStyle.Root)
     }
 }
 
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun MainTopAppBarPreview() {
+private fun NavigableTopAppBarPreview() {
     OngoingTheme {
-        TopAppBar(TopAppBarRelevance.Main)
-    }
-}
-
-@Composable
-@Preview
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun SubsequentTopAppBarPreview() {
-    OngoingTheme {
-        TopAppBar(TopAppBarRelevance.Subsequent(onNavigationRequest = { }))
+        TopAppBar(TopAppBarStyle.Navigable { })
     }
 }

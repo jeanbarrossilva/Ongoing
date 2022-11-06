@@ -11,8 +11,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.jeanbarrossilva.ongoing.context.registry.R
+import com.jeanbarrossilva.ongoing.context.registry.component.Avatar.shape
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+
+object Avatar {
+    val shape = CircleShape
+}
 
 @Composable
 fun Avatar(user: User?, modifier: Modifier = Modifier) {
@@ -20,7 +25,7 @@ fun Avatar(user: User?, modifier: Modifier = Modifier) {
         user?.avatarUrl,
         contentDescription = stringResource(R.string.platform_registry_avatar_content_description),
         modifier
-            .clip(CircleShape)
+            .clip(shape)
             .background(MaterialTheme.colorScheme.secondaryContainer)
             .aspectRatio(1f)
     )

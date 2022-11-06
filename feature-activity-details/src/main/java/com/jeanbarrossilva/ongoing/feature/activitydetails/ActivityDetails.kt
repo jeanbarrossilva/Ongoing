@@ -17,7 +17,7 @@ import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.Fl
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarRelevance
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarStyle
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -47,7 +47,7 @@ private fun ActivityDetails(
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        topBar = { TopAppBar(TopAppBarRelevance.Subsequent(onNavigationRequest)) },
+        topBar = { TopAppBar(TopAppBarStyle.Navigable(onNavigationRequest)) },
         floatingActionButton = {
             FloatingActionButton(
                 isAvailable = activity != null,

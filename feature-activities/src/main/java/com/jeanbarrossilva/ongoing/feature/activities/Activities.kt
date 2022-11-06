@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,12 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
+import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarRelevance
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -34,10 +33,13 @@ fun Activities(
     boundary: ActivitiesBoundary,
     modifier: Modifier = Modifier
 ) {
+    val user by viewModel.user.collectAsState(initial = null)
     val activities by viewModel.activities.collectAsState(initial = emptyList())
 
     Activities(
+        user,
         activities,
+        onAccountDetailsRequest = { },
         onActivityDetailsNavigationRequest = {
             boundary.navigateToActivityDetails(navigator, it.id)
         },
@@ -48,17 +50,15 @@ fun Activities(
 
 @Composable
 private fun Activities(
+    user: User?,
     activities: List<ContextualActivity>,
+    onAccountDetailsRequest: () -> Unit,
     onActivityDetailsNavigationRequest: (ContextualActivity) -> Unit,
     onAddRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(TopAppBarRelevance.Main) {
-                Text(stringResource(R.string.feature_activities))
-            }
-        },
+        topBar = { TopAppBar(user, onAccountDetailsRequest) },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddRequest) {
                 Icon(
@@ -93,7 +93,9 @@ private fun Activities(
 private fun ActivitiesPreview() {
     OngoingTheme {
         Activities(
+            User.sample,
             ContextualActivity.samples,
+            onAccountDetailsRequest = { },
             onActivityDetailsNavigationRequest = { },
             onAddRequest = { }
         )

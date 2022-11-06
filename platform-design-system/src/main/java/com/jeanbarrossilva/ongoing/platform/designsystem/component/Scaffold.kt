@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarRelevance
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarStyle
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold as _Scaffold
 
@@ -43,11 +43,7 @@ fun Scaffold(
 private fun ScaffoldPreview() {
     OngoingTheme {
         _Scaffold(
-            topBar = {
-                TopAppBar(TopAppBarRelevance.Main) {
-                    Text("Title")
-                }
-            },
+            topBar = { TopAppBar(TopAppBarStyle.Root, title = { Text("Title") }) },
             floatingActionButton = {
                 FloatingActionButton(onClick = { }) {
                     Icon(Icons.Rounded.Add, contentDescription = "Add")

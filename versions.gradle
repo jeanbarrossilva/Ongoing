@@ -14,6 +14,7 @@ buildscript {
             ],
             customview: '1.1.0',
             customview_poolingcontainer: '1.0.0',
+            datastore: '1.1.0-dev01',
             fragment: '1.5.3',
             gms: [
                 play_services: [
@@ -44,7 +45,6 @@ buildscript {
                     target: 33
                 ]
             ],
-            preference: '1.2.0',
             room: '2.4.3',
             test: [
                 core: '1.4.0',

@@ -34,5 +34,10 @@ android {
 
 dependencies {
     implementation libraries.koin.android
-    implementation libraries.preference
+    implementation libraries.datastore
+
+    androidTestImplementation libraries.koin.test
+    androidTestImplementation libraries.kotlinx.coroutines.test
+    androidTestImplementation libraries.test.ext.junit
+    androidTestImplementation libraries.test.runner
 }

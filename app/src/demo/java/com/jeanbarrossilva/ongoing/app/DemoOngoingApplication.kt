@@ -17,8 +17,8 @@ internal class DemoOngoingApplication: OngoingApplication() {
     }
 
     private fun registerSampleActivitiesOnFirstRun() {
-        onFirstRun {
-            MainScope().launch {
+        MainScope().launch {
+            onFirstRun {
                 registerSampleActivities()
             }
         }

@@ -42,6 +42,7 @@ buildscript {
             customview: "androidx.customview:customview:${versions.customview}",
             customview_poolingcontainer: "androidx.customview:customview-poolingcontainer:" +
                 versions.customview_poolingcontainer,
+            datastore: "androidx.datastore:datastore-preferences:${versions.datastore}",
             fragment: "androidx.fragment:fragment-ktx:${versions.fragment}",
             gms: [
                 play_services: [
@@ -57,7 +58,8 @@ buildscript {
             ],
             koin: [
                 android: "io.insert-koin:koin-android:${versions.koin}",
-                androidx_compose: "io.insert-koin:koin-androidx-compose:${versions.koin}"
+                androidx_compose: "io.insert-koin:koin-androidx-compose:${versions.koin}",
+                test: "io.insert-koin:koin-test-junit4:${versions.koin}"
             ],
             kotlin: [
                 test: 'org.jetbrains.kotlin:kotlin-test'

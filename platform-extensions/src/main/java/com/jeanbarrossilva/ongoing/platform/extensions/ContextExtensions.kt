@@ -1,31 +1,24 @@
 package com.jeanbarrossilva.ongoing.platform.extensions
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.core.content.edit
-import androidx.preference.PreferenceManager
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import com.jeanbarrossilva.ongoing.platform.extensions.identification.CurrentVersionCodeProvider
-import com.jeanbarrossilva.ongoing.platform.extensions.internal.inject
+import com.jeanbarrossilva.ongoing.platform.extensions.internal.get
+import kotlinx.coroutines.flow.first
 
 @PublishedApi
-internal const val LAST_VERSION_CODE_KEY = "last_version_code"
+internal val Context.dataStore by preferencesDataStore("preferences")
 
-@PublishedApi
-internal const val NONEXISTENT_LAST_VERSION_CODE = -1
-
-@PublishedApi
-internal val Context.preferences: SharedPreferences
-    get() = PreferenceManager.getDefaultSharedPreferences(this)
-
-inline fun Context.onFirstRun(operation: () -> Unit) {
-    val currentVersionCodeProvider by inject<CurrentVersionCodeProvider>()
-    val currentVersionCode = currentVersionCodeProvider.provide()
-    val lastVersionCode = preferences.getInt(LAST_VERSION_CODE_KEY, NONEXISTENT_LAST_VERSION_CODE)
-    val isFirstRun = lastVersionCode == NONEXISTENT_LAST_VERSION_CODE
+suspend inline fun Context.onFirstRun(operation: () -> Unit) {
+    val lastVersionCodePreference = intPreferencesKey("last_version_code")
+    val lastVersionCode = dataStore.data.first()[lastVersionCodePreference]
+    val isFirstRun = lastVersionCode == null
     if (isFirstRun) {
         operation()
-        preferences.edit {
-            putInt(LAST_VERSION_CODE_KEY, currentVersionCode)
+        dataStore.edit {
+            it[lastVersionCodePreference] = get<CurrentVersionCodeProvider>().provide()
         }
     }
 }

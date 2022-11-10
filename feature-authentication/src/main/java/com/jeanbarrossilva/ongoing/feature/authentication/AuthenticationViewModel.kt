@@ -11,7 +11,7 @@ class AuthenticationViewModel internal constructor(private val sessionManager: S
     ViewModel() {
     internal fun logIn() {
         viewModelScope.launch {
-            sessionManager.authenticate()
+            sessionManager.logIn()
         }
     }
 

@@ -11,7 +11,7 @@ class InMemorySessionManager: SessionManager {
     private val userFlow = MutableStateFlow<User?>(null)
     private var user by userFlow
 
-    override suspend fun authenticate() {
+    override suspend fun logIn() {
         user = Companion.user
     }
 

@@ -22,7 +22,7 @@ internal class InMemorySessionManagerTests {
     @Test
     fun `GIVEN a non-authenticated user WHEN authenticating them THEN the they're logged in`() {
         runTest {
-            sessionManager.authenticate()
+            sessionManager.logIn()
             assertEquals(sessionManager.getUser().first(), InMemorySessionManager.user)
         }
     }
@@ -30,7 +30,7 @@ internal class InMemorySessionManagerTests {
     @Test
     fun `GIVEN a logged user WHEN logging them out THEN it's logged out`() {
         runTest {
-            sessionManager.authenticate()
+            sessionManager.logIn()
             sessionManager.logOut()
             assertNull(sessionManager.getUser().first())
         }

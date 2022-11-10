@@ -4,7 +4,7 @@ import com.jeanbarrossilva.ongoing.core.session.user.User
 import kotlinx.coroutines.flow.Flow
 
 interface SessionManager {
-    suspend fun authenticate()
+    suspend fun logIn()
 
     suspend fun getUser(): Flow<User?>
 

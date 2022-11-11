@@ -3,7 +3,7 @@ package com.jeanbarrossilva.ongoing.feature.authentication
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySessionManager
+import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySession
 import com.jeanbarrossilva.ongoing.feature.authentication.component.buttons.DismissButton
 import com.jeanbarrossilva.ongoing.feature.authentication.component.buttons.LogInButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,8 +15,8 @@ import org.junit.Rule
 import org.junit.Test
 
 internal class AuthenticationTests {
-    private val sessionManager = InMemorySessionManager()
-    private val viewModel = AuthenticationViewModel(sessionManager)
+    private val session = InMemorySession()
+    private val viewModel = AuthenticationViewModel(session)
 
     @get:Rule
     val composeRule = createComposeRule()
@@ -26,7 +26,7 @@ internal class AuthenticationTests {
     fun logIn() {
         composeRule.setContent { Authentication(viewModel, onNavigationRequest = { }) }
         composeRule.onNodeWithTag(LogInButton.TAG).performClick()
-        runTest { assertNotNull(sessionManager.getUser().first()) }
+        runTest { assertNotNull(session.getUser().first()) }
     }
 
     @Test

@@ -1,21 +1,21 @@
 package com.jeanbarrossilva.ongoing.core.session.inmemory
 
-import com.jeanbarrossilva.ongoing.core.session.SessionManager
+import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.inmemory.extensions.getValue
 import com.jeanbarrossilva.ongoing.core.session.inmemory.extensions.setValue
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class InMemorySessionManager: SessionManager {
+class InMemorySession: Session {
     private val userFlow = MutableStateFlow<User?>(null)
     private var user by userFlow
 
-    override suspend fun authenticate() {
+    override suspend fun logIn() {
         user = Companion.user
     }
 
-    override suspend fun getUser(): Flow<User?> {
+    override fun getUser(): Flow<User?> {
         return userFlow
     }
 

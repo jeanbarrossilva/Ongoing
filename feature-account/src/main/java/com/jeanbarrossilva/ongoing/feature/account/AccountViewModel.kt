@@ -4,22 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.jeanbarrossilva.ongoing.core.session.SessionManager
+import com.jeanbarrossilva.ongoing.core.session.Session
 import kotlinx.coroutines.launch
 
-class AccountViewModel private constructor(private val sessionManager: SessionManager):
-    ViewModel() {
+class AccountViewModel private constructor(private val session: Session): ViewModel() {
     fun logOut() {
         viewModelScope.launch {
-            sessionManager.logOut()
+            session.logOut()
         }
     }
 
     companion object {
-        fun createFactory(sessionManager: SessionManager): ViewModelProvider.Factory {
+        fun createFactory(session: Session): ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(AccountViewModel::class) {
-                    AccountViewModel(sessionManager)
+                    AccountViewModel(session)
                 }
             }
         }

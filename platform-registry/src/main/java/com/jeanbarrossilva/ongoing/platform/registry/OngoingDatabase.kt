@@ -8,11 +8,21 @@ import com.jeanbarrossilva.ongoing.platform.registry.activity.ActivityDao
 import com.jeanbarrossilva.ongoing.platform.registry.activity.ActivityEntity
 import com.jeanbarrossilva.ongoing.platform.registry.status.StatusDao
 import com.jeanbarrossilva.ongoing.platform.registry.status.StatusEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 
 @Database(entities = [ActivityEntity::class, StatusEntity::class], version = 1)
 abstract class OngoingDatabase internal constructor(): RoomDatabase() {
     abstract val activityDao: ActivityDao
     abstract val statusDao: StatusDao
+
+    val coroutineScope = CoroutineScope(Dispatchers.IO)
+
+    override fun close() {
+        super.close()
+        coroutineScope.cancel()
+    }
 
     companion object {
         private lateinit var instance: OngoingDatabase

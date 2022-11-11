@@ -23,7 +23,7 @@ data class Activity(
     }
 
     abstract class Recorder {
-        abstract suspend fun ownerUserId(id: String, ownerUserId: String)
+        abstract suspend fun ownerUserId(id: String, ownerUserId: String?)
 
         abstract suspend fun name(id: String, name: String)
 

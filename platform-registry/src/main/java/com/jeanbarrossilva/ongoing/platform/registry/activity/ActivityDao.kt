@@ -22,7 +22,7 @@ abstract class ActivityDao internal constructor() {
     internal abstract suspend fun insert(activity: ActivityEntity): Long
 
     @Query("UPDATE activities SET owner_user_id = :ownerUserId WHERE id = :id")
-    internal abstract suspend fun updateOwnerUserId(id: String, ownerUserId: String)
+    internal abstract suspend fun updateOwnerUserId(id: String, ownerUserId: String?)
 
     @Query("UPDATE activities SET name = :name WHERE id = :id")
     internal abstract suspend fun updateName(id: String, name: String)

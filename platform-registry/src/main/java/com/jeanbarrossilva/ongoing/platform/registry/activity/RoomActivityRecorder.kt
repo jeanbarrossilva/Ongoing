@@ -15,7 +15,7 @@ class RoomActivityRecorder internal constructor(
 ): Activity.Recorder() {
     private val onStatusChangeListeners = mutableListOf<OnStatusChangeListener>()
 
-    override suspend fun ownerUserId(id: String, ownerUserId: String) {
+    override suspend fun ownerUserId(id: String, ownerUserId: String?) {
         activityDao.updateOwnerUserId(id, ownerUserId)
     }
 

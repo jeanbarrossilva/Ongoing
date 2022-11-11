@@ -15,7 +15,7 @@ class InMemorySession: Session {
         user = Companion.user
     }
 
-    override suspend fun getUser(): Flow<User?> {
+    override fun getUser(): Flow<User?> {
         return userFlow
     }
 

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface Session {
     suspend fun logIn()
 
-    suspend fun getUser(): Flow<User?>
+    fun getUser(): Flow<User?>
 
     suspend fun logOut()
 }

@@ -9,30 +9,30 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class InMemorySessionManagerTests {
-    private val sessionManager = InMemorySessionManager()
+internal class InMemorySessionTests {
+    private val session = InMemorySession()
 
     @BeforeTest
     fun setUp() {
         runTest {
-            sessionManager.logOut()
+            session.logOut()
         }
     }
 
     @Test
     fun `GIVEN a non-authenticated user WHEN authenticating them THEN the they're logged in`() {
         runTest {
-            sessionManager.logIn()
-            assertEquals(sessionManager.getUser().first(), InMemorySessionManager.user)
+            session.logIn()
+            assertEquals(session.getUser().first(), InMemorySession.user)
         }
     }
 
     @Test
     fun `GIVEN a logged user WHEN logging them out THEN it's logged out`() {
         runTest {
-            sessionManager.logIn()
-            sessionManager.logOut()
-            assertNull(sessionManager.getUser().first())
+            session.logIn()
+            session.logOut()
+            assertNull(session.getUser().first())
         }
     }
 }

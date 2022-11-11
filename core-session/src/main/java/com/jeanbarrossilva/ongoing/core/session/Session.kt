@@ -3,7 +3,7 @@ package com.jeanbarrossilva.ongoing.core.session
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import kotlinx.coroutines.flow.Flow
 
-interface SessionManager {
+interface Session {
     suspend fun logIn()
 
     suspend fun getUser(): Flow<User?>

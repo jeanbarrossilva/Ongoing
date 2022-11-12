@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.android'
 }
 
@@ -41,10 +42,6 @@ android {
 }
 
 dependencies {
-    implementation project(':context-registry')
-    implementation project(':core-registry')
-    implementation project(':core-session')
-    implementation project(':platform-design-system')
-    implementation project(':platform-loadable')
-    implementation libraries.jetlime
+    implementation libraries.compose.runtime
+    implementation libraries.kotlinx.coroutines.core
 }

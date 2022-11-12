@@ -11,14 +11,18 @@ import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.toJetLimeI
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.BackgroundContentSizing
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.pushpal.jetlime.data.JetLimeItemsModel
 import com.pushpal.jetlime.data.config.JetLimeViewConfig
 import com.pushpal.jetlime.ui.JetLimeView
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-internal fun ActivityStatusHistory(activity: ContextualActivity?, modifier: Modifier = Modifier) {
-    val items = activity?.statuses.orEmpty().map {
+internal fun ActivityStatusHistory(
+    activity: Loadable<ContextualActivity>,
+    modifier: Modifier = Modifier
+) {
+    val items = activity.ifLoaded(ContextualActivity::statuses).orEmpty().map {
         it.toJetLimeItem()
     }
 
@@ -38,7 +42,7 @@ internal fun ActivityStatusHistory(activity: ContextualActivity?, modifier: Modi
 private fun ActivityStatusHistoryPreview() {
     OngoingTheme {
         Background(contentSizing = BackgroundContentSizing.WRAP) {
-            ActivityStatusHistory(ContextualActivity.sample)
+            ActivityStatusHistory(Loadable.Loaded(ContextualActivity.sample))
         }
     }
 }

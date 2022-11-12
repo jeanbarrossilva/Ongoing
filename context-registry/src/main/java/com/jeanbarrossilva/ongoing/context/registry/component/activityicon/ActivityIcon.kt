@@ -15,14 +15,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.R
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 
 @Composable
 fun ActivityIcon(
-    activity: ContextualActivity?,
+    activity: Loadable<ContextualActivity>,
     size: ActivityIconSize,
     modifier: Modifier = Modifier
 ) {
-    val vector = activity?.icon?.vector
+    val vector = activity.ifLoaded(ContextualActivity::icon)?.vector
     val containerSize = vector?.let { size.adaptedValue } ?: size.value
 
     Box(
@@ -32,7 +33,7 @@ fun ActivityIcon(
             .padding(size.padding)
             .size(containerSize)
     ) {
-        activity?.icon?.vector?.let {
+        vector?.let {
             Icon(
                 it,
                 contentDescription = stringResource(
@@ -50,7 +51,7 @@ fun ActivityIcon(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun SmallActivityIconPreview() {
     OngoingTheme {
-        ActivityIcon(ContextualActivity.sample, ActivityIconSize.SMALL)
+        ActivityIcon(Loadable.Loaded(ContextualActivity.sample), ActivityIconSize.SMALL)
     }
 }
 
@@ -59,6 +60,6 @@ private fun SmallActivityIconPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun LargeActivityIconPreview() {
     OngoingTheme {
-        ActivityIcon(ContextualActivity.sample, ActivityIconSize.LARGE)
+        ActivityIcon(Loadable.Loaded(ContextualActivity.sample), ActivityIconSize.LARGE)
     }
 }

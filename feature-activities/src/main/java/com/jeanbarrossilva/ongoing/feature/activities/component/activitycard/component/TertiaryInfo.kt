@@ -14,16 +14,17 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.context.registry.component.Avatar
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 
 internal object TertiaryInfo {
     val Height = 24.dp
 }
 
 @Composable
-internal fun TertiaryInfo(activity: ContextualActivity, modifier: Modifier = Modifier) {
+internal fun TertiaryInfo(activity: Loadable<ContextualActivity>, modifier: Modifier = Modifier) {
     Row(modifier, Arrangement.spacedBy(Size.Spacing.s), Alignment.CenterVertically) {
-        Avatar(activity.owner, Modifier.size(Height))
-        StatusIndicator(activity.status)
+        Avatar(activity.ifLoaded(ContextualActivity::owner), Modifier.size(Height))
+        StatusIndicator(activity.ifLoaded(ContextualActivity::status))
     }
 }
 
@@ -32,6 +33,6 @@ internal fun TertiaryInfo(activity: ContextualActivity, modifier: Modifier = Mod
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun TertiaryInfoPreview() {
     OngoingTheme {
-        TertiaryInfo(ContextualActivity.sample)
+        TertiaryInfo(Loadable.Loaded(ContextualActivity.sample))
     }
 }

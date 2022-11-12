@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.feature.account.component.PersonalInfo
 import com.jeanbarrossilva.ongoing.feature.account.component.SignOutButton
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarStyle

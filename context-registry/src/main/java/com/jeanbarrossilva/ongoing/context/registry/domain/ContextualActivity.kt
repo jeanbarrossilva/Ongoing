@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.context.registry.extensions.uuid
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
+import java.io.Serializable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -13,7 +14,7 @@ data class ContextualActivity(
     val name: String,
     val icon: ContextualIcon,
     val statuses: List<ContextualStatus>
-): Parcelable {
+): Parcelable, Serializable {
     val status
         get() = statuses.last()
 

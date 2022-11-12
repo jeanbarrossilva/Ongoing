@@ -27,7 +27,8 @@ buildscript {
                         manifest: "androidx.compose.ui:ui-test-manifest:${versions.compose_ui}"
                     ],
                     tooling: "androidx.compose.ui:ui-tooling:${versions.compose_ui}"
-                ]
+                ],
+                runtime: "androidx.compose.runtime:runtime:${versions.compose_runtime}"
             ],
             compose_destinations: [
                 animations_core: 'io.github.raamcosta.compose-destinations:animations-core:' +

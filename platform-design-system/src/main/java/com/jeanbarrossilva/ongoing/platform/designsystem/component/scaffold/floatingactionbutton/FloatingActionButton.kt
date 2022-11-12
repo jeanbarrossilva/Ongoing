@@ -27,6 +27,8 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton as _FloatingActionButton
 
 internal object FloatingActionButton {
+    val Size = 56.dp
+
     val defaultContainerColor
         @Composable get() = MaterialTheme.colorScheme.primary
     val defaultContentColor

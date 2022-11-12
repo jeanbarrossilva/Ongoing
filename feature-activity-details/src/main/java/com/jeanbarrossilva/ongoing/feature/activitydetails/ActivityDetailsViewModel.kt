@@ -7,6 +7,9 @@ import com.jeanbarrossilva.ongoing.context.registry.extensions.toContextualActiv
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
 import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.orEmpty
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.loadableFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
@@ -15,11 +18,13 @@ class ActivityDetailsViewModel private constructor(
     private val activityRegistry: ActivityRegistry,
     private val activityId: String?
 ): ViewModel() {
-    internal val activity = flow {
+    internal val activity = loadableFlow {
         activityId
             ?.let { activityRegistry.getActivityById(it) }
             .orEmpty
-            .map { it?.toContextualActivity(userRepository) }
+            .filterNotNull()
+            .map { it.toContextualActivity(userRepository) }
+            .map { Loadable.Loaded(it) }
             .collect(::emit)
     }
 

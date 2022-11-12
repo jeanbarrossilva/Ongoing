@@ -1,11 +1,7 @@
 package com.jeanbarrossilva.ongoing.feature.activities
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Icon
@@ -17,13 +13,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.core.session.user.User
-import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
+import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.TopAppBar
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
+import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.plus
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableList
+import com.jeanbarrossilva.ongoing.platform.loadable.type.SerializableList
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
@@ -34,7 +35,7 @@ fun Activities(
     modifier: Modifier = Modifier
 ) {
     val user by viewModel.user.collectAsState(initial = null)
-    val activities by viewModel.activities.collectAsState(initial = emptyList())
+    val activities by viewModel.activities.collectAsState()
 
     Activities(
         user,
@@ -43,9 +44,7 @@ fun Activities(
             user?.let { boundary.navigateToAccount(navigator, it) }
                 ?: boundary.navigateToAuthentication(navigator)
         },
-        onActivityDetailsNavigationRequest = {
-            boundary.navigateToActivityDetails(navigator, it.id)
-        },
+        onActivityDetailsRequest = { boundary.navigateToActivityDetails(navigator, it.id) },
         onAddRequest = { boundary.navigateToActivityEditing(navigator) },
         modifier
     )
@@ -53,15 +52,31 @@ fun Activities(
 
 @Composable
 private fun Activities(
+    activities: Loadable<SerializableList<ContextualActivity>>,
+    modifier: Modifier = Modifier
+) {
+    Activities(
+        User.sample,
+        activities,
+        onAccountDetailsRequest = { },
+        onActivityDetailsRequest = { },
+        onAddRequest = { },
+        modifier
+    )
+}
+
+@Composable
+private fun Activities(
     user: User?,
-    activities: List<ContextualActivity>,
+    activities: Loadable<SerializableList<ContextualActivity>>,
     onAccountDetailsRequest: () -> Unit,
-    onActivityDetailsNavigationRequest: (ContextualActivity) -> Unit,
+    onActivityDetailsRequest: (activity: ContextualActivity) -> Unit,
     onAddRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
         topBar = { TopAppBar(user, onAccountDetailsRequest) },
+        modifier,
         floatingActionButton = {
             FloatingActionButton(onClick = onAddRequest) {
                 Icon(
@@ -71,21 +86,13 @@ private fun Activities(
                 )
             }
         }
-    ) { padding ->
-        Background(
-            modifier
-                .padding(Size.Spacing.xxxl)
-                .padding(padding)
-        ) {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(Size.Spacing.s)) {
-                items(activities) {
-                    ActivityCard(
-                        it,
-                        onClick = { onActivityDetailsNavigationRequest(it) },
-                        Modifier.fillMaxWidth()
-                    )
-                }
-            }
+    ) {
+        Background {
+            ActivityCards(
+                activities,
+                contentPadding = PaddingValues(Size.Spacing.xxxl) + it,
+                onActivityDetailsRequest
+            )
         }
     }
 }
@@ -93,14 +100,17 @@ private fun Activities(
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun ActivitiesPreview() {
+private fun SuccessfulActivitiesPreview() {
     OngoingTheme {
-        Activities(
-            User.sample,
-            ContextualActivity.samples,
-            onAccountDetailsRequest = { },
-            onActivityDetailsNavigationRequest = { },
-            onAddRequest = { }
-        )
+        Activities(Loadable.Loaded(ContextualActivity.samples.toSerializableList()))
+    }
+}
+
+@Composable
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+private fun LoadingActivitiesPreview() {
+    OngoingTheme {
+        Activities(Loadable.Loading())
     }
 }

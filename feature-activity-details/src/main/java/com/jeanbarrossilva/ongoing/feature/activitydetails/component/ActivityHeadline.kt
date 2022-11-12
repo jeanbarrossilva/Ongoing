@@ -20,9 +20,13 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Placehold
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.placeholder
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 
 @Composable
-internal fun ActivityHeadline(activity: ContextualActivity?, modifier: Modifier = Modifier) {
+internal fun ActivityHeadline(
+    activity: Loadable<ContextualActivity>,
+    modifier: Modifier = Modifier
+) {
     val nameTextStyle = MaterialTheme.typography.titleLarge
 
     Column(
@@ -33,10 +37,10 @@ internal fun ActivityHeadline(activity: ContextualActivity?, modifier: Modifier 
         ActivityIcon(activity, ActivityIconSize.LARGE)
 
         Text(
-            activity?.name.orEmpty(),
+            activity.ifLoaded(ContextualActivity::name).orEmpty(),
             Modifier.placeholder(
                 PlaceholderSize.Text(width = 172.dp) { nameTextStyle },
-                isVisible = activity == null
+                isVisible = activity is Loadable.Loading
             ),
             textAlign = TextAlign.Center,
             style = nameTextStyle
@@ -50,7 +54,7 @@ internal fun ActivityHeadline(activity: ContextualActivity?, modifier: Modifier 
 private fun ActivityHeadlinePreview() {
     OngoingTheme {
         Background(contentSizing = BackgroundContentSizing.WRAP) {
-            ActivityHeadline(ContextualActivity.sample)
+            ActivityHeadline(Loadable.Loaded(ContextualActivity.sample))
         }
     }
 }

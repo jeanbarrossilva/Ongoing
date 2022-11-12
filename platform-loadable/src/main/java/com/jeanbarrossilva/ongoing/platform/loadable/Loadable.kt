@@ -10,4 +10,8 @@ sealed interface Loadable<T>: Parcelable {
 
     @Parcelize
     class Loading<T: Serializable>: Loadable<T>
+
+    fun <R> ifLoaded(operation: T.() -> R): R? {
+        return if (this is Loaded) value.operation() else null
+    }
 }

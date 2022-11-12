@@ -14,12 +14,16 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Ba
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.BackgroundContentSizing
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 
 @Composable
-internal fun ActivityHeadline(activity: ContextualActivity, modifier: Modifier = Modifier) {
+internal fun ActivityHeadline(
+    activity: Loadable<ContextualActivity>,
+    modifier: Modifier = Modifier
+) {
     Column(modifier, Arrangement.spacedBy(Size.Spacing.s)) {
         Text(
-            activity.name,
+            activity.ifLoaded(ContextualActivity::name).orEmpty(),
             overflow = TextOverflow.Ellipsis,
             maxLines = 2,
             style = MaterialTheme.typography.titleSmall
@@ -35,7 +39,7 @@ internal fun ActivityHeadline(activity: ContextualActivity, modifier: Modifier =
 private fun ActivityHeadlinePreview() {
     OngoingTheme {
         Background(contentSizing = BackgroundContentSizing.WRAP) {
-            ActivityHeadline(ContextualActivity.sample)
+            ActivityHeadline(Loadable.Loaded(ContextualActivity.sample))
         }
     }
 }

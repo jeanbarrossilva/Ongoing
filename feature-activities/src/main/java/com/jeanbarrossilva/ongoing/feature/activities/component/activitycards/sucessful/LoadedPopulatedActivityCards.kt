@@ -12,6 +12,7 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 
 @Composable
 internal fun LoadedPopulatedActivityCards(
@@ -22,7 +23,7 @@ internal fun LoadedPopulatedActivityCards(
     LazyColumn(modifier, verticalArrangement = Arrangement.spacedBy(Size.Spacing.s)) {
         items(activities) {
             ActivityCard(
-                it,
+                Loadable.Loaded(it),
                 onClick = { onActivityDetailsRequest(it) },
                 Modifier.fillMaxWidth()
             )

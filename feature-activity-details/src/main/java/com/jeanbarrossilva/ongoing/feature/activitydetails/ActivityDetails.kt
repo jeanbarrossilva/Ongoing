@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,6 +19,8 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topa
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarStyle
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
@@ -29,19 +30,23 @@ fun ActivityDetails(
     viewModel: ActivityDetailsViewModel,
     modifier: Modifier = Modifier
 ) {
-    val activity by viewModel.activity.collectAsState(null)
+    val activity by viewModel.activity.collectAsState()
 
     ActivityDetails(
         activity,
         onNavigationRequest = navigator::popBackStack,
-        onEditRequest = { boundary.navigateToActivityEditing(navigator, activity) },
+        onEditRequest = {
+            activity.ifLoaded {
+                boundary.navigateToActivityEditing(navigator, this)
+            }
+        },
         modifier
     )
 }
 
 @Composable
 private fun ActivityDetails(
-    activity: ContextualActivity?,
+    activity: Loadable<ContextualActivity>,
     onNavigationRequest: () -> Unit,
     onEditRequest: () -> Unit,
     modifier: Modifier = Modifier
@@ -51,7 +56,7 @@ private fun ActivityDetails(
         modifier,
         floatingActionButton = {
             FloatingActionButton(
-                isAvailable = activity != null,
+                isAvailable = activity is Loadable.Loaded,
                 onClick = onEditRequest
             )
         }
@@ -74,7 +79,11 @@ private fun ActivityDetails(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun LoadedActivityDetailsPreview() {
     OngoingTheme {
-        ActivityDetails(ContextualActivity.sample, onNavigationRequest = { }, onEditRequest = { })
+        ActivityDetails(
+            Loadable.Loaded(ContextualActivity.sample),
+            onNavigationRequest = { },
+            onEditRequest = { }
+        )
     }
 }
 
@@ -83,6 +92,10 @@ private fun LoadedActivityDetailsPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun LoadingActivityDetailsPreview() {
     OngoingTheme {
-        ActivityDetails(activity = null, onNavigationRequest = { }, onEditRequest = { })
+        ActivityDetails(
+            Loadable.Loading(),
+            onNavigationRequest = { },
+            onEditRequest = { }
+        )
     }
 }

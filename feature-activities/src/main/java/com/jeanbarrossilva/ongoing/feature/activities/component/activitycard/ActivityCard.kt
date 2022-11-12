@@ -25,11 +25,12 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.component.ActivityHeadline
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActivityCard(
-    activity: ContextualActivity,
+    activity: Loadable<ContextualActivity>,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -64,6 +65,10 @@ fun ActivityCard(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun ActivityCardPreview() {
     OngoingTheme {
-        ActivityCard(ContextualActivity.sample, onClick = { }, Modifier.fillMaxWidth())
+        ActivityCard(
+            Loadable.Loaded(ContextualActivity.sample),
+            onClick = { },
+            Modifier.fillMaxWidth()
+        )
     }
 }

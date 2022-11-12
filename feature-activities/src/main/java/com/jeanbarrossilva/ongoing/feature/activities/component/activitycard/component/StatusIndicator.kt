@@ -19,14 +19,14 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @Composable
-internal fun StatusIndicator(status: ContextualStatus, modifier: Modifier = Modifier) {
+internal fun StatusIndicator(status: ContextualStatus?, modifier: Modifier = Modifier) {
     val containerColor = when (status) {
-        ContextualStatus.TO_DO, ContextualStatus.ONGOING ->
+        ContextualStatus.TO_DO, ContextualStatus.ONGOING, null ->
             MaterialTheme.colorScheme.secondaryContainer
         ContextualStatus.DONE -> MaterialTheme.colorScheme.primary
     }
     val alpha = when (status) {
-        ContextualStatus.TO_DO, ContextualStatus.ONGOING -> ContentAlpha.MEDIUM
+        ContextualStatus.TO_DO, ContextualStatus.ONGOING, null -> ContentAlpha.MEDIUM
         ContextualStatus.DONE -> ContentAlpha.OPAQUE
     }
 
@@ -42,7 +42,7 @@ internal fun StatusIndicator(status: ContextualStatus, modifier: Modifier = Modi
             )
         ) {
             Text(
-                status.title.uppercase(),
+                status?.title?.uppercase().orEmpty(),
                 Modifier.alpha(alpha),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,

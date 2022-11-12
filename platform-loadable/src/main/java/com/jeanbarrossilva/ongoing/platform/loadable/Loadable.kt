@@ -4,12 +4,9 @@ import android.os.Parcelable
 import java.io.Serializable
 import kotlinx.parcelize.Parcelize
 
-sealed interface Loadable<T: Serializable>: Parcelable {
+sealed interface Loadable<T>: Parcelable {
     @Parcelize
-    data class Successful<T: Serializable>(val value: T): Loadable<T>
-
-    @Parcelize
-    data class Failure<T: Serializable>(val error: Throwable): Loadable<T>
+    data class Loaded<T: Serializable>(val value: T): Loadable<T>
 
     @Parcelize
     class Loading<T: Serializable>: Loadable<T>

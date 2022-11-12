@@ -23,6 +23,10 @@ android {
         }
     }
 
+    buildFeatures {
+        compose true
+    }
+
     compileOptions {
         sourceCompatibility versions.java
         targetCompatibility versions.java
@@ -31,4 +35,13 @@ android {
     kotlinOptions {
         jvmTarget = versions.java.toString()
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion versions.compose
+    }
+}
+
+dependencies {
+    implementation libraries.compose.runtime
+    implementation libraries.kotlinx.coroutines.core
 }

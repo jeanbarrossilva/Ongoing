@@ -7,6 +7,9 @@ import com.jeanbarrossilva.ongoing.context.registry.extensions.mapToContextualAc
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.loadableFlow
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableList
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -17,8 +20,12 @@ class ActivitiesViewModel private constructor(
     private val activityRegistry: ActivityRegistry
 ): ViewModel() {
     internal val user = flow { emitAll(session.getUser()) }
-    internal val activities = flow {
-        emitAll(activityRegistry.getActivities().map { it.mapToContextualActivity(userRepository) })
+    internal val activities = loadableFlow {
+        activityRegistry
+            .getActivities()
+            .map { it.mapToContextualActivity(userRepository).toSerializableList() }
+            .map { Loadable.Loaded(it) }
+            .collect(::emit)
     }
 
     companion object {

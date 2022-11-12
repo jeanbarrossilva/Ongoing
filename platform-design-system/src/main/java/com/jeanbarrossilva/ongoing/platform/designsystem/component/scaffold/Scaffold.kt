@@ -17,7 +17,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Ba
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarStyle
-import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.ScaffoldPadding
+import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.ScaffoldPaddingValues
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold as _Scaffold
 
@@ -27,7 +27,7 @@ fun Scaffold(
     topBar: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     floatingActionButton: (@Composable () -> Unit)? = null,
-    content: @Composable (padding: ScaffoldPadding) -> Unit
+    content: @Composable (padding: ScaffoldPaddingValues) -> Unit
 ) {
     Scaffold(
         modifier,
@@ -35,7 +35,7 @@ fun Scaffold(
         floatingActionButton = { floatingActionButton?.invoke() },
         floatingActionButtonPosition = FabPosition.Center
     ) {
-        content(ScaffoldPadding(it, isFabVisible = floatingActionButton != null))
+        content(ScaffoldPaddingValues(it, isFabVisible = floatingActionButton != null))
     }
 }
 

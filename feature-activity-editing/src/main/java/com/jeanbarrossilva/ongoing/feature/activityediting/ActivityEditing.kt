@@ -25,7 +25,7 @@ import com.jeanbarrossilva.ongoing.feature.activityediting.component.Confirmatio
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarStyle

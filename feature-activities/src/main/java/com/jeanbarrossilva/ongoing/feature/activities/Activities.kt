@@ -1,7 +1,7 @@
 package com.jeanbarrossilva.ongoing.feature.activities
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Icon
@@ -15,10 +15,11 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.TopAppBar
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
+import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.plus
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
@@ -75,6 +76,7 @@ private fun Activities(
 ) {
     Scaffold(
         topBar = { TopAppBar(user, onAccountDetailsRequest) },
+        modifier,
         floatingActionButton = {
             FloatingActionButton(onClick = onAddRequest) {
                 Icon(
@@ -84,13 +86,13 @@ private fun Activities(
                 )
             }
         }
-    ) { padding ->
-        Background(
-            modifier
-                .padding(Size.Spacing.xxxl)
-                .padding(padding)
-        ) {
-            ActivityCards(activities, onActivityDetailsRequest)
+    ) {
+        Background {
+            ActivityCards(
+                activities,
+                contentPadding = PaddingValues(Size.Spacing.xxxl) + it,
+                onActivityDetailsRequest
+            )
         }
     }
 }

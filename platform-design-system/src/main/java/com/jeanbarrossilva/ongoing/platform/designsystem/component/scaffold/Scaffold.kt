@@ -1,7 +1,7 @@
-package com.jeanbarrossilva.ongoing.platform.designsystem.component
+package com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,24 +17,26 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Ba
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarStyle
+import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.ScaffoldPadding
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.Scaffold as _Scaffold
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold as _Scaffold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Scaffold(
     topBar: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    floatingActionButton: @Composable () -> Unit = { },
-    content: @Composable (padding: PaddingValues) -> Unit
+    floatingActionButton: (@Composable () -> Unit)? = null,
+    content: @Composable (padding: ScaffoldPadding) -> Unit
 ) {
     Scaffold(
         modifier,
         topBar,
-        floatingActionButton = floatingActionButton,
-        floatingActionButtonPosition = FabPosition.Center,
-        content = content
-    )
+        floatingActionButton = { floatingActionButton?.invoke() },
+        floatingActionButtonPosition = FabPosition.Center
+    ) {
+        content(ScaffoldPadding(it, isFabVisible = floatingActionButton != null))
+    }
 }
 
 @Composable
@@ -50,7 +52,7 @@ private fun ScaffoldPreview() {
                 }
             }
         ) {
-            Background {
+            Background(Modifier.padding(it)) {
                 Text("Content", Modifier.align(Alignment.Center))
             }
         }

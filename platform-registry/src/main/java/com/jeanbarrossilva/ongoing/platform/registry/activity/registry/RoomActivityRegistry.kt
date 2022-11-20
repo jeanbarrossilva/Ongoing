@@ -29,7 +29,7 @@ class RoomActivityRegistry(
     private val ownershipManager: RoomActivityOwnershipManager,
     private val activityDao: ActivityDao,
     private val statusDao: StatusDao,
-    observerDao: ObserverDao
+    private val observerDao: ObserverDao
 ) : ActivityRegistry {
     override val observer = RoomActivityObserver(activityDao, observerDao)
     override val recorder = RoomActivityRecorder(activityDao, statusDao, observer)
@@ -43,12 +43,12 @@ class RoomActivityRegistry(
     @OptIn(FlowPreview::class)
     override suspend fun getActivities(): Flow<List<Activity>> {
         return activityDao.selectAll().flatMapConcat {
-            it.mapToActivity(statusDao)
+            it.mapToActivity(statusDao, observerDao)
         }
     }
 
     override suspend fun getActivityById(id: String): Flow<Activity?> {
-        return activityDao.selectById(id).map { it?.toActivity(statusDao) }.flatten()
+        return activityDao.selectById(id).map { it?.toActivity(statusDao, observerDao) }.flatten()
     }
 
     override suspend fun register(name: String, statuses: List<Status>): String {

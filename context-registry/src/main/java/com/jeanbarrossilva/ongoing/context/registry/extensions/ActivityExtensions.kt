@@ -10,5 +10,6 @@ suspend fun Activity.toContextualActivity(userRepository: UserRepository):
     val owner = ownerUserId?.let { userRepository.getUserById(it) }
     val icon = icon.toContextualIcon()
     val statuses = statuses.map(Status::toContextualStatus)
-    return ContextualActivity(id, owner, name, icon, statuses)
+    val observers = observerUserIds.mapNotNull { userRepository.getUserById(it) }
+    return ContextualActivity(id, owner, name, icon, statuses, observers)
 }

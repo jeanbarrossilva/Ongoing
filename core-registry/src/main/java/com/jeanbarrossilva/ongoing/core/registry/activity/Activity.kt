@@ -8,7 +8,8 @@ data class Activity(
     val id: String,
     val ownerUserId: String?,
     val name: String,
-    val icon: Icon
+    val icon: Icon,
+    val observerUserIds: List<String>
 ) {
     var statuses = Status.default
         private set(value) {
@@ -19,8 +20,14 @@ data class Activity(
     val status
         get() = statuses.last()
 
-    constructor(id: String, ownerUserId: String?, name: String, icon: Icon, statuses: List<Status>):
-        this(id, ownerUserId, name, icon) {
+    constructor(
+        id: String,
+        ownerUserId: String?,
+        name: String,
+        icon: Icon,
+        statuses: List<Status>,
+        observerUserIds: List<String>
+    ): this(id, ownerUserId, name, icon, observerUserIds) {
         this.statuses = statuses
     }
 

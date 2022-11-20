@@ -4,14 +4,17 @@ import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.observation.Change
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.toStatus
+import com.jeanbarrossilva.ongoing.platform.registry.observer.RoomActivityObserver
 import com.jeanbarrossilva.ongoing.platform.registry.status.StatusDao
 import com.jeanbarrossilva.ongoing.platform.registry.status.StatusEntity
 import kotlinx.coroutines.flow.first
 
 class RoomActivityRecorder internal constructor(
     private val activityDao: ActivityDao,
-    private val statusDao: StatusDao
+    private val statusDao: StatusDao,
+    private val observer: RoomActivityObserver
 ): Activity.Recorder() {
     private val onStatusChangeListeners = mutableListOf<OnStatusChangeListener>()
 
@@ -21,6 +24,7 @@ class RoomActivityRecorder internal constructor(
 
     override suspend fun name(id: String, name: String) {
         activityDao.updateName(id, name)
+        observer.notify(Change.NAME, id)
     }
 
     override suspend fun icon(id: String, icon: Icon) {
@@ -34,6 +38,7 @@ class RoomActivityRecorder internal constructor(
         val isNotRepeated = lastStatus != status
         if (isNotRepeated) {
             record(idAsLong, status)
+            observer.notify(Change.STATUS, id)
         }
     }
 

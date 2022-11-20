@@ -3,9 +3,8 @@ package com.jeanbarrossilva.ongoing.platform.registry
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
-import com.jeanbarrossilva.ongoing.platform.registry.authorization.CurrentUserIdProvider
+import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySession
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.getActivityRegistry
-import com.jeanbarrossilva.ongoing.platform.registry.extensions.uuid
 import com.jeanbarrossilva.ongoing.platform.registry.test.OngoingDatabaseRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -15,24 +14,32 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class RoomActivityRegistryTests {
-    private val currentUserId = uuid()
-    private val currentUserIdProvider = CurrentUserIdProvider { currentUserId }
+    private val session = InMemorySession()
 
     private val activityRegistry
-        get() = databaseRule.database.getActivityRegistry(currentUserIdProvider)
+        get() = databaseRule.getDatabase().getActivityRegistry(session)
 
     @get:Rule
     val databaseRule = OngoingDatabaseRule()
+
+    @Before
+    fun setUp() {
+        runTest {
+            session.logIn()
+        }
+    }
 
     @After
     fun tearDown() {
         runTest {
             activityRegistry.clear()
+            session.logOut()
         }
     }
 
@@ -53,7 +60,7 @@ internal class RoomActivityRegistryTests {
         runTest {
             activityRegistry.register(name)
             activityRegistry.getActivities().map(List<Activity>::first).first().let { activity ->
-                assertEquals(currentUserId, activity.ownerUserId)
+                assertEquals(getCurrentUserId(), activity.ownerUserId)
                 assertEquals(name, activity.name)
                 assertEquals(Icon.OTHER, activity.icon)
                 assertEquals(listOf(Status.TO_DO), activity.statuses)
@@ -102,5 +109,9 @@ internal class RoomActivityRegistryTests {
             activityRegistry.clear()
             assertEquals(emptyList<Activity>(), activityRegistry.getActivities().first())
         }
+    }
+
+    private suspend fun getCurrentUserId(): String? {
+        return session.getUser().first()?.id
     }
 }

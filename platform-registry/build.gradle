@@ -46,8 +46,10 @@ dependencies {
     testImplementation libraries.kotlinx.coroutines.test
     testImplementation libraries.test.ext.junit
 
+    androidTestImplementation project(':core-session-in-memory')
     androidTestImplementation project(':platform-registry-test')
     androidTestImplementation libraries.kotlinx.coroutines.test
     androidTestImplementation libraries.test.core
+    androidTestImplementation libraries.test.ext.junit
     androidTestImplementation libraries.test.runner
 }

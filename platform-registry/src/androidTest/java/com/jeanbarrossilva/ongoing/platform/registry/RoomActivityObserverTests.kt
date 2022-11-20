@@ -1,6 +1,7 @@
 package com.jeanbarrossilva.ongoing.platform.registry
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 import com.jeanbarrossilva.ongoing.core.registry.observation.Change
 import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySession
@@ -21,13 +22,12 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 internal class RoomActivityObserverTests {
     private val session = InMemorySession()
+    private lateinit var activityRegistry: ActivityRegistry
 
     private val activityObserver
         get() = activityRegistry.observer
     private val activityRecorder
         get() = activityRegistry.recorder
-    private val activityRegistry
-        get() = databaseRule.getDatabase().getActivityRegistry(session)
 
     @get:Rule
     val databaseRule = OngoingDatabaseRule()
@@ -36,6 +36,7 @@ internal class RoomActivityObserverTests {
     fun setUp() {
         runTest {
             session.logIn()
+            activityRegistry = databaseRule.getDatabase().getActivityRegistry(session)
         }
     }
 

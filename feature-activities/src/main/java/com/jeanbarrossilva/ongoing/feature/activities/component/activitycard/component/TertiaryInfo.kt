@@ -15,6 +15,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.context.registry.component.Avatar
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 
 internal object TertiaryInfo {
     val Height = 24.dp

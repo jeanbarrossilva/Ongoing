@@ -16,6 +16,7 @@ import com.jeanbarrossilva.ongoing.context.registry.R
 import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 
 @Composable
 fun ActivityIcon(

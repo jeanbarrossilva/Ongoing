@@ -12,6 +12,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Ba
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.BackgroundContentSizing
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 import com.pushpal.jetlime.data.JetLimeItemsModel
 import com.pushpal.jetlime.data.config.JetLimeViewConfig
 import com.pushpal.jetlime.ui.JetLimeView

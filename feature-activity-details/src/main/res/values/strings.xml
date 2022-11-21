@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="feature_activity_details_notify">Notify me</string>
+    <string name="feature_activity_details_notify_enabled">
+        You\'ll get notified whenever changes are made to this activity.
+    </string>
+    <string name="feature_activity_details_notify_disabled">
+        You won\'t be notified about changes are made to this activity.
+    </string>
     <string name="feature_activity_details_fab_content_description">Edit</string>
 </resources>

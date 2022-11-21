@@ -11,8 +11,11 @@ import com.jeanbarrossilva.ongoing.platform.registry.test.OngoingDatabaseRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import org.hamcrest.CoreMatchers.hasItem
+import org.hamcrest.core.IsNot.not
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -49,11 +52,25 @@ internal class RoomActivityObserverTests {
     }
 
     @Test(expected = AssertionError::class)
-    fun throwWhenAttachAnObserverToANonexistentActivity() {
+    fun throwWhenAttachingAnObserverToANonexistentActivity() {
         runTest {
             withCurrentUserId {
                 activityObserver.attach(this, activityId = uuid()) {
                 }
+            }
+        }
+    }
+
+    @Test
+    fun attach() {
+        runTest {
+            withCurrentUserId {
+                val activityId = activityRegistry.register("🙃")
+                activityObserver.attach(this, activityId) { }
+                assertThat(
+                    activityRegistry.getActivityById(activityId).first()?.observerUserIds,
+                    hasItem(this)
+                )
             }
         }
     }
@@ -80,6 +97,21 @@ internal class RoomActivityObserverTests {
                 activityObserver.attach(this, activityId) { change = it }
                 activityRecorder.status(activityId, Status.DONE)
                 assertEquals(Change.STATUS, change)
+            }
+        }
+    }
+
+    @Test
+    fun detach() {
+        runTest {
+            withCurrentUserId {
+                val activityId = activityRegistry.register("🐥")
+                activityObserver.attach(this, activityId) { }
+                activityObserver.detach(this, activityId)
+                assertThat(
+                    activityRegistry.getActivityById(activityId).first()?.observerUserIds,
+                    not(hasItem(this))
+                )
             }
         }
     }

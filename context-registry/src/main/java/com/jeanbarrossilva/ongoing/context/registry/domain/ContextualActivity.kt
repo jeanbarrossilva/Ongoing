@@ -14,7 +14,8 @@ data class ContextualActivity(
     val name: String,
     val icon: ContextualIcon,
     val statuses: List<ContextualStatus>,
-    val observers: List<User>
+    val observers: List<User>,
+    val isObserving: Boolean
 ): Parcelable, Serializable {
     val status
         get() = statuses.last()
@@ -46,7 +47,8 @@ data class ContextualActivity(
                 name,
                 icon,
                 statuses = statuses.toList().ifEmpty { listOf(ContextualStatus.TO_DO) },
-                observers = emptyList()
+                observers = emptyList(),
+                isObserving = false
             )
         }
     }

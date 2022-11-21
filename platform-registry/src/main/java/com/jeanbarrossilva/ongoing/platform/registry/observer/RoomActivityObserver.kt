@@ -10,7 +10,7 @@ class RoomActivityObserver internal constructor(
     private val activityDao: ActivityDao,
     private val observerDao: ObserverDao
 ): Activity.Observer {
-    private val observations = hashMapOf<Long, Observation>()
+    private val observations = hashMapOf<String, Observation>()
 
     override suspend fun attach(userId: String, activityId: String, observation: Observation) {
         val entity = createEntity(userId, activityId) {

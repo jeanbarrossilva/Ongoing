@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "observers")
 internal class ObserverEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo(name = "user_id") val userId: String,
     @ColumnInfo(name = "activity_id") val activityId: Long
 ) {
-    constructor(userId: String, activityId: Long): this(id = 0, userId, activityId)
+    @PrimaryKey
+    var id = "$userId@$activityId"
 }

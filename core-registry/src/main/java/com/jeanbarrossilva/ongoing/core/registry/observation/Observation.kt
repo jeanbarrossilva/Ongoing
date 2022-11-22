@@ -1,5 +1,5 @@
 package com.jeanbarrossilva.ongoing.core.registry.observation
 
 fun interface Observation {
-    fun onChange(change: Change)
+    suspend fun onChange(change: Change, activityId: String)
 }

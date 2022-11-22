@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.context.registry.domain
+package com.jeanbarrossilva.ongoing.context.registry.domain.activity
 
 import android.os.Parcelable
 import com.jeanbarrossilva.ongoing.core.session.user.User

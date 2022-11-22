@@ -21,7 +21,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.component.activityicon.ActivityIcon
 import com.jeanbarrossilva.ongoing.context.registry.component.activityicon.ActivityIconSize
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.component.ActivityHeadline
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme

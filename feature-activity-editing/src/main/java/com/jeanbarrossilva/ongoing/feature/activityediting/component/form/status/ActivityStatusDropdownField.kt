@@ -12,8 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualStatus
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
+import com.jeanbarrossilva.ongoing.context.registry.extensions.title
 import com.jeanbarrossilva.ongoing.feature.activityediting.R
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField.TAG
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.DropdownField

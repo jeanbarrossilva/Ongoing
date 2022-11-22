@@ -13,7 +13,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualStatus
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.ConfirmationDialog
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField

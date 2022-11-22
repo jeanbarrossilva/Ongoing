@@ -27,7 +27,7 @@ class RoomActivityObserver internal constructor(
             .filter { it.activityId.toString() == activityId }
             .map(ObserverEntity::id)
             .mapNotNull(observations::get)
-            .forEach { it.onChange(change) }
+            .forEach { it.onChange(change, activityId) }
     }
 
     override suspend fun detach(userId: String, activityId: String) {

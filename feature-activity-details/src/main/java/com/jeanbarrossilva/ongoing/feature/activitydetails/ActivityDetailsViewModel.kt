@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jeanbarrossilva.ongoing.context.registry.extensions.toContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
+import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
 import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.orEmpty
@@ -21,6 +22,7 @@ class ActivityDetailsViewModel private constructor(
     private val session: Session,
     private val userRepository: UserRepository,
     private val activityRegistry: ActivityRegistry,
+    private val observation: Observation,
     private val activityId: String?
 ): ViewModel() {
     internal val activity = flow {
@@ -38,7 +40,11 @@ class ActivityDetailsViewModel private constructor(
             val activity = activity.filterIsLoaded().first().value
             with(activityRegistry.observer) {
                 session.getUser().first()?.let {
-                    if (isObserving) attach(it.id, activity.id) { } else detach(it.id, activity.id)
+                    if (isObserving) {
+                        attach(it.id, activity.id, observation)
+                    } else {
+                        detach(it.id, activity.id)
+                    }
                     onDone()
                 }
             }
@@ -50,11 +56,18 @@ class ActivityDetailsViewModel private constructor(
             session: Session,
             userRepository: UserRepository,
             activityRegistry: ActivityRegistry,
+            observation: Observation,
             activityId: String?
         ): ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(ActivityDetailsViewModel::class) {
-                    ActivityDetailsViewModel(session, userRepository, activityRegistry, activityId)
+                    ActivityDetailsViewModel(
+                        session,
+                        userRepository,
+                        activityRegistry,
+                        observation,
+                        activityId
+                    )
                 }
             }
         }

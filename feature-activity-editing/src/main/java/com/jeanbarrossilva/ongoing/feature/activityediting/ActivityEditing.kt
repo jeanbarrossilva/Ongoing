@@ -19,8 +19,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualStatus
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.ConfirmationDialog
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField

@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.BackgroundContentSizing
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size

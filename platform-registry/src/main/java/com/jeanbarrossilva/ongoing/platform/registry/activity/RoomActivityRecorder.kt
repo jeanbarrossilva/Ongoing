@@ -23,8 +23,9 @@ class RoomActivityRecorder internal constructor(
     }
 
     override suspend fun name(id: String, name: String) {
+        val currentName = activityDao.selectName(id)
         activityDao.updateName(id, name)
-        observer.notify(Change.NAME, id)
+        observer.notify(Change.Name(currentName, name), id)
     }
 
     override suspend fun icon(id: String, icon: Icon) {
@@ -33,12 +34,12 @@ class RoomActivityRecorder internal constructor(
 
     override suspend fun status(id: String, status: Status) {
         val idAsLong = id.toLong()
-        val lastStatus =
+        val currentStatus =
             statusDao.getStatusesByActivityId(idAsLong).first().lastOrNull()?.toStatus()
-        val isNotRepeated = lastStatus != status
+        val isNotRepeated = currentStatus != status
         if (isNotRepeated) {
             record(idAsLong, status)
-            observer.notify(Change.STATUS, id)
+            observer.notify(Change.Status(currentStatus, status), id)
         }
     }
 

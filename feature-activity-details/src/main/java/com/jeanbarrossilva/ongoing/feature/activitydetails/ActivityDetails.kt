@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityHeadline
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityStatusHistory
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.FloatingActionButton
@@ -29,14 +29,15 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun ActivityDetails(
     navigator: DestinationsNavigator,
     boundary: ActivityDetailsBoundary,
+    activity: ActivityDetailsActivity,
     viewModel: ActivityDetailsViewModel,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val activity by viewModel.activity.collectAsState()
+    val contextualActivity by viewModel.activity.collectAsState()
 
     ActivityDetails(
-        activity,
+        contextualActivity,
         onObservationToggle = {
             viewModel.setObserving(it) {
                 ActivityDetailsToaster.onObservationToggle(context, it)
@@ -44,8 +45,8 @@ fun ActivityDetails(
         },
         onNavigationRequest = navigator::popBackStack,
         onEditRequest = {
-            activity.ifLoaded {
-                boundary.navigateToActivityEditing(navigator, this)
+            contextualActivity.ifLoaded {
+                boundary.navigateToActivityEditing(activity, navigator, this)
             }
         },
         modifier

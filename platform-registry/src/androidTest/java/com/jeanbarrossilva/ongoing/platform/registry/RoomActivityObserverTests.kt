@@ -55,7 +55,7 @@ internal class RoomActivityObserverTests {
     fun throwWhenAttachingAnObserverToANonexistentActivity() {
         runTest {
             withCurrentUserId {
-                activityObserver.attach(this, activityId = uuid()) {
+                activityObserver.attach(this, activityId = uuid()) { _, _ ->
                 }
             }
         }
@@ -66,7 +66,7 @@ internal class RoomActivityObserverTests {
         runTest {
             withCurrentUserId {
                 val activityId = activityRegistry.register("🙃")
-                activityObserver.attach(this, activityId) { }
+                activityObserver.attach(this, activityId) { _, _ -> }
                 assertThat(
                     activityRegistry.getActivityById(activityId).first()?.observerUserIds,
                     hasItem(this)
@@ -79,11 +79,13 @@ internal class RoomActivityObserverTests {
     fun notifyNameChange() {
         runTest {
             withCurrentUserId {
-                val activityId = activityRegistry.register("👀")
+                val oldActivityName = "👀"
+                val newActivityName = "🙂"
+                val activityId = activityRegistry.register(oldActivityName)
                 var change: Change? = null
-                activityObserver.attach(this, activityId) { change = it }
-                activityRecorder.name(activityId, "🙂")
-                assertEquals(Change.NAME, change)
+                activityObserver.attach(this, activityId) { _change, _ -> change = _change }
+                activityRecorder.name(activityId, newActivityName)
+                assertEquals(Change.Name(oldActivityName, newActivityName), change)
             }
         }
     }
@@ -93,10 +95,11 @@ internal class RoomActivityObserverTests {
         runTest {
             withCurrentUserId {
                 val activityId = activityRegistry.register("🎉")
+                val newActivityStatus = Status.DONE
                 var change: Change? = null
-                activityObserver.attach(this, activityId) { change = it }
-                activityRecorder.status(activityId, Status.DONE)
-                assertEquals(Change.STATUS, change)
+                activityObserver.attach(this, activityId) { _change, _ -> change = _change }
+                activityRecorder.status(activityId, newActivityStatus)
+                assertEquals(Change.Status(Status.TO_DO, newActivityStatus), change)
             }
         }
     }
@@ -106,7 +109,7 @@ internal class RoomActivityObserverTests {
         runTest {
             withCurrentUserId {
                 val activityId = activityRegistry.register("🐥")
-                activityObserver.attach(this, activityId) { }
+                activityObserver.attach(this, activityId) { _, _ -> }
                 activityObserver.detach(this, activityId)
                 assertThat(
                     activityRegistry.getActivityById(activityId).first()?.observerUserIds,

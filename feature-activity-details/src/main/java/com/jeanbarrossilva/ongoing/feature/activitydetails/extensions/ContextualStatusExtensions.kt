@@ -3,7 +3,8 @@ package com.jeanbarrossilva.ongoing.feature.activitydetails.extensions
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualStatus
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
+import com.jeanbarrossilva.ongoing.context.registry.extensions.title
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsModel
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.ContentAlpha
 import com.pushpal.jetlime.data.JetLimeItemsModel

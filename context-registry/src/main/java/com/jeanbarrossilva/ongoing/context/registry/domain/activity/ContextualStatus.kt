@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.context.registry.domain
+package com.jeanbarrossilva.ongoing.context.registry.domain.activity
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
@@ -30,10 +30,7 @@ enum class ContextualStatus {
     };
 
     @get:StringRes
-    protected abstract val titleRes: Int
-
-    val title
-        @Composable get() = stringResource(titleRes)
+    abstract val titleRes: Int
 
     abstract fun toStatus(): Status
 

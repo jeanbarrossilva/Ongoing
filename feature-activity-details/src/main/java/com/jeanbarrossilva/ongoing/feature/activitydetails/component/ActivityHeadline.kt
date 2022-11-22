@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jeanbarrossilva.ongoing.context.registry.component.activityicon.ActivityIcon
 import com.jeanbarrossilva.ongoing.context.registry.component.activityicon.ActivityIconSize
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.BackgroundContentSizing
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.PlaceholderSize

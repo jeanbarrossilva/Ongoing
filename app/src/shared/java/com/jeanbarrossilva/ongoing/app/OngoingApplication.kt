@@ -4,6 +4,7 @@ import android.app.Application
 import com.jeanbarrossilva.ongoing.app.module.boundaryModule
 import com.jeanbarrossilva.ongoing.app.module.coreModule
 import com.jeanbarrossilva.ongoing.app.module.feature.extensionsModule
+import com.jeanbarrossilva.ongoing.feature.activitydetails.activityDetailsModule
 import com.jeanbarrossilva.ongoing.feature.authentication.authenticationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -24,7 +25,8 @@ internal open class OngoingApplication: Application() {
         startKoin {
             androidContext(this@OngoingApplication)
             modules(coreModule, boundaryModule)
-            modules(authenticationModule, extensionsModule)
+            modules(authenticationModule, activityDetailsModule)
+            modules(extensionsModule)
         }
     }
 }

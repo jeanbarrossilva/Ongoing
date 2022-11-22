@@ -7,7 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualStatus
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
+import com.jeanbarrossilva.ongoing.context.registry.extensions.title
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownMenuItem.getTag
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 

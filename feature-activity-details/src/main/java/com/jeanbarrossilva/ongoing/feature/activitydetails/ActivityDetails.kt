@@ -23,13 +23,12 @@ import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 fun ActivityDetails(
-    navigator: DestinationsNavigator,
     boundary: ActivityDetailsBoundary,
     viewModel: ActivityDetailsViewModel,
+    onNavigationRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -42,7 +41,7 @@ fun ActivityDetails(
                 ActivityDetailsToaster.onObservationToggle(context, it)
             }
         },
-        onNavigationRequest = navigator::popBackStack,
+        onNavigationRequest,
         onEditRequest = {
             contextualActivity.ifLoaded {
                 boundary.navigateToActivityEditing(context, this)

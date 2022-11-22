@@ -5,7 +5,7 @@ import com.jeanbarrossilva.ongoing.app.destination.destinations.AccountDestinati
 import com.jeanbarrossilva.ongoing.app.destination.destinations.AuthenticationDestination
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesBoundary
-import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsBridge
+import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsActivity
 import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingActivity
 import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingMode
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -25,7 +25,7 @@ internal class DefaultActivitiesBoundary: ActivitiesBoundary {
         navigator: DestinationsNavigator,
         activityId: String
     ) {
-        ActivityDetailsBridge.cross(context, navigator, activityId)
+        ActivityDetailsActivity.start(context, activityId)
     }
 
     override fun navigateToActivityEditing(context: Context) {

@@ -13,7 +13,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.argumentOf
 import com.jeanbarrossilva.ongoing.platform.extensions.Intent
 import org.koin.android.ext.android.inject
 
-class ActivityDetailsActivity: ComposableActivity() {
+class ActivityDetailsActivity internal constructor(): ComposableActivity() {
     private val session by inject<Session>()
     private val userRepository by inject<UserRepository>()
     private val activityRegistry by inject<ActivityRegistry>()
@@ -30,17 +30,13 @@ class ActivityDetailsActivity: ComposableActivity() {
         )
     }
 
-    private val navigator
-        get() = ActivityDetailsBridge.getNavigator()
-
-    override fun onDestroy() {
-        super.onDestroy()
-        ActivityDetailsBridge.clear()
-    }
-
     @Composable
     override fun Content() {
-        ActivityDetails(navigator, boundary, viewModel)
+        ActivityDetails(
+            boundary,
+            viewModel,
+            onNavigationRequest = onBackPressedDispatcher::onBackPressed
+        )
     }
 
     companion object {
@@ -50,7 +46,7 @@ class ActivityDetailsActivity: ComposableActivity() {
             return Intent<ActivityDetailsActivity>(context, ACTIVITY_ID_KEY to activityId)
         }
 
-        internal fun start(context: Context, activityId: String) {
+        fun start(context: Context, activityId: String) {
             val intent = getIntent(context, activityId)
             context.startActivity(intent)
         }

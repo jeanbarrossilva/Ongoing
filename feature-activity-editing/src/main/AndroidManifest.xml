@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.jeanbarrossilva.ongoing.feature.activityediting" />
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jeanbarrossilva.ongoing.feature.activityediting">
+    <application>
+        <activity android:name=".ActivityEditingActivity" />
+    </application>
+</manifest>

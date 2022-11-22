@@ -15,5 +15,5 @@ interface ActivitiesBoundary {
         activityId: String
     )
 
-    fun navigateToActivityEditing(navigator: DestinationsNavigator)
+    fun navigateToActivityEditing(context: Context)
 }

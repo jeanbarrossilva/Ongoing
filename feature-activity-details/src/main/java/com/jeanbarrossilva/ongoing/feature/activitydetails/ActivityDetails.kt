@@ -29,7 +29,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun ActivityDetails(
     navigator: DestinationsNavigator,
     boundary: ActivityDetailsBoundary,
-    activity: ActivityDetailsActivity,
     viewModel: ActivityDetailsViewModel,
     modifier: Modifier = Modifier
 ) {
@@ -46,7 +45,7 @@ fun ActivityDetails(
         onNavigationRequest = navigator::popBackStack,
         onEditRequest = {
             contextualActivity.ifLoaded {
-                boundary.navigateToActivityEditing(activity, navigator, this)
+                boundary.navigateToActivityEditing(context, this)
             }
         },
         modifier

@@ -95,7 +95,8 @@ internal class ActivityEditingTests {
         onDone: () -> Unit = { },
         onNavigationRequest: () -> Unit = { }
     ) {
-        val viewModel = ActivityEditingViewModel(databaseRule.database.activityRegistry, mode)
+        val activityRegistry = databaseRule.getDatabase().activityRegistry
+        val viewModel = ActivityEditingViewModel(activityRegistry, mode)
         composeRule.setContent {
             ActivityEditing(
                 viewModel,

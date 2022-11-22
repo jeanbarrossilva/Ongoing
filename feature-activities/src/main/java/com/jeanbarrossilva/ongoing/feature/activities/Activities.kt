@@ -49,7 +49,7 @@ fun Activities(
         onActivityDetailsRequest = {
             boundary.navigateToActivityDetails(context, navigator, it.id)
         },
-        onAddRequest = { boundary.navigateToActivityEditing(navigator) },
+        onAddRequest = { boundary.navigateToActivityEditing(context) },
         modifier
     )
 }

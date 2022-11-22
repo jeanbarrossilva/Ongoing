@@ -40,7 +40,7 @@ class ActivityDetailsActivity: ComposableActivity() {
 
     @Composable
     override fun Content() {
-        ActivityDetails(navigator, boundary, this, viewModel)
+        ActivityDetails(navigator, boundary, viewModel)
     }
 
     companion object {

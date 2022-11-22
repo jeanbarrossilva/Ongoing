@@ -1,5 +1,6 @@
 package com.jeanbarrossilva.ongoing.platform.extensions
 
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -62,4 +63,9 @@ suspend inline fun Context.onFirstRun(operation: () -> Unit) {
             it[lastVersionCodePreference] = get<CurrentVersionCodeProvider>().provide()
         }
     }
+}
+
+inline fun <reified T: Activity> Context.startActivity(vararg args: Pair<String, Any?>) {
+    val intent = Intent<T>(this, *args)
+    startActivity(intent)
 }

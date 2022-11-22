@@ -25,11 +25,7 @@ sealed class ContextualChange {
 
         override fun getMessageReplacements(context: Context, activity: ContextualActivity):
             Array<String?> {
-            return arrayOf(
-                activity.owner?.name,
-                old?.titleRes?.let(context::getString),
-                context.getString(new.titleRes)
-            )
+            return arrayOf(activity.owner?.name, activity.name, context.getString(new.titleRes))
         }
     }
 

@@ -1,6 +1,7 @@
 package com.jeanbarrossilva.ongoing.feature.activitydetails
 
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
+import com.jeanbarrossilva.ongoing.feature.activitydetails.observation.ActivityDetailsObservation
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

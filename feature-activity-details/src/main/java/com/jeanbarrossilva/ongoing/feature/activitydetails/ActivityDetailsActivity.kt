@@ -8,6 +8,8 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.uuid
+import com.jeanbarrossilva.ongoing.feature.activitydetails.observation.ActivityDetailsObservationRequesterFactory
 import com.jeanbarrossilva.ongoing.platform.designsystem.core.composable.ComposableActivity
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.argumentOf
 import com.jeanbarrossilva.ongoing.platform.extensions.Intent
@@ -34,13 +36,17 @@ class ActivityDetailsActivity internal constructor(): ComposableActivity() {
     override fun Content() {
         ActivityDetails(
             boundary,
+            this,
             viewModel,
+            ActivityDetailsObservationRequesterFactory.create(),
             onNavigationRequest = onBackPressedDispatcher::onBackPressed
         )
     }
 
     companion object {
         private const val ACTIVITY_ID_KEY = "activity_id"
+
+        internal val permissionRequestCode = uuid().sumOf(Char::code)
 
         internal fun getIntent(context: Context, activityId: String): Intent {
             return Intent<ActivityDetailsActivity>(context, ACTIVITY_ID_KEY to activityId)

@@ -15,6 +15,7 @@ import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityHea
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityStatusHistory
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.TopAppBar
+import com.jeanbarrossilva.ongoing.feature.activitydetails.observation.ActivityDetailsObservationRequester
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
@@ -27,7 +28,9 @@ import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
 @Composable
 fun ActivityDetails(
     boundary: ActivityDetailsBoundary,
+    activity: ActivityDetailsActivity,
     viewModel: ActivityDetailsViewModel,
+    observationRequester: ActivityDetailsObservationRequester,
     onNavigationRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -37,8 +40,10 @@ fun ActivityDetails(
     ActivityDetails(
         contextualActivity,
         onObservationToggle = {
-            viewModel.setObserving(it) {
-                ActivityDetailsToaster.onObservationToggle(context, it)
+            observationRequester.request(activity, it) {
+                viewModel.setObserving(it) {
+                    ActivityDetailsToaster.onObservationToggle(activity, it)
+                }
             }
         },
         onNavigationRequest,

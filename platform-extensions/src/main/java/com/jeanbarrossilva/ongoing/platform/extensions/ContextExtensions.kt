@@ -18,11 +18,11 @@ import com.jeanbarrossilva.ongoing.platform.extensions.internal.get
 import com.jeanbarrossilva.ongoing.platform.extensions.internal.uuid
 import kotlinx.coroutines.flow.first
 
-private val Context.notificationManager
-    get() = requireNotNull(getSystemService<NotificationManager>())
-
 @PublishedApi
 internal val Context.dataStore by preferencesDataStore("preferences")
+
+val Context.notificationManager
+    get() = requireNotNull(getSystemService<NotificationManager>())
 
 fun Context.createNotificationChannel(id: String, @StringRes nameRes: Int) {
     val name = getString(nameRes)

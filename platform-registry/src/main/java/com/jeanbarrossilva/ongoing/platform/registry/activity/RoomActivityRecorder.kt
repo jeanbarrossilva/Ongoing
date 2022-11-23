@@ -5,6 +5,7 @@ import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 import com.jeanbarrossilva.ongoing.core.registry.observation.Change
+import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.toStatus
 import com.jeanbarrossilva.ongoing.platform.registry.observer.RoomActivityObserver
 import com.jeanbarrossilva.ongoing.platform.registry.status.StatusDao
@@ -12,6 +13,7 @@ import com.jeanbarrossilva.ongoing.platform.registry.status.StatusEntity
 import kotlinx.coroutines.flow.first
 
 class RoomActivityRecorder internal constructor(
+    private val session: Session,
     private val activityDao: ActivityDao,
     private val statusDao: StatusDao,
     private val observer: RoomActivityObserver
@@ -25,7 +27,7 @@ class RoomActivityRecorder internal constructor(
     override suspend fun name(id: String, name: String) {
         val currentName = activityDao.selectName(id)
         activityDao.updateName(id, name)
-        observer.notify(Change.Name(currentName, name), id)
+        observer.notify(getCurrentUserId(), id, Change.Name(currentName, name))
     }
 
     override suspend fun icon(id: String, icon: Icon) {
@@ -39,7 +41,7 @@ class RoomActivityRecorder internal constructor(
         val isNotRepeated = currentStatus != status
         if (isNotRepeated) {
             record(idAsLong, status)
-            observer.notify(Change.Status(currentStatus, status), id)
+            observer.notify(getCurrentUserId(), id, Change.Status(currentStatus, status))
         }
     }
 
@@ -50,5 +52,9 @@ class RoomActivityRecorder internal constructor(
     private suspend fun record(id: Long, status: Status) {
         val entity = StatusEntity(id = 0, id, status.name)
         statusDao.insert(entity)
+    }
+
+    private suspend fun getCurrentUserId(): String? {
+        return session.getUser().first()?.id
     }
 }

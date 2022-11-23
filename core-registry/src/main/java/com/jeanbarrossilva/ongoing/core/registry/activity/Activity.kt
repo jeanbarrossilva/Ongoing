@@ -46,7 +46,7 @@ data class Activity(
     interface Observer {
         suspend fun attach(userId: String, activityId: String, observation: Observation)
 
-        suspend fun notify(change: Change, activityId: String)
+        suspend fun notify(changerUserId: String?, activityId: String, change: Change)
 
         suspend fun detach(userId: String, activityId: String)
 

@@ -20,14 +20,14 @@ class RoomActivityObserver internal constructor(
         observations[entity.id] = observation
     }
 
-    override suspend fun notify(change: Change, activityId: String) {
+    override suspend fun notify(changerUserId: String?, activityId: String, change: Change) {
         observerDao
             .selectAll()
             .first()
             .filter { it.activityId.toString() == activityId }
             .map(ObserverEntity::id)
             .mapNotNull(observations::get)
-            .forEach { it.onChange(change, activityId) }
+            .forEach { it.onChange(changerUserId, activityId, change) }
     }
 
     override suspend fun detach(userId: String, activityId: String) {

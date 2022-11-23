@@ -34,14 +34,17 @@ internal class ActivityDetailsObservation(
         activityRegistry: ActivityRegistry
     ): this(WeakReference(context), session, userRepository, activityRegistry)
 
-    override suspend fun onChange(change: Change, activityId: String) {
-        val contextualChange = change.contextualize()
-        val activity = activityRegistry
-            .getActivityById(activityId)
-            .filterNotNull()
-            .first()
-            .toContextualActivity(session, userRepository)
-        notify(contextualChange, activity)
+    override suspend fun onChange(changerUserId: String?, activityId: String, change: Change) {
+        val isChangeMadeBySomeoneElse = session.getUser().first()?.id != changerUserId
+        if (isChangeMadeBySomeoneElse) {
+            val contextualChange = change.contextualize()
+            val activity = activityRegistry
+                .getActivityById(activityId)
+                .filterNotNull()
+                .first()
+                .toContextualActivity(session, userRepository)
+            notify(contextualChange, activity)
+        }
     }
 
     private fun notify(change: ContextualChange, activity: ContextualActivity) {

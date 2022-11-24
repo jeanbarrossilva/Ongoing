@@ -10,6 +10,7 @@ import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
 import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.orEmpty
+import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.toggle
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.filterIsLoaded
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.loadable
 import kotlinx.coroutines.flow.filterNotNull
@@ -38,15 +39,9 @@ class ActivityDetailsViewModel private constructor(
     fun setObserving(isObserving: Boolean, onDone: () -> Unit = { }) {
         viewModelScope.launch {
             val activity = activity.filterIsLoaded().first().value
-            with(activityRegistry.observer) {
-                session.getUser().first()?.let {
-                    if (isObserving) {
-                        attach(it.id, activity.id, observation)
-                    } else {
-                        detach(it.id, activity.id)
-                    }
-                    onDone()
-                }
+            session.getUser().first()?.let {
+                activityRegistry.observer.toggle(it, activity, isObserving, observation)
+                onDone()
             }
         }
     }

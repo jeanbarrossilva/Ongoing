@@ -18,7 +18,7 @@ import kotlin.coroutines.suspendCoroutine
  *
  * Returns an empty [Flow] if the [Collection] is empty.
  *
- * @param predicate Determines whether the element that's being received should replace the
+ * @param predicate Determines whether or not the element that's being received should replace the
  * current one instead of getting appended.
  * @param transform Conversion of the currently iterated element into a [Flow].
  **/
@@ -45,7 +45,7 @@ internal fun Collection<ActivityEntity>.mapToActivity(
  * Note, however, that the coroutine in which a terminal operator gets applied to the returned
  * [Flow] will be suspended indefinitely if the [Collection] is actually empty.
  *
- * @param predicate Determines whether the element that's being received should replace the
+ * @param predicate Determines whether or not the element that's being received should replace the
  * current one instead of getting appended.
  * @param transform Conversion of the currently iterated element into a [Flow].
  **/
@@ -57,6 +57,7 @@ private fun <I, O> Collection<I>.joinToFlowOrSuspendIndefinitely(
     val isComplete = { elements.size == size }
     return channelFlow {
         suspendCoroutine { continuation ->
+            var isResumed = false
             launch {
                 map(transform).merge().collect { element ->
                     elements.addOrReplaceBy(element) {
@@ -64,7 +65,10 @@ private fun <I, O> Collection<I>.joinToFlowOrSuspendIndefinitely(
                     }
                     if (isComplete()) {
                         send(elements)
-                        try { continuation.resume(Unit) } catch (_: IllegalStateException) { }
+                        if (!isResumed) {
+                            continuation.resume(Unit)
+                            isResumed = true
+                        }
                     }
                 }
             }

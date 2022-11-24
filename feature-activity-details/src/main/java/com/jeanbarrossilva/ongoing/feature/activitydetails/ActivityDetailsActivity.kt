@@ -2,13 +2,13 @@ package com.jeanbarrossilva.ongoing.feature.activitydetails
 
 import android.content.Context
 import android.content.Intent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
-import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.uuid
 import com.jeanbarrossilva.ongoing.feature.activitydetails.observation.ActivityDetailsObservationRequesterFactory
 import com.jeanbarrossilva.ongoing.platform.designsystem.core.composable.ComposableActivity
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.argumentOf
@@ -32,6 +32,13 @@ class ActivityDetailsActivity internal constructor(): ComposableActivity() {
         )
     }
 
+    internal val notificationsPermissionResultLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                viewModel.setObserving(true)
+            }
+        }
+
     @Composable
     override fun Content() {
         ActivityDetails(
@@ -45,8 +52,6 @@ class ActivityDetailsActivity internal constructor(): ComposableActivity() {
 
     companion object {
         private const val ACTIVITY_ID_KEY = "activity_id"
-
-        internal val permissionRequestCode = uuid().sumOf(Char::code)
 
         internal fun getIntent(context: Context, activityId: String): Intent {
             return Intent<ActivityDetailsActivity>(context, ACTIVITY_ID_KEY to activityId)

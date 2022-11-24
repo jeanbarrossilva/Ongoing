@@ -2,7 +2,6 @@ package com.jeanbarrossilva.ongoing.feature.activitydetails.observation.requeste
 
 import android.Manifest
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsActivity
-import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.arrayOfNotNull
 import com.jeanbarrossilva.ongoing.feature.activitydetails.observation.ActivityDetailsObservationRequester
 
 internal class AskForPermissionToSendNotificationsObservationRequester(
@@ -27,7 +26,6 @@ internal class AskForPermissionToSendNotificationsObservationRequester(
     private fun askForPermissionToSendNotifications(activity: ActivityDetailsActivity) {
         val permission =
             if (isInAndroidTiramisuOrHigher) Manifest.permission.POST_NOTIFICATIONS else null
-        val permissions = arrayOfNotNull(permission)
-        activity.requestPermissions(permissions, ActivityDetailsActivity.permissionRequestCode)
+        activity.notificationsPermissionResultLauncher.launch(permission)
     }
 }

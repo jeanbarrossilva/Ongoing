@@ -35,7 +35,7 @@ class ActivityDetailsViewModel private constructor(
             .collect(::emit)
     }
 
-    fun setObserving(isObserving: Boolean, onDone: () -> Unit) {
+    fun setObserving(isObserving: Boolean, onDone: () -> Unit = { }) {
         viewModelScope.launch {
             val activity = activity.filterIsLoaded().first().value
             with(activityRegistry.observer) {

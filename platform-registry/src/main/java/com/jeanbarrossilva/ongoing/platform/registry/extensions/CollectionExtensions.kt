@@ -18,17 +18,22 @@ import kotlin.coroutines.suspendCoroutine
  *
  * Returns an empty [Flow] if the [Collection] is empty.
  *
+ * @param predicate Determines whether the element that's being received should replace the
+ * current one instead of getting appended.
  * @param transform Conversion of the currently iterated element into a [Flow].
  **/
-internal fun <I, O> Collection<I>.joinToFlow(transform: (I) -> Flow<O>): Flow<List<O>> {
-    return if (isNotEmpty()) joinToFlowOrSuspendIndefinitely(transform) else emptyFlow()
+internal fun <I, O> Collection<I>.joinToFlow(
+    predicate: (current: O, replacement: O) -> Boolean,
+    transform: (I) -> Flow<O>
+): Flow<List<O>> {
+    return if (isNotEmpty()) joinToFlowOrSuspendIndefinitely(predicate, transform) else emptyFlow()
 }
 
 internal fun Collection<ActivityEntity>.mapToActivity(
     statusDao: StatusDao,
     observerDao: ObserverDao
 ): Flow<List<Activity>> {
-    return joinToFlow {
+    return joinToFlow({ current, replacement -> current.id == replacement.id }) {
         it.toActivity(statusDao, observerDao)
     }
 }
@@ -40,20 +45,26 @@ internal fun Collection<ActivityEntity>.mapToActivity(
  * Note, however, that the coroutine in which a terminal operator gets applied to the returned
  * [Flow] will be suspended indefinitely if the [Collection] is actually empty.
  *
+ * @param predicate Determines whether the element that's being received should replace the
+ * current one instead of getting appended.
  * @param transform Conversion of the currently iterated element into a [Flow].
  **/
-private fun <I, O> Collection<I>.joinToFlowOrSuspendIndefinitely(transform: (I) -> Flow<O>):
-    Flow<List<O>> {
-    val values = mutableListOf<O>()
-    val isComplete = { values.size == size }
+private fun <I, O> Collection<I>.joinToFlowOrSuspendIndefinitely(
+    predicate: (current: O, replacement: O) -> Boolean,
+    transform: (I) -> Flow<O>
+): Flow<List<O>> {
+    val elements = mutableListOf<O>()
+    val isComplete = { elements.size == size }
     return channelFlow {
         suspendCoroutine { continuation ->
             launch {
-                map(transform).merge().collect {
-                    values += it
+                map(transform).merge().collect { element ->
+                    elements.addOrReplaceBy(element) {
+                        predicate(element, it)
+                    }
                     if (isComplete()) {
-                        send(values)
-                        continuation.resume(Unit)
+                        send(elements)
+                        try { continuation.resume(Unit) } catch (_: IllegalStateException) { }
                     }
                 }
             }

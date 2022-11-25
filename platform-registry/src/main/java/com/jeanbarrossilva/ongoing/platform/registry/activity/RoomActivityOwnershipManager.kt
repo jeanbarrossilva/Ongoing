@@ -8,7 +8,7 @@ class RoomActivityOwnershipManager internal constructor(private val session: Ses
     internal suspend fun start(activityRegistry: RoomActivityRegistry) {
         session.getUser().collect { user ->
             with(activityRegistry) {
-                getActivities().first().forEach { activity ->
+                activities.first().forEach { activity ->
                     recorder.ownerUserId(activity.id, user?.id)
                 }
             }

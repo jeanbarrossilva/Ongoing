@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.koin.core.KoinApplication.Companion.init
 
 class RoomActivityRegistry(
     coroutineScope: CoroutineScope,
@@ -34,16 +35,13 @@ class RoomActivityRegistry(
     override val observer = RoomActivityObserver(activityDao, observerDao)
     override val recorder = RoomActivityRecorder(session, activityDao, statusDao, observer)
 
+    @OptIn(FlowPreview::class)
+    override val activities =
+        activityDao.selectAll().flatMapConcat { it.mapToActivity(statusDao, observerDao) }
+
     init {
         coroutineScope.launch {
             ownershipManager.start(this@RoomActivityRegistry)
-        }
-    }
-
-    @OptIn(FlowPreview::class)
-    override suspend fun getActivities(): Flow<List<Activity>> {
-        return activityDao.selectAll().flatMapConcat {
-            it.mapToActivity(statusDao, observerDao)
         }
     }
 

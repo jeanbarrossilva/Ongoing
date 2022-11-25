@@ -7,8 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface ActivityRegistry {
     val recorder: Activity.Recorder
     val observer: Activity.Observer
-
-    suspend fun getActivities(): Flow<List<Activity>>
+    val activities: Flow<List<Activity>>
 
     suspend fun getActivityById(id: String): Flow<Activity?>
 

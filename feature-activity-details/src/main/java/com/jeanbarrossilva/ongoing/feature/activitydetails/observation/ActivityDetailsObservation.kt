@@ -55,8 +55,7 @@ internal class ActivityDetailsObservation(
             )
             notify(
                 CHANNEL_ID,
-                smallIconRes =
-                    com.jeanbarrossilva.ongoing.platform.designsystem.R.mipmap.ic_launcher_round,
+                smallIconRes = R.drawable.ic_glyph,
                 title = getString(R.string.feature_activity_details_notification_title),
                 text = change.getMessage(this, activity),
                 ActivityDetailsActivity.getIntent(this, activity.id)

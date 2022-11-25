@@ -4,14 +4,19 @@ import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.observation.Change
+import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.toStatus
+import com.jeanbarrossilva.ongoing.platform.registry.observer.RoomActivityObserver
 import com.jeanbarrossilva.ongoing.platform.registry.status.StatusDao
 import com.jeanbarrossilva.ongoing.platform.registry.status.StatusEntity
 import kotlinx.coroutines.flow.first
 
 class RoomActivityRecorder internal constructor(
+    private val session: Session,
     private val activityDao: ActivityDao,
-    private val statusDao: StatusDao
+    private val statusDao: StatusDao,
+    private val observer: RoomActivityObserver
 ): Activity.Recorder() {
     private val onStatusChangeListeners = mutableListOf<OnStatusChangeListener>()
 
@@ -20,7 +25,9 @@ class RoomActivityRecorder internal constructor(
     }
 
     override suspend fun name(id: String, name: String) {
+        val currentName = activityDao.selectName(id)
         activityDao.updateName(id, name)
+        observer.notify(getCurrentUserId(), id, Change.Name(currentName, name))
     }
 
     override suspend fun icon(id: String, icon: Icon) {
@@ -29,11 +36,12 @@ class RoomActivityRecorder internal constructor(
 
     override suspend fun status(id: String, status: Status) {
         val idAsLong = id.toLong()
-        val lastStatus =
+        val currentStatus =
             statusDao.getStatusesByActivityId(idAsLong).first().lastOrNull()?.toStatus()
-        val isNotRepeated = lastStatus != status
+        val isNotRepeated = currentStatus != status
         if (isNotRepeated) {
             record(idAsLong, status)
+            observer.notify(getCurrentUserId(), id, Change.Status(currentStatus, status))
         }
     }
 
@@ -44,5 +52,9 @@ class RoomActivityRecorder internal constructor(
     private suspend fun record(id: Long, status: Status) {
         val entity = StatusEntity(id = 0, id, status.name)
         statusDao.insert(entity)
+    }
+
+    private suspend fun getCurrentUserId(): String? {
+        return session.getUser().first()?.id
     }
 }

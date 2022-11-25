@@ -14,7 +14,8 @@ internal class ActivityTests {
             ownerUserId = uuid(),
             name = "Buy an airplane",
             Icon.OTHER,
-            statuses = emptyList()
+            statuses = emptyList(),
+            observerUserIds = emptyList()
         )
         assertEquals(Status.default, activity.statuses)
     }

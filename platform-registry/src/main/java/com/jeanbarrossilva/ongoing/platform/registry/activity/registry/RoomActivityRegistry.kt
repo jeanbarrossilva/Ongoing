@@ -12,11 +12,12 @@ import com.jeanbarrossilva.ongoing.platform.registry.activity.RoomActivityRecord
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.flatten
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.mapToActivity
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.toActivity
+import com.jeanbarrossilva.ongoing.platform.registry.observer.ObserverDao
+import com.jeanbarrossilva.ongoing.platform.registry.observer.RoomActivityObserver
 import com.jeanbarrossilva.ongoing.platform.registry.status.StatusDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
@@ -27,9 +28,11 @@ class RoomActivityRegistry(
     private val session: Session,
     private val ownershipManager: RoomActivityOwnershipManager,
     private val activityDao: ActivityDao,
-    private val statusDao: StatusDao
+    private val statusDao: StatusDao,
+    private val observerDao: ObserverDao
 ) : ActivityRegistry {
-    override val recorder = RoomActivityRecorder(activityDao, statusDao)
+    override val observer = RoomActivityObserver(activityDao, observerDao)
+    override val recorder = RoomActivityRecorder(session, activityDao, statusDao, observer)
 
     init {
         coroutineScope.launch {
@@ -40,12 +43,12 @@ class RoomActivityRegistry(
     @OptIn(FlowPreview::class)
     override suspend fun getActivities(): Flow<List<Activity>> {
         return activityDao.selectAll().flatMapConcat {
-            it.mapToActivity(statusDao)
+            it.mapToActivity(statusDao, observerDao)
         }
     }
 
     override suspend fun getActivityById(id: String): Flow<Activity?> {
-        return activityDao.selectById(id).map { it?.toActivity(statusDao) }.flatten()
+        return activityDao.selectById(id).map { it?.toActivity(statusDao, observerDao) }.flatten()
     }
 
     override suspend fun register(name: String, statuses: List<Status>): String {
@@ -65,6 +68,7 @@ class RoomActivityRegistry(
 
     override suspend fun clear() {
         statusDao.deleteAll()
+        observer.clear()
         activityDao.deleteAll()
     }
 

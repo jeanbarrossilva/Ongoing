@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="platform_registry_contextual_change_name">
+        %1s has renamed \"%2s\" to \"%3s\".
+    </string>
+    <string name="platform_registry_contextual_change_status">
+        %1s has marked \"%2s\" as %3s.
+    </string>
     <string name="platform_registry_contextual_status_title_to_do">To-do</string>
     <string name="platform_registry_contextual_status_title_ongoing">Ongoing</string>
     <string name="platform_registry_contextual_status_title_done">Done</string>

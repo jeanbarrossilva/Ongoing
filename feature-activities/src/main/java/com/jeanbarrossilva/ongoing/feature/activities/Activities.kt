@@ -9,9 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.TopAppBar
@@ -34,6 +35,7 @@ fun Activities(
     boundary: ActivitiesBoundary,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     val user by viewModel.user.collectAsState(initial = null)
     val activities by viewModel.activities.collectAsState()
 
@@ -44,8 +46,10 @@ fun Activities(
             user?.let { boundary.navigateToAccount(navigator, it) }
                 ?: boundary.navigateToAuthentication(navigator)
         },
-        onActivityDetailsRequest = { boundary.navigateToActivityDetails(navigator, it.id) },
-        onAddRequest = { boundary.navigateToActivityEditing(navigator) },
+        onActivityDetailsRequest = {
+            boundary.navigateToActivityDetails(context, navigator, it.id)
+        },
+        onAddRequest = { boundary.navigateToActivityEditing(context) },
         modifier
     )
 }

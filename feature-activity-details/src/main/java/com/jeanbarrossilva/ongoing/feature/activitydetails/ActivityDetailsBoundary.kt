@@ -1,8 +1,8 @@
 package com.jeanbarrossilva.ongoing.feature.activitydetails
 
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import android.content.Context
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 
 interface ActivityDetailsBoundary {
-    fun navigateToActivityEditing(navigator: DestinationsNavigator, activity: ContextualActivity?)
+    fun navigateToActivityEditing(context: Context, contextualActivity: ContextualActivity?)
 }

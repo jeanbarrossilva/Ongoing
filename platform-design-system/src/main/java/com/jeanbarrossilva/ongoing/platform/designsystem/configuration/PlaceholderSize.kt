@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.isSpecified
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.`if`
 
-sealed class PlaceholderSize {
+abstract class PlaceholderSize protected constructor() {
     protected abstract val width: Dp
 
     @get:Composable
@@ -30,5 +30,16 @@ sealed class PlaceholderSize {
 
         override val height
             @Composable get() = with(density) { textStyle().fontSize.toDp() }
+    }
+
+    companion object {
+        infix fun of(value: Dp): PlaceholderSize {
+            return object: PlaceholderSize() {
+                override val width = value
+
+                override val height
+                    @Composable get() = value
+            }
+        }
     }
 }

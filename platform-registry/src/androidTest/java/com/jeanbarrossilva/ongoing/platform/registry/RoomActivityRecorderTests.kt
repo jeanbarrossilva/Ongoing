@@ -2,8 +2,8 @@ package com.jeanbarrossilva.ongoing.platform.registry
 
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
-import com.jeanbarrossilva.ongoing.platform.registry.extensions.activityRegistry
 import com.jeanbarrossilva.ongoing.platform.registry.test.OngoingDatabaseRule
+import com.jeanbarrossilva.ongoing.platform.registry.test.extensions.activityRegistry
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -14,7 +14,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class RoomActivityRecorderTests {
     private val activityRegistry
-        get() = databaseRule.database.activityRegistry
+        get() = databaseRule.getDatabase().activityRegistry
     private val activityRecorder
         get() = activityRegistry.recorder
 

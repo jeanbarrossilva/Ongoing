@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.context.registry.domain
+package com.jeanbarrossilva.ongoing.context.registry.domain.activity
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Book

@@ -7,5 +7,12 @@ import com.jeanbarrossilva.ongoing.platform.registry.activity.registry.RoomActiv
 
 fun OngoingDatabase.getActivityRegistry(session: Session): RoomActivityRegistry {
     val ownershipManager = RoomActivityOwnershipManager(session)
-    return RoomActivityRegistry(coroutineScope, session, ownershipManager, activityDao, statusDao)
+    return RoomActivityRegistry(
+        coroutineScope,
+        session,
+        ownershipManager,
+        activityDao,
+        statusDao,
+        observerDao
+    )
 }

@@ -8,36 +8,48 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityHeadline
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityStatusHistory
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.FloatingActionButton
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
+import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.TopAppBar
+import com.jeanbarrossilva.ongoing.feature.activitydetails.observation.ActivityDetailsObservationRequester
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarStyle
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
 
 @Composable
 fun ActivityDetails(
-    navigator: DestinationsNavigator,
     boundary: ActivityDetailsBoundary,
+    activity: ActivityDetailsActivity,
     viewModel: ActivityDetailsViewModel,
+    observationRequester: ActivityDetailsObservationRequester,
+    onNavigationRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val activity by viewModel.activity.collectAsState()
+    val context = LocalContext.current
+    val contextualActivity by viewModel.activity.collectAsState()
 
     ActivityDetails(
-        activity,
-        onNavigationRequest = navigator::popBackStack,
+        contextualActivity,
+        onObservationToggle = {
+            observationRequester.request(activity, it) {
+                viewModel.setObserving(it) {
+                    ActivityDetailsToaster.onObservationToggle(activity, it)
+                }
+            }
+        },
+        onNavigationRequest,
         onEditRequest = {
-            activity.ifLoaded {
-                boundary.navigateToActivityEditing(navigator, this)
+            contextualActivity.ifLoaded {
+                boundary.navigateToActivityEditing(context, this)
             }
         },
         modifier
@@ -47,12 +59,33 @@ fun ActivityDetails(
 @Composable
 private fun ActivityDetails(
     activity: Loadable<ContextualActivity>,
+    modifier: Modifier = Modifier
+) {
+    ActivityDetails(
+        activity,
+        onObservationToggle = { },
+        onNavigationRequest = { },
+        onEditRequest = { },
+        modifier
+    )
+}
+
+@Composable
+private fun ActivityDetails(
+    activity: Loadable<ContextualActivity>,
+    onObservationToggle: (isObserving: Boolean) -> Unit,
     onNavigationRequest: () -> Unit,
     onEditRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        topBar = { TopAppBar(TopAppBarStyle.Navigable(onNavigationRequest)) },
+        topBar = {
+            TopAppBar(
+                activity.map(ContextualActivity::isObserving),
+                onObservationToggle,
+                onNavigationRequest
+            )
+        },
         modifier,
         floatingActionButton = {
             FloatingActionButton(
@@ -79,11 +112,7 @@ private fun ActivityDetails(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun LoadedActivityDetailsPreview() {
     OngoingTheme {
-        ActivityDetails(
-            Loadable.Loaded(ContextualActivity.sample),
-            onNavigationRequest = { },
-            onEditRequest = { }
-        )
+        ActivityDetails(Loadable.Loaded(ContextualActivity.sample))
     }
 }
 
@@ -92,10 +121,6 @@ private fun LoadedActivityDetailsPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun LoadingActivityDetailsPreview() {
     OngoingTheme {
-        ActivityDetails(
-            Loadable.Loading(),
-            onNavigationRequest = { },
-            onEditRequest = { }
-        )
+        ActivityDetails(Loadable.Loading())
     }
 }

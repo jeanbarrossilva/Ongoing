@@ -3,7 +3,6 @@ package com.jeanbarrossilva.ongoing.platform.registry.activity
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Update
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import kotlinx.coroutines.flow.Flow
 
@@ -16,7 +15,10 @@ abstract class ActivityDao internal constructor() {
     internal abstract fun selectById(id: String): Flow<ActivityEntity?>
 
     @Query("SELECT owner_user_id FROM activities WHERE id = :activityId")
-    internal abstract fun selectOwnerUserId(activityId: String): String
+    internal abstract suspend fun selectOwnerUserId(activityId: String): String
+
+    @Query("SELECT name FROM activities WHERE id = :activityId")
+    internal abstract suspend fun selectName(activityId: String): String
 
     @Insert
     internal abstract suspend fun insert(activity: ActivityEntity): Long

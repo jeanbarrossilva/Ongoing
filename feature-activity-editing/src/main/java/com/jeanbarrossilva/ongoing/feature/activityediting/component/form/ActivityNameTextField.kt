@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingModel
 import com.jeanbarrossilva.ongoing.feature.activityediting.R
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField.TAG

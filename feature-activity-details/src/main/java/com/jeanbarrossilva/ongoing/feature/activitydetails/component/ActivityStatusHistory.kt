@@ -6,12 +6,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.toJetLimeItem
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.BackgroundContentSizing
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 import com.pushpal.jetlime.data.JetLimeItemsModel
 import com.pushpal.jetlime.data.config.JetLimeViewConfig
 import com.pushpal.jetlime.ui.JetLimeView

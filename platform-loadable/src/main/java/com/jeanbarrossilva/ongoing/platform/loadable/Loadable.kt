@@ -9,9 +9,9 @@ sealed interface Loadable<T>: Parcelable {
     data class Loaded<T: Serializable>(val value: T): Loadable<T>
 
     @Parcelize
-    class Loading<T: Serializable>: Loadable<T>
-
-    fun <R> ifLoaded(operation: T.() -> R): R? {
-        return if (this is Loaded) value.operation() else null
+    class Loading<T: Serializable>: Loadable<T> {
+        override fun toString(): String {
+            return "Loadable.Loading"
+        }
     }
 }

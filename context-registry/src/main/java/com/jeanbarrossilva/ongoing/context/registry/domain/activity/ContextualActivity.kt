@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.context.registry.domain
+package com.jeanbarrossilva.ongoing.context.registry.domain.activity
 
 import android.os.Parcelable
 import com.jeanbarrossilva.ongoing.core.session.user.User
@@ -13,7 +13,9 @@ data class ContextualActivity(
     val owner: User?,
     val name: String,
     val icon: ContextualIcon,
-    val statuses: List<ContextualStatus>
+    val statuses: List<ContextualStatus>,
+    val observers: List<User>,
+    val isObserving: Boolean
 ): Parcelable, Serializable {
     val status
         get() = statuses.last()
@@ -21,7 +23,8 @@ data class ContextualActivity(
     fun toActivity(): Activity {
         val icon = icon.toIcon()
         val statuses = statuses.map(ContextualStatus::toStatus)
-        return Activity(id, owner?.id, name, icon, statuses)
+        val observerUserIds = observers.map(User::id)
+        return Activity(id, owner?.id, name, icon, statuses, observerUserIds)
     }
 
     companion object {
@@ -43,7 +46,9 @@ data class ContextualActivity(
                 User.sample,
                 name,
                 icon,
-                statuses = statuses.toList().ifEmpty { listOf(ContextualStatus.TO_DO) }
+                statuses = statuses.toList().ifEmpty { listOf(ContextualStatus.TO_DO) },
+                observers = emptyList(),
+                isObserving = false
             )
         }
     }

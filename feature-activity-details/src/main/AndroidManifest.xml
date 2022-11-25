@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.jeanbarrossilva.ongoing.feature.activitydetails" />
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jeanbarrossilva.ongoing.feature.activitydetails">
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application>
+        <activity android:name=".ActivityDetailsActivity" />
+    </application>
+</manifest>

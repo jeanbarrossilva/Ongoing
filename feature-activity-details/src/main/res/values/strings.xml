@@ -7,7 +7,7 @@
         You\'ll get notified whenever changes are made to this activity.
     </string>
     <string name="feature_activity_details_notify_disabled">
-        You won\'t be notified about changes are made to this activity.
+        You won\'t be notified when changes are made to this activity.
     </string>
     <string name="feature_activity_details_fab_content_description">Edit</string>
 </resources>

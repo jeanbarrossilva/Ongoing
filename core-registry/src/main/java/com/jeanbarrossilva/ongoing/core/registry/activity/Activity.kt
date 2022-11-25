@@ -17,8 +17,9 @@ data class Activity(
             field = value
         }
 
-    val status
+    var status
         get() = statuses.last()
+        set(value) { statuses = statuses + value }
 
     constructor(
         id: String,

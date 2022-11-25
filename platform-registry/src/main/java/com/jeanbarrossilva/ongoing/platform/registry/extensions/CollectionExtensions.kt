@@ -1,5 +1,6 @@
 package com.jeanbarrossilva.ongoing.platform.registry.extensions
 
+import com.jeanbarrossilva.ongoing.core.extensions.replaceBy
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.platform.registry.activity.ActivityEntity
 import com.jeanbarrossilva.ongoing.platform.registry.observer.ObserverDao
@@ -60,7 +61,7 @@ private fun <I, O> Collection<I>.joinToFlowOrSuspendIndefinitely(
             var isResumed = false
             launch {
                 map(transform).merge().collect { element ->
-                    elements.addOrReplaceBy(element) {
+                    elements.replaceBy({ element }) {
                         predicate(element, it)
                     }
                     if (isComplete()) {

@@ -6,7 +6,6 @@ enum class Status {
     DONE;
 
     companion object {
-        val values = values().toList()
         val default = listOf(TO_DO)
     }
 }

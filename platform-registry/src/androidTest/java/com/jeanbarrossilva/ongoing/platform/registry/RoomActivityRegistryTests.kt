@@ -87,7 +87,7 @@ internal class RoomActivityRegistryTests {
     fun unregister() {
         runTest {
             val id = activityRegistry.register("Clean the room")
-            activityRegistry.unregister(id)
+            activityRegistry.onUnregister(, id)
             assertNull(activityRegistry.getActivityById(id).first())
         }
     }
@@ -96,8 +96,8 @@ internal class RoomActivityRegistryTests {
     fun throwWhenUnregisteringTheSameActivityTwice() {
         runTest {
             val id = activityRegistry.register("Run a marathon")
-            activityRegistry.unregister(id)
-            activityRegistry.unregister(id)
+            activityRegistry.onUnregister(, id)
+            activityRegistry.onUnregister(, id)
         }
     }
 

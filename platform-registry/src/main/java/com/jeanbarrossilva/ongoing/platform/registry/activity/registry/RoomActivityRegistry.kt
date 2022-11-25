@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.koin.core.KoinApplication.Companion.init
 
 class RoomActivityRegistry(
     coroutineScope: CoroutineScope,
@@ -57,7 +56,7 @@ class RoomActivityRegistry(
         return generatedId
     }
 
-    override suspend fun unregister(id: String) {
+    override suspend fun onUnregister(userId: String, id: String) {
         val isActivityExistent = activityDao.selectById(id).first() != null
         val isActivityOwner = activityDao.selectOwnerUserId(id) == currentUserId()
         val result = UnregisteringResult.of(isActivityExistent, isActivityOwner)

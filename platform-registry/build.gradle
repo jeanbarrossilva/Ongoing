@@ -39,6 +39,7 @@ dependencies {
     api project(':core-registry')
     api libraries.room
 
+    implementation project(':core-extensions')
     implementation project(':core-session')
     implementation libraries.koin.android
     implementation libraries.kotlinx.coroutines.core

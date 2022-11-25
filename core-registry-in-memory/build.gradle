@@ -9,9 +9,7 @@ java {
 }
 
 dependencies {
+    implementation project(':core-extensions')
+    implementation project(':core-registry')
     implementation libraries.kotlinx.coroutines.core
-
-    testImplementation project(':core-registry-in-memory')
-    testImplementation libraries.kotlin.test
-    testImplementation libraries.kotlinx.coroutines.test
 }

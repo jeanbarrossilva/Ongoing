@@ -1,7 +1,7 @@
 package com.jeanbarrossilva.ongoing.core.registry
 
-internal interface ActivityRegistryUnregistrationValidator {
-    val next: ActivityRegistryUnregistrationValidator?
+internal abstract class ActivityRegistryUnregistrationValidator {
+    protected abstract val next: ActivityRegistryUnregistrationValidator?
 
-    suspend fun validate(userId: String, activityId: String)
+    abstract suspend fun validate(userId: String, activityId: String)
 }

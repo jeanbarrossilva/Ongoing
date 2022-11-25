@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.first
 internal class ExistentNonOwnerActivityUnregistrationValidator(
     private val activityRegistry: ActivityRegistry,
     override val next: ActivityRegistryUnregistrationValidator?
-): ActivityRegistryUnregistrationValidator {
+): ActivityRegistryUnregistrationValidator() {
     override suspend fun validate(userId: String, activityId: String) {
         val activity = activityRegistry.getActivityById(activityId).first()
         if (activity != null && userId != activity.ownerUserId) {

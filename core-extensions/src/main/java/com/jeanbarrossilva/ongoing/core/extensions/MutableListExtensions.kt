@@ -1,6 +1,6 @@
 package com.jeanbarrossilva.ongoing.core.extensions
 
-fun <T> MutableList<T>.replaceBy(replacement: T.() -> T, predicate: (T) -> Boolean) {
+fun <T> MutableList<T>.replaceBy(replacement: T.() -> T, predicate: (T) -> Boolean): Boolean {
     val iterator = iterator()
     var isReplaced = false
     while (!isReplaced && iterator.hasNext()) {
@@ -12,4 +12,5 @@ fun <T> MutableList<T>.replaceBy(replacement: T.() -> T, predicate: (T) -> Boole
             isReplaced = true
         }
     }
+    return isReplaced
 }

@@ -5,10 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
+import com.jeanbarrossilva.ongoing.core.session.Session
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class ActivityEditingViewModel internal constructor(
+    private val session: Session,
     private val activityRegistry: ActivityRegistry,
     internal val mode: ActivityEditingMode
 ): ViewModel() {
@@ -31,16 +33,19 @@ class ActivityEditingViewModel internal constructor(
 
     internal fun save() {
         viewModelScope.launch {
-            mode.save(activityRegistry, props.value)
+            mode.save(session, activityRegistry, props.value)
         }
     }
 
     companion object {
-        fun createFactory(activityRegistry: ActivityRegistry, mode: ActivityEditingMode):
-            ViewModelProvider.Factory {
+        fun createFactory(
+            session: Session,
+            activityRegistry: ActivityRegistry,
+            mode: ActivityEditingMode
+        ): ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(ActivityEditingViewModel::class) {
-                    ActivityEditingViewModel(activityRegistry, mode)
+                    ActivityEditingViewModel(session, activityRegistry, mode)
                 }
             }
         }

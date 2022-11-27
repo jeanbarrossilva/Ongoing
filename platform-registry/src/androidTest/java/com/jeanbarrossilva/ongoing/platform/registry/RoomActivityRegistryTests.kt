@@ -1,55 +1,34 @@
 package com.jeanbarrossilva.ongoing.platform.registry
 
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
-import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
-import com.jeanbarrossilva.ongoing.core.registry.activity.Status
-import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySession
-import com.jeanbarrossilva.ongoing.platform.registry.extensions.getActivityRegistry
-import com.jeanbarrossilva.ongoing.platform.registry.test.OngoingDatabaseRule
+import com.jeanbarrossilva.ongoing.platform.registry.test.PlatformRegistryTestRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.runTest
-import org.junit.After
+import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
-import org.junit.Before
+import org.junit.Assert.assertThat
 import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class RoomActivityRegistryTests {
-    private val session = InMemorySession()
-
     private val activityRegistry
-        get() = databaseRule.getDatabase().getActivityRegistry(session)
+        get() = rule.activityRegistry
 
     @get:Rule
-    val databaseRule = OngoingDatabaseRule()
-
-    @Before
-    fun setUp() {
-        runTest {
-            session.logIn()
-        }
-    }
-
-    @After
-    fun tearDown() {
-        runTest {
-            activityRegistry.clear()
-            session.logOut()
-        }
-    }
+    val rule = PlatformRegistryTestRule.create()
 
     @Test
     fun getActivities() {
         runTest {
-            0.until(11).forEach { activityRegistry.register("Activity #$it") }
-            assertEquals(
-                0.until(11).map { "Activity #$it" },
-                activityRegistry.getActivities().first().map(Activity::name)
+            0.until(11).forEach { activityRegistry.register(getCurrentUserId(), "Activity #$it") }
+            assertThat(
+                activityRegistry.activities.first().map(Activity::name),
+                containsInAnyOrder(*0.until(11).map { "Activity #$it" }.toTypedArray())
             )
         }
     }
@@ -58,60 +37,55 @@ internal class RoomActivityRegistryTests {
     fun registerActivity() {
         val name = "Shop"
         runTest {
-            activityRegistry.register(name)
-            activityRegistry.getActivities().map(List<Activity>::first).first().let { activity ->
-                assertEquals(getCurrentUserId(), activity.ownerUserId)
-                assertEquals(name, activity.name)
-                assertEquals(Icon.OTHER, activity.icon)
-                assertEquals(listOf(Status.TO_DO), activity.statuses)
-            }
+            val id = activityRegistry.register(getCurrentUserId(), name)
+            assertNotNull(activityRegistry.getActivityById(id))
         }
     }
 
     @Test(expected = AssertionError::class)
     fun throwWhenRegisteringActivityWithABlankName() {
         runTest {
-            activityRegistry.register(" ")
+            activityRegistry.register(getCurrentUserId(), " ")
         }
     }
 
     @Test
     fun getActivityById() {
         runTest {
-            val id = activityRegistry.register("Walk the dog")
-            assertNotNull(activityRegistry.getActivityById(id).first())
+            val activityId = activityRegistry.register(getCurrentUserId(), "Walk the dog")
+            assertNotNull(activityRegistry.getActivityById(activityId).first())
         }
     }
 
     @Test
     fun unregister() {
         runTest {
-            val id = activityRegistry.register("Clean the room")
-            activityRegistry.onUnregister(, id)
-            assertNull(activityRegistry.getActivityById(id).first())
+            val activityId = activityRegistry.register(getCurrentUserId(), "Clean the room")
+            activityRegistry.unregister(getCurrentUserId(), activityId)
+            assertNull(activityRegistry.getActivityById(activityId).first())
         }
     }
 
     @Test(expected = IllegalArgumentException::class)
     fun throwWhenUnregisteringTheSameActivityTwice() {
         runTest {
-            val id = activityRegistry.register("Run a marathon")
-            activityRegistry.onUnregister(, id)
-            activityRegistry.onUnregister(, id)
+            val activityId = activityRegistry.register(getCurrentUserId(), "Run a marathon")
+            activityRegistry.unregister(getCurrentUserId(), activityId)
+            activityRegistry.unregister(getCurrentUserId(), activityId)
         }
     }
 
     @Test
     fun clear() {
         runTest {
-            activityRegistry.register("Do homework")
-            activityRegistry.register("Fly to SF")
-            activityRegistry.clear()
-            assertEquals(emptyList<Activity>(), activityRegistry.getActivities().first())
+            activityRegistry.register(getCurrentUserId(), "Do homework")
+            activityRegistry.register(getCurrentUserId(), "Fly to SF")
+            activityRegistry.clear(getCurrentUserId())
+            assertEquals(emptyList<Activity>(), activityRegistry.activities.first())
         }
     }
 
-    private suspend fun getCurrentUserId(): String? {
-        return session.getUser().first()?.id
+    private suspend fun getCurrentUserId(): String {
+        return rule.session.getUser().filterNotNull().first().id
     }
 }

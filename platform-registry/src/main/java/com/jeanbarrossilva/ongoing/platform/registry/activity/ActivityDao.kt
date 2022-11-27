@@ -14,6 +14,9 @@ abstract class ActivityDao internal constructor() {
     @Query("SELECT * FROM activities WHERE id = :id")
     internal abstract fun selectById(id: String): Flow<ActivityEntity?>
 
+    @Query("SELECT * FROM activities WHERE owner_user_id = :ownerUserId")
+    internal abstract suspend fun selectByOwnerUserId(ownerUserId: String): List<ActivityEntity>
+
     @Query("SELECT owner_user_id FROM activities WHERE id = :activityId")
     internal abstract suspend fun selectOwnerUserId(activityId: String): String
 
@@ -33,8 +36,5 @@ abstract class ActivityDao internal constructor() {
     internal abstract suspend fun updateIcon(id: String, icon: Icon)
 
     @Query("DELETE FROM activities WHERE id = :id")
-    internal abstract suspend fun delete(id: String)
-
-    @Query("DELETE FROM activities")
-    internal abstract suspend fun deleteAll()
+    internal abstract suspend fun delete(id: Long)
 }

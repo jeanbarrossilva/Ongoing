@@ -2,6 +2,7 @@ package com.jeanbarrossilva.ongoing.core.registry.inmemory
 
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
+import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 import com.jeanbarrossilva.ongoing.core.registry.inmemory.extensions.uuid
 import kotlinx.coroutines.flow.Flow
@@ -26,10 +27,11 @@ class InMemoryActivityRegistry: ActivityRegistry() {
         }
     }
 
-    override suspend fun register(ownerUserId: String, name: String, statuses: List<Status>):
+    override suspend fun register(ownerUserId: String?, name: String, statuses: List<Status>):
         String {
         val id = uuid()
-        val activity = createActivity(ownerUserId, id, name, statuses)
+        val activity =
+            Activity(id, ownerUserId, name, Icon.default, statuses, observerUserIds = emptyList())
         _activities.value += activity
         return id
     }
@@ -37,12 +39,6 @@ class InMemoryActivityRegistry: ActivityRegistry() {
     override suspend fun onUnregister(userId: String, activityId: String) {
         _activities.value -= activities.first().first {
             it.id == activityId
-        }
-    }
-
-    override suspend fun clear(userId: String) {
-        activities.first().forEach {
-            unregister(userId, it.id)
         }
     }
 }

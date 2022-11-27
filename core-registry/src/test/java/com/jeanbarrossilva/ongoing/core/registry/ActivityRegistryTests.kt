@@ -1,5 +1,7 @@
 package com.jeanbarrossilva.ongoing.core.registry
 
+import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
+import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 import com.jeanbarrossilva.ongoing.core.registry.inmemory.InMemoryActivityRegistry
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -29,14 +31,13 @@ internal class ActivityRegistryTests {
             val name = "Learn Flutter"
             val activityId = activityRegistry.register(userId, name)
             val activity = activityRegistry.getActivityById(activityId).first()
-            val expectedActivity = ActivityRegistry.createActivity(userId, activityId, name)
             assertNotNull(activity)
-            assertEquals(expectedActivity.id, activity.id)
-            assertEquals(expectedActivity.ownerUserId, activity.ownerUserId)
-            assertEquals(expectedActivity.name, activity.name)
-            assertEquals(expectedActivity.icon, activity.icon)
-            assertEquals(expectedActivity.statuses, activity.statuses)
-            assertEquals(expectedActivity.observerUserIds, activity.observerUserIds)
+            assertEquals(activityId, activity.id)
+            assertEquals(userId, activity.ownerUserId)
+            assertEquals(name, activity.name)
+            assertEquals(Icon.default, activity.icon)
+            assertEquals(Status.default, activity.statuses)
+            assertEquals(emptyList(), activity.observerUserIds)
         }
     }
 

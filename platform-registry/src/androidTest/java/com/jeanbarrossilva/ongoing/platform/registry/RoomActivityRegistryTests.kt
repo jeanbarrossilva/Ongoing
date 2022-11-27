@@ -42,13 +42,6 @@ internal class RoomActivityRegistryTests {
         }
     }
 
-    @Test(expected = AssertionError::class)
-    fun throwWhenRegisteringActivityWithABlankName() {
-        runTest {
-            activityRegistry.register(getCurrentUserId(), " ")
-        }
-    }
-
     @Test
     fun getActivityById() {
         runTest {

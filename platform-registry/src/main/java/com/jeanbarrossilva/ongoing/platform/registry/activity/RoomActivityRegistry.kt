@@ -43,7 +43,7 @@ class RoomActivityRegistry(
         return activityDao.selectById(id).map { it?.toActivity(statusDao, observerDao) }.flatten()
     }
 
-    override suspend fun register(ownerUserId: String?, name: String, statuses: List<Status>):
+    override suspend fun onRegister(ownerUserId: String?, name: String, statuses: List<Status>):
         String {
         assert(name.isNotBlank())
         val entity = ActivityEntity(id = 0, ownerUserId, name, Icon.default)

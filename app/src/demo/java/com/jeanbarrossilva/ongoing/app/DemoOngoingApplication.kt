@@ -26,7 +26,7 @@ internal class DemoOngoingApplication: OngoingApplication() {
 
     private suspend fun registerSampleActivities() {
         withEachActivity {
-            activityRegistry.register(ownerUserId, name, statuses)
+            activityRegistry.onRegister(ownerUserId, name, statuses)
         }
     }
 

@@ -12,11 +12,16 @@ abstract class ActivityRegistry {
 
     abstract suspend fun getActivityById(id: String): Flow<Activity?>
 
-    abstract suspend fun register(
+    suspend fun register(
         ownerUserId: String?,
         name: String,
-        statuses: List<Status> = Status.default
-    ): String
+        statuses: List<Status> = Status.default,
+    ): String {
+        name.ifBlank {
+            throw IllegalArgumentException("Cannot register an activity with a blank name.")
+        }
+        return onRegister(ownerUserId, name, statuses)
+    }
 
     suspend fun unregister(userId: String, id: String) {
         ActivityRegistryUnregistrationValidatorFactory.create(this).validate(userId, id)
@@ -28,6 +33,12 @@ abstract class ActivityRegistry {
             unregister(userId, it.id)
         }
     }
+
+    protected abstract suspend fun onRegister(
+        ownerUserId: String?,
+        name: String,
+        statuses: List<Status>
+    ): String
 
     protected abstract suspend fun onUnregister(userId: String, activityId: String)
 }

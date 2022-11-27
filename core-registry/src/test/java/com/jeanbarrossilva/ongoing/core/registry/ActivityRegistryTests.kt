@@ -26,6 +26,15 @@ internal class ActivityRegistryTests {
     }
 
     @Test
+    fun `GIVEN a blank name WHEN registering an activity with it THEN it throws`() {
+        assertFailsWith<IllegalArgumentException> {
+            runTest {
+                activityRegistry.register(userId, name = " ")
+            }
+        }
+    }
+
+    @Test
     fun `GIVEN a name and an owner user ID WHEN registering an activity with it THEN it is correctly registered`() {
         runTest {
             val name = "Learn Flutter"

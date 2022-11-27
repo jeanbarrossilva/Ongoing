@@ -28,7 +28,7 @@ sealed class ActivityEditingMode : Parcelable {
             props: ActivityEditingProps
         ) {
             val currentUserId = session.getUser().first()?.id
-            activityRegistry.register(currentUserId, props.name)
+            activityRegistry.onRegister(currentUserId, props.name)
         }
     }
 

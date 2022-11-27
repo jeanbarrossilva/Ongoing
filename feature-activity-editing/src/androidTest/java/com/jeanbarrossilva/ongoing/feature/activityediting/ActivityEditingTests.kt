@@ -20,8 +20,7 @@ import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownMenuItem
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.feature.activityediting.extensions.pressBack
-import com.jeanbarrossilva.ongoing.platform.registry.test.database.OngoingDatabaseRule
-import com.jeanbarrossilva.ongoing.platform.registry.test.extensions.activityRegistry
+import com.jeanbarrossilva.ongoing.platform.registry.test.PlatformRegistryTestRule
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -31,7 +30,7 @@ internal class ActivityEditingTests {
         get() = ApplicationProvider.getApplicationContext<Context>()
 
     @get:Rule
-    val databaseRule = OngoingDatabaseRule()
+    val platformRegistryTestRule = PlatformRegistryTestRule.create()
 
     @Suppress("UNCHECKED_CAST")
     @get:Rule
@@ -95,8 +94,11 @@ internal class ActivityEditingTests {
         onDone: () -> Unit = { },
         onNavigationRequest: () -> Unit = { }
     ) {
-        val activityRegistry = databaseRule.getDatabase().activityRegistry
-        val viewModel = ActivityEditingViewModel(activityRegistry, mode)
+        val viewModel = ActivityEditingViewModel(
+            platformRegistryTestRule.session,
+            platformRegistryTestRule.activityRegistry,
+            mode
+        )
         composeRule.setContent {
             ActivityEditing(
                 viewModel,

@@ -67,14 +67,12 @@ internal class RoomActivityObserverTests {
     @Test
     fun notifyStatusChange() {
         runTest {
-            val activityId = activityRegistry.register(getCurrentUserId(), "🎉")
-            val newActivityStatus = Status.DONE
+            val id = activityRegistry.register(getCurrentUserId(), "🎉")
+            val newStatus = Status.DONE
             var change: Change? = null
-            activityObserver.attach(getCurrentUserId(), activityId) { _, _, _change ->
-                change = _change
-            }
-            activityRecorder.status(activityId, newActivityStatus)
-            assertEquals(Change.Status(Status.TO_DO, newActivityStatus), change)
+            activityObserver.attach(getCurrentUserId(), id) { _, _, _change -> change = _change }
+            activityRecorder.status(id, newStatus)
+            assertEquals(Change.Status(Status.TO_DO, newStatus), change)
         }
     }
 

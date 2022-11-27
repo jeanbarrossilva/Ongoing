@@ -2,9 +2,9 @@ package com.jeanbarrossilva.ongoing.platform.registry
 
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
-import com.jeanbarrossilva.ongoing.platform.registry.test.OngoingDatabaseRule
-import com.jeanbarrossilva.ongoing.platform.registry.test.extensions.activityRegistry
+import com.jeanbarrossilva.ongoing.platform.registry.test.PlatformRegistryTestRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -13,19 +13,19 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class RoomActivityRecorderTests {
-    private val activityRegistry
-        get() = databaseRule.getDatabase().activityRegistry
     private val activityRecorder
         get() = activityRegistry.recorder
+    private val activityRegistry
+        get() = rule.activityRegistry
 
     @get:Rule
-    val databaseRule = OngoingDatabaseRule()
+    val rule = PlatformRegistryTestRule.create()
 
     @Test
     fun updateName() {
         val name = ":)"
         runTest {
-            val id = activityRegistry.register("Do something")
+            val id = activityRegistry.register(getCurrentUserId(), "Do something")
             activityRecorder.name(id, name)
             assertEquals(name, activityRegistry.getActivityById(id).first()?.name)
         }
@@ -35,7 +35,7 @@ internal class RoomActivityRecorderTests {
     fun updateIcon() {
         val icon = Icon.BOOK
         runTest {
-            val id = activityRegistry.register("Travel to Japan")
+            val id = activityRegistry.register(getCurrentUserId(), "Travel to Japan")
             activityRecorder.icon(id, icon)
             assertEquals(icon, activityRegistry.getActivityById(id).first()?.icon)
         }
@@ -45,7 +45,7 @@ internal class RoomActivityRecorderTests {
     fun updateStatus() {
         val status = Status.DONE
         runTest {
-            val id = activityRegistry.register("Play")
+            val id = activityRegistry.register(getCurrentUserId(), "Play")
             activityRecorder.status(id, status)
             assertEquals(status, activityRegistry.getActivityById(id).first()?.status)
         }
@@ -55,7 +55,7 @@ internal class RoomActivityRecorderTests {
     fun doesntUpdateStatusWhenSettingItTwice() {
         val status = Status.DONE
         runTest {
-            val id = activityRegistry.register("Test the app")
+            val id = activityRegistry.register(getCurrentUserId(), "Test the app")
             activityRecorder.status(id, status)
             activityRecorder.status(id, status)
             assertEquals(
@@ -63,5 +63,9 @@ internal class RoomActivityRecorderTests {
                 activityRegistry.getActivityById(id).first()?.statuses
             )
         }
+    }
+
+    private suspend fun getCurrentUserId(): String {
+        return rule.session.getUser().filterNotNull().first().id
     }
 }

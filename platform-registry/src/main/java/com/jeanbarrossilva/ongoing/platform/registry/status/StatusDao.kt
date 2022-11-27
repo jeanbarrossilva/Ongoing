@@ -18,7 +18,4 @@ abstract class StatusDao internal constructor() {
 
     @Query("DELETE FROM statuses WHERE activity_id = :activityId")
     internal abstract suspend fun deleteByActivityId(activityId: Long)
-
-    @Query("DELETE FROM statuses")
-    internal abstract suspend fun deleteAll()
 }

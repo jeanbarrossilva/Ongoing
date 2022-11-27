@@ -3,19 +3,42 @@ package com.jeanbarrossilva.ongoing.core.registry
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
-interface ActivityRegistry {
-    val recorder: Activity.Recorder
-    val observer: Activity.Observer
+abstract class ActivityRegistry {
+    abstract val recorder: Activity.Recorder
+    abstract val observer: Activity.Observer
+    abstract val activities: Flow<List<Activity>>
 
-    suspend fun getActivities(): Flow<List<Activity>>
+    abstract suspend fun getActivityById(id: String): Flow<Activity?>
 
-    suspend fun getActivityById(id: String): Flow<Activity?>
+    suspend fun register(
+        ownerUserId: String?,
+        name: String,
+        statuses: List<Status> = Status.default,
+    ): String {
+        name.ifBlank {
+            throw IllegalArgumentException("Cannot register an activity with a blank name.")
+        }
+        return onRegister(ownerUserId, name, statuses)
+    }
 
-    suspend fun register(name: String, statuses: List<Status> = Status.values):
-        String
+    suspend fun unregister(userId: String, id: String) {
+        ActivityRegistryUnregistrationValidatorFactory.create(this).validate(userId, id)
+        onUnregister(userId, id)
+    }
 
-    suspend fun unregister(id: String)
+    open suspend fun clear(userId: String) {
+        activities.first().forEach {
+            unregister(userId, it.id)
+        }
+    }
 
-    suspend fun clear()
+    protected abstract suspend fun onRegister(
+        ownerUserId: String?,
+        name: String,
+        statuses: List<Status>
+    ): String
+
+    protected abstract suspend fun onUnregister(userId: String, activityId: String)
 }

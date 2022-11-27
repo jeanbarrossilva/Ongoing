@@ -6,7 +6,7 @@ import com.jeanbarrossilva.ongoing.platform.registry.observer.ObserverDao
 import com.jeanbarrossilva.ongoing.platform.registry.status.StatusDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
@@ -16,7 +16,7 @@ import kotlin.coroutines.suspendCoroutine
  * Joins the elements of the given [Collection] to a [Flow], applying the specified
  * [transformation][transform] to each of them.
  *
- * Returns an empty [Flow] if the [Collection] is empty.
+ * Returns a [Flow] containing an empty [List] if the [Collection] is empty.
  *
  * @param predicate Determines whether or not the element that's being received should replace the
  * current one instead of getting appended.
@@ -26,7 +26,11 @@ internal fun <I, O> Collection<I>.joinToFlow(
     predicate: (current: O, replacement: O) -> Boolean,
     transform: (I) -> Flow<O>
 ): Flow<List<O>> {
-    return if (isNotEmpty()) joinToFlowOrSuspendIndefinitely(predicate, transform) else emptyFlow()
+    return if (isNotEmpty()) {
+        joinToFlowOrSuspendIndefinitely(predicate, transform)
+    } else {
+        flowOf(emptyList())
+    }
 }
 
 internal fun Collection<ActivityEntity>.mapToActivity(
@@ -55,13 +59,13 @@ private fun <I, O> Collection<I>.joinToFlowOrSuspendIndefinitely(
 ): Flow<List<O>> {
     val elements = mutableListOf<O>()
     val isComplete = { elements.size == size }
+    var isResumed = false
     return channelFlow {
         suspendCoroutine { continuation ->
-            var isResumed = false
             launch {
-                map(transform).merge().collect { element ->
-                    elements.addOrReplaceBy(element) {
-                        predicate(element, it)
+                map(transform).merge().collect { replacement ->
+                    elements.addOrReplaceBy(replacement) { current ->
+                        predicate(current, replacement)
                     }
                     if (isComplete()) {
                         send(elements)

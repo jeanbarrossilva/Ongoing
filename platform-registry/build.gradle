@@ -4,6 +4,12 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute module('org.hamcrest:hamcrest-core:1.3') with module(libraries.hamcrest)
+    }
+}
+
 android {
     compileSdk versions.ongoing.sdk.compile
 
@@ -39,6 +45,7 @@ dependencies {
     api project(':core-registry')
     api libraries.room
 
+    implementation project(':core-extensions')
     implementation project(':core-session')
     implementation libraries.koin.android
     implementation libraries.kotlinx.coroutines.core
@@ -48,6 +55,7 @@ dependencies {
 
     androidTestImplementation project(':core-session-in-memory')
     androidTestImplementation project(':platform-registry-test')
+    androidTestImplementation libraries.hamcrest
     androidTestImplementation libraries.kotlinx.coroutines.test
     androidTestImplementation libraries.test.core
     androidTestImplementation libraries.test.ext.junit

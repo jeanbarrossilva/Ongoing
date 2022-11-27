@@ -11,5 +11,7 @@ java {
 dependencies {
     implementation libraries.kotlinx.coroutines.core
 
+    testImplementation project(':core-registry-in-memory')
     testImplementation libraries.kotlin.test
+    testImplementation libraries.kotlinx.coroutines.test
 }

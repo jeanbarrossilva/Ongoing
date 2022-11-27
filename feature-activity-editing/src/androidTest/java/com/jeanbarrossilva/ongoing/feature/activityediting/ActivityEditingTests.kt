@@ -20,7 +20,7 @@ import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownMenuItem
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.feature.activityediting.extensions.pressBack
-import com.jeanbarrossilva.ongoing.platform.registry.test.OngoingDatabaseRule
+import com.jeanbarrossilva.ongoing.platform.registry.test.database.OngoingDatabaseRule
 import com.jeanbarrossilva.ongoing.platform.registry.test.extensions.activityRegistry
 import org.junit.Assert.assertTrue
 import org.junit.Rule

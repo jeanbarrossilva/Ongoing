@@ -21,7 +21,7 @@ class ActivitiesViewModel private constructor(
     internal val user = flow { emitAll(session.getUser()) }
     internal val activities = flow {
         activityRegistry
-            .getActivities()
+            .activities
             .map { it.mapToContextualActivity(session, userRepository).toSerializableList() }
             .loadable()
             .collect(::emit)

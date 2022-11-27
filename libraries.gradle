@@ -51,6 +51,7 @@ buildscript {
                         versions.gms.play_services.auth
                 ]
             ],
+            hamcrest: "org.hamcrest:hamcrest:${versions.hamcrest}",
             jetlime: "io.github.pushpalroy:jetlime:${versions.jetlime}",
             junit5: [
                 jupiter: [

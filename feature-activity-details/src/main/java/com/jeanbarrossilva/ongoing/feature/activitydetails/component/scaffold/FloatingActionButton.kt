@@ -6,12 +6,18 @@ import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.feature.activitydetails.R
+import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.FloatingActionButton.TAG
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButtonAvailability
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+
+object FloatingActionButton {
+    const val TAG = "activity_details_fab"
+}
 
 @Composable
 internal fun FloatingActionButton(
@@ -19,7 +25,11 @@ internal fun FloatingActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    FloatingActionButton(onClick, modifier, FloatingActionButtonAvailability `for` isAvailable) {
+    FloatingActionButton(
+        onClick,
+        modifier.testTag(TAG),
+        FloatingActionButtonAvailability `for` isAvailable
+    ) {
         Icon(
             Icons.Rounded.Edit,
             contentDescription =

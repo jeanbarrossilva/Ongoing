@@ -18,7 +18,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfie
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.rememberTextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
-internal object ActivityNameTextField {
+object ActivityNameTextField {
     const val TAG = "activity_name_text_field"
 }
 

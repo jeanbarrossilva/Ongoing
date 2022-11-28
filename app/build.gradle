@@ -81,4 +81,10 @@ dependencies {
     implementation libraries.koin.androidx_compose
     implementation libraries.material
     implementation libraries.navigation.compose
+
+    androidTestImplementation project(':core-registry-in-memory')
+    androidTestImplementation project(':platform-registry-test')
+    androidTestImplementation libraries.compose.ui.test.junit4
+    androidTestImplementation libraries.compose.ui.test.manifest
+    androidTestImplementation libraries.test.ext.junit
 }

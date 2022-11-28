@@ -58,7 +58,7 @@ class ActivityDetailsActivity internal constructor(): ComposableActivity() {
     companion object {
         private const val ACTIVITY_ID_KEY = "activity_id"
 
-        internal fun getIntent(context: Context, activityId: String): Intent {
+        fun getIntent(context: Context, activityId: String): Intent {
             return Intent<ActivityDetailsActivity>(context, ACTIVITY_ID_KEY to activityId)
         }
 

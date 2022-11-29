@@ -13,8 +13,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
+import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
+import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.TopAppBar
@@ -35,10 +36,12 @@ fun Activities(
     navigator: DestinationsNavigator,
     viewModel: ActivitiesViewModel,
     boundary: ActivitiesBoundary,
-    fetcher: ContextualActivitiesFetcher,
+    activityRegistry: ActivityRegistry,
+    observation: Observation,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val fetcher = viewModel.fetcher
     val user by viewModel.user.collectAsState(initial = null)
     val activities by viewModel.activities.collectAsState()
 
@@ -52,7 +55,15 @@ fun Activities(
                 ?: boundary.navigateToAuthentication(navigator)
         },
         onActivityDetailsRequest = {
-            boundary.navigateToActivityDetails(context, navigator, it.id)
+            boundary.navigateToActivityDetails(
+                context,
+                viewModel.session,
+                activityRegistry,
+                observation,
+                fetcher,
+                navigator,
+                it.id
+            )
         },
         onAddRequest = { boundary.navigateToActivityEditing(context) },
         modifier

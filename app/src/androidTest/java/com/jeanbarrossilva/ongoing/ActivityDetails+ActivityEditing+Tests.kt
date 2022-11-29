@@ -8,7 +8,13 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextReplacement
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import com.jeanbarrossilva.ongoing.app.boundary.DefaultActivityDetailsBoundary
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
+import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
+import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsActivity
+import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetailsBridge
+import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetailsBridgeCrossing
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.activityheadline.ActivityHeadlineName
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.platform.registry.test.PlatformRegistryTestRule
@@ -44,13 +50,12 @@ internal class ActivityDetailsActivityEditingTests {
         runTest {
             activityId = activityRegistry.register(getCurrentUserId(), name = "Have breakfast")
         }
+        crossBridge()
     }
 
     @Test
     fun givenANameEditWhenGoingBackToDetailsThenItsUpToDate() {
-        val intent = ActivityDetailsActivity.getIntent(context, requireNotNull(activityId))
         val editedName = "Have lunch"
-        ActivityScenario.launch<ActivityDetailsActivity>(intent)
         composeRule.onNodeWithTag(ActivityDetailsFloatingActionButton.TAG).performClick()
         composeRule.onNodeWithTag(ActivityNameTextField.TAG).performTextReplacement(editedName)
         composeRule.onNodeWithTag(ActivityEditingFloatingActionButton.TAG).performClick()
@@ -59,5 +64,22 @@ internal class ActivityDetailsActivityEditingTests {
 
     private suspend fun getCurrentUserId(): String {
         return session.getUser().filterNotNull().first().id
+    }
+
+    private fun crossBridge() {
+        val userRepository = InMemoryUserRepository(session)
+        val fetcher = ContextualActivitiesFetcher(session, userRepository, activityRegistry)
+        val boundary = DefaultActivityDetailsBoundary()
+        val intent = ActivityDetailsActivity.getIntent(context, requireNotNull(activityId))
+        ActivityDetailsBridge.cross(
+            context,
+            session,
+            activityRegistry,
+            Observation.empty,
+            fetcher,
+            boundary,
+            ActivityDetailsBridgeCrossing.RetentionOnly
+        )
+        ActivityScenario.launch<ActivityDetailsActivity>(intent)
     }
 }

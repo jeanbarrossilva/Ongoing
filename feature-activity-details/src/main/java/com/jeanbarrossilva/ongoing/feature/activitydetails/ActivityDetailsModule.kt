@@ -11,7 +11,9 @@ val activityDetailsModule = module {
             androidContext(),
             session = get(),
             userRepository = get(),
-            activityRegistry = get()
+            activityRegistry = get(),
+            boundary = get(),
+            fetcher = get()
         )
     }
 }

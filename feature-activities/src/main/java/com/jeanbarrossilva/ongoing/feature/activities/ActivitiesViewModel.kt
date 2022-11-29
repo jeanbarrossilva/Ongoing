@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 
 class ActivitiesViewModel private constructor(
-    private val session: Session,
-    fetcher: ContextualActivitiesFetcher
+    internal val session: Session,
+    internal val fetcher: ContextualActivitiesFetcher
 ): ViewModel() {
     internal val user = flow { emitAll(session.getUser()) }
     internal val activities = fetcher.getActivities()

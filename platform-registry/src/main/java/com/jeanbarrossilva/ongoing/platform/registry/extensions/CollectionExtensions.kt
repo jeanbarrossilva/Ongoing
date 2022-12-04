@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.scan
 
 /**
- * Joins the elements of the given [Collection] to a [Flow], applying the specified
+ * Maps the elements of the given [Collection] to a [Flow], applying the specified
  * [transformation][transform] to each of them.
  *
  * The resulting [Flow] returns an empty [List] whenever it gets emitted to if the original
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.scan
  * current one instead of getting appended.
  * @param transform Conversion of the currently iterated element to a [Flow].
  **/
-internal fun <I, O> Collection<I>.joinToFlow(
+internal fun <I, O> Collection<I>.map(
     predicate: (current: O, replacement: O) -> Boolean,
     transform: (I) -> Flow<O>
 ): Flow<List<O>> {
@@ -38,7 +38,7 @@ internal fun Collection<ActivityEntity>.mapToActivity(
     statusDao: StatusDao,
     observerDao: ObserverDao
 ): Flow<List<Activity>> {
-    return joinToFlow({ current, replacement -> current.id == replacement.id }) {
+    return map({ current, replacement -> current.id == replacement.id }) {
         it.toActivity(statusDao, observerDao)
     }
 }

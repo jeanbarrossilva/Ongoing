@@ -2,15 +2,15 @@ package com.jeanbarrossilva.ongoing.core.registry
 
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
 abstract class ActivityRegistry {
     abstract val recorder: Activity.Recorder
     abstract val observer: Activity.Observer
-    abstract val activities: Flow<List<Activity>>
 
-    abstract suspend fun getActivityById(id: String): Flow<Activity?>
+    abstract suspend fun getActivities(): List<Activity>
+
+    abstract suspend fun getActivityById(id: String): Activity?
 
     suspend fun register(
         ownerUserId: String?,
@@ -29,7 +29,7 @@ abstract class ActivityRegistry {
     }
 
     open suspend fun clear(userId: String) {
-        activities.first().forEach {
+        getActivities().forEach {
             unregister(userId, it.id)
         }
     }

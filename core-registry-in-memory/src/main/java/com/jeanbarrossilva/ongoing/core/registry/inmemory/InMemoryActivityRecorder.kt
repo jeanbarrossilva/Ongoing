@@ -42,12 +42,8 @@ class InMemoryActivityRecorder internal constructor(
     }
 
     private fun replace(activityId: String, replacement: Activity.() -> Activity) {
-        with(activityRegistry._activities) {
-            value = value.toMutableList().apply {
-                replaceBy(replacement) {
-                    it.id == activityId
-                }
-            }
+        activityRegistry.activities.replaceBy(replacement) {
+            it.id == activityId
         }
     }
 

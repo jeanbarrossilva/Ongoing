@@ -54,7 +54,7 @@ class RoomActivityObserver internal constructor(
     }
 
     private suspend fun assertActivityExists(activityId: String, message: () -> String) {
-        val activity = activityDao.selectById(activityId).first()
+        val activity = activityDao.selectById(activityId)
         assert(activity != null, message)
     }
 }

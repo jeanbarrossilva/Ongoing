@@ -27,7 +27,7 @@ internal class RoomActivityRegistryTests {
         runTest {
             0.until(11).forEach { activityRegistry.register(getCurrentUserId(), "Activity #$it") }
             assertThat(
-                activityRegistry.activities.first().map(Activity::name),
+                activityRegistry.getActivities().map(Activity::name),
                 containsInAnyOrder(*0.until(11).map { "Activity #$it" }.toTypedArray())
             )
         }
@@ -46,7 +46,7 @@ internal class RoomActivityRegistryTests {
     fun getActivityById() {
         runTest {
             val activityId = activityRegistry.register(getCurrentUserId(), "Walk the dog")
-            assertNotNull(activityRegistry.getActivityById(activityId).first())
+            assertNotNull(activityRegistry.getActivityById(activityId))
         }
     }
 
@@ -55,7 +55,7 @@ internal class RoomActivityRegistryTests {
         runTest {
             val activityId = activityRegistry.register(getCurrentUserId(), "Clean the room")
             activityRegistry.unregister(getCurrentUserId(), activityId)
-            assertNull(activityRegistry.getActivityById(activityId).first())
+            assertNull(activityRegistry.getActivityById(activityId))
         }
     }
 
@@ -74,7 +74,7 @@ internal class RoomActivityRegistryTests {
             activityRegistry.register(getCurrentUserId(), "Do homework")
             activityRegistry.register(getCurrentUserId(), "Fly to SF")
             activityRegistry.clear(getCurrentUserId())
-            assertEquals(emptyList<Activity>(), activityRegistry.activities.first())
+            assertEquals(emptyList<Activity>(), activityRegistry.getActivities())
         }
     }
 

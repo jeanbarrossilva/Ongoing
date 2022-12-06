@@ -23,7 +23,6 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.plus
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
-import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableList
 import com.jeanbarrossilva.ongoing.platform.loadable.type.SerializableList
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -37,7 +36,7 @@ fun Activities(
 ) {
     val context = LocalContext.current
     val user by viewModel.user.collectAsState(initial = null)
-    val activities by viewModel.activities.collectAsState()
+    val activities by viewModel.getActivities().collectAsState()
 
     Activities(
         user,

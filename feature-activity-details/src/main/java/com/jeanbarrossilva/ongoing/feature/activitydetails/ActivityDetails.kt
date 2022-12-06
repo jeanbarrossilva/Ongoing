@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,7 +22,6 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaf
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
-import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
 
@@ -35,7 +35,7 @@ fun ActivityDetails(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val contextualActivity by viewModel.activity.collectAsState()
+    val contextualActivity by viewModel.getActivity().collectAsState()
 
     ActivityDetails(
         contextualActivity,

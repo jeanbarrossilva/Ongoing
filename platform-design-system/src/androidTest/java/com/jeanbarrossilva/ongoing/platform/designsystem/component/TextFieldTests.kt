@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.platform.designsystem
+package com.jeanbarrossilva.ongoing.platform.designsystem.component
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

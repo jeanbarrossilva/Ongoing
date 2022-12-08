@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
+import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityHeadline
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityStatusHistory
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.FloatingActionButton
@@ -30,12 +32,15 @@ fun ActivityDetails(
     boundary: ActivityDetailsBoundary,
     activity: ActivityDetailsActivity,
     viewModel: ActivityDetailsViewModel,
+    fetcher: ContextualActivitiesFetcher,
     observationRequester: ActivityDetailsObservationRequester,
     onNavigationRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val contextualActivity by viewModel.getActivity().collectAsState()
+
+    ResumedFetchEffect(fetcher)
 
     ActivityDetails(
         contextualActivity,

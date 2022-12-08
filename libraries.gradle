@@ -80,6 +80,9 @@ buildscript {
                 viewmodel: [
                     savedstate: "androidx.lifecycle:lifecycle-viewmodel-savedstate:" +
                         versions.lifecycle
+                ],
+                runtime: [
+                    testing: "androidx.lifecycle:lifecycle-runtime-testing:${versions.lifecycle}"
                 ]
             ],
             material: "com.google.android.material:material:${versions.material}",

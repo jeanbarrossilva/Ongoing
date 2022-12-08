@@ -13,9 +13,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
+import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.TopAppBar
+import com.jeanbarrossilva.ongoing.feature.activities.extensions.getActivitiesAsState
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
@@ -32,11 +35,14 @@ fun Activities(
     navigator: DestinationsNavigator,
     viewModel: ActivitiesViewModel,
     boundary: ActivitiesBoundary,
+    fetcher: ContextualActivitiesFetcher,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val user by viewModel.user.collectAsState(initial = null)
-    val activities by viewModel.getActivities().collectAsState()
+    val activities by fetcher.getActivitiesAsState()
+
+    ResumedFetchEffect(fetcher)
 
     Activities(
         user,

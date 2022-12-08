@@ -28,7 +28,7 @@ internal fun ContextualActivitiesFetcher.getActivitiesAsState():
         }
     }
 
-    DisposableEffect(Unit) {
+    DisposableEffect(state.value) {
         attach(listener)
         onDispose { detach(listener) }
     }

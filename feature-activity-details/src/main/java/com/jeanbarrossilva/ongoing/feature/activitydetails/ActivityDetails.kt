@@ -6,14 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
-import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityHeadline
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityStatusHistory
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.FloatingActionButton
@@ -24,6 +21,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaf
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
 
@@ -32,15 +30,12 @@ fun ActivityDetails(
     boundary: ActivityDetailsBoundary,
     activity: ActivityDetailsActivity,
     viewModel: ActivityDetailsViewModel,
-    fetcher: ContextualActivitiesFetcher,
     observationRequester: ActivityDetailsObservationRequester,
     onNavigationRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val contextualActivity by viewModel.getActivity().collectAsState()
-
-    ResumedFetchEffect(fetcher)
 
     ActivityDetails(
         contextualActivity,

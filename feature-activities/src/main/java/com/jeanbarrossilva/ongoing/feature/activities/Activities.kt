@@ -18,7 +18,6 @@ import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.TopAppBar
-import com.jeanbarrossilva.ongoing.feature.activities.extensions.getActivitiesAsState
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
@@ -26,6 +25,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.plus
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableList
 import com.jeanbarrossilva.ongoing.platform.loadable.type.SerializableList
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -40,7 +40,7 @@ fun Activities(
 ) {
     val context = LocalContext.current
     val user by viewModel.user.collectAsState(initial = null)
-    val activities by fetcher.getActivitiesAsState()
+    val activities by viewModel.activities.collectAsState()
 
     ResumedFetchEffect(fetcher)
 

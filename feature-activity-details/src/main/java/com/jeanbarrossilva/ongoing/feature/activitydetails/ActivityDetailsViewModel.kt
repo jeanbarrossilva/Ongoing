@@ -5,74 +5,63 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
-import com.jeanbarrossilva.ongoing.context.registry.extensions.toContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
+import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
-import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
 import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.toggle
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
-import com.jeanbarrossilva.ongoing.platform.loadable.extensions.filterIsLoaded
-import com.jeanbarrossilva.ongoing.platform.loadable.extensions.loadableFlowOf
-import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toLoadable
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class ActivityDetailsViewModel private constructor(
     private val session: Session,
-    private val userRepository: UserRepository,
     private val activityRegistry: ActivityRegistry,
     private val observation: Observation,
-    private val activityId: String?
+    private val fetcher: ContextualActivitiesFetcher,
+    activityId: String
 ): ViewModel() {
-    private val activity = loadableFlowOf<ContextualActivity>()
+    private val activity = fetcher.getActivity(activityId)
 
-    init {
-        fetch()
+    internal fun getActivity(): Flow<Loadable<ContextualActivity>> {
+        return activity
     }
 
-    fun getActivity(): StateFlow<Loadable<ContextualActivity>> {
-        return activity.asStateFlow()
-    }
-
-    fun setObserving(isObserving: Boolean, onDone: () -> Unit = { }) {
+    internal fun setObserving(isObserving: Boolean, onDone: () -> Unit = { }) {
         viewModelScope.launch {
-            val activity = activity.filterIsLoaded().first().value
             session.getUser().first()?.let {
-                activityRegistry.observer.toggle(it, activity, isObserving, observation)
-                onDone()
+                activity.first().ifLoaded {
+                    activityRegistry.observer.toggle(it, this, isObserving, observation)
+                    onDone()
+                }
             }
         }
     }
 
-    private fun fetch() {
-        activityId?.let {
-            viewModelScope.launch {
-                activity.value = activityRegistry
-                    .getActivityById(it)
-                    ?.toContextualActivity(session, userRepository)
-                    .toLoadable()
-            }
+    internal fun fetch() {
+        viewModelScope.launch {
+            fetcher.fetch()
         }
     }
 
     companion object {
         fun createFactory(
             session: Session,
-            userRepository: UserRepository,
             activityRegistry: ActivityRegistry,
             observation: Observation,
-            activityId: String?
+            fetcher: ContextualActivitiesFetcher,
+            activityId: String
         ): ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(ActivityDetailsViewModel::class) {
                     ActivityDetailsViewModel(
                         session,
-                        userRepository,
                         activityRegistry,
                         observation,
+                        fetcher,
                         activityId
                     )
                 }

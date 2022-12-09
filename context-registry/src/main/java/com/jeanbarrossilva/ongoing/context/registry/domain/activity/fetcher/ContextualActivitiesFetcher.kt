@@ -14,9 +14,8 @@ class ContextualActivitiesFetcher(
     private val listeners = mutableListOf<OnFetchListener>()
 
     suspend fun fetch() {
-        listeners.forEach {
-            it.onRefresh(getActivities())
-        }
+        val activities = getActivities()
+        listeners.forEach { it.onRefresh(activities) }
     }
 
     fun attach(listener: OnFetchListener) {

@@ -9,8 +9,11 @@ import java.io.Serializable
  *
  * @param operation Lambda whose result will get returned if this is a [Loadable.Loaded].
  **/
-inline fun <I: Serializable, O> Loadable<I>.ifLoaded(operation: I.() -> O): O? {
-    return if (this is Loadable.Loaded) value.operation() else null
+inline fun <I: Serializable?, O> Loadable<I>.ifLoaded(operation: I.() -> O): O? {
+    return when (this) {
+        is Loadable.Loading -> null
+        is Loadable.Loaded -> value.operation()
+    }
 }
 
 /**
@@ -19,7 +22,7 @@ inline fun <I: Serializable, O> Loadable<I>.ifLoaded(operation: I.() -> O): O? {
  *
  * @param transform Transformation to be done to the [loaded][Loadable.Loaded] value.
  **/
-inline fun <I: Serializable, O: Serializable> Loadable<I>.map(transform: (I) -> O): Loadable<O> {
+inline fun <I: Serializable?, O: Serializable?> Loadable<I>.map(transform: (I) -> O): Loadable<O> {
     return when (this) {
         is Loadable.Loading -> Loadable.Loading()
         is Loadable.Loaded -> Loadable.Loaded(transform(value))

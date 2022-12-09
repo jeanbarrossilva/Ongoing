@@ -26,7 +26,7 @@ internal fun Activities(navigator: DestinationsNavigator, modifier: Modifier = M
     val boundary = get<ActivitiesBoundary>()
     val fetcher = get<ContextualActivitiesFetcher>()
     val viewModelFactory = remember {
-        ActivitiesViewModel.createFactory(session)
+        ActivitiesViewModel.createFactory(session, fetcher)
     }
     val viewModel = viewModel<ActivitiesViewModel>(factory = viewModelFactory)
 

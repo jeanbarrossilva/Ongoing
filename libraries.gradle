@@ -53,11 +53,7 @@ buildscript {
             ],
             hamcrest: "org.hamcrest:hamcrest:${versions.hamcrest}",
             jetlime: "io.github.pushpalroy:jetlime:${versions.jetlime}",
-            junit5: [
-                jupiter: [
-                    api: "org.junit.jupiter:junit-jupiter-api:${versions.junit5.jupiter}"
-                ]
-            ],
+            junit: "junit:junit:${versions.junit}",
             koin: [
                 android: "io.insert-koin:koin-android:${versions.koin}",
                 androidx_compose: "io.insert-koin:koin-androidx-compose:${versions.koin}",

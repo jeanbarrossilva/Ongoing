@@ -10,7 +10,9 @@ class InMemoryActivityRegistry: ActivityRegistry() {
     internal val activities = mutableListOf<Activity>()
 
     override val recorder = InMemoryActivityRecorder(this)
-    override val observer = TODO("Not yet implemented")
+
+    override val observer
+        get() = TODO("Not yet implemented")
 
     override suspend fun getActivities(): List<Activity> {
         return activities.toList()

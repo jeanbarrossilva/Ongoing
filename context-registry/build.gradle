@@ -48,4 +48,9 @@ dependencies {
     implementation project(':platform-loadable')
     implementation libraries.coil.compose
     implementation libraries.compose.material_icons_extended
+
+    testImplementation project(':core-registry-in-memory')
+    testImplementation project(':core-session-in-memory')
+    testImplementation libraries.junit
+    testImplementation libraries.kotlinx.coroutines.test
 }

@@ -28,7 +28,7 @@ import org.junit.Test
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.FloatingActionButton as ActivityDetailsFloatingActionButton
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton as ActivityEditingFloatingActionButton
 
-internal class ActivityDetailsActivityEditingTests {
+internal class ActivityUpdateTests {
     private var activityId: String? = null
 
     private val activityRegistry

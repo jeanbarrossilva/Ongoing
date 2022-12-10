@@ -4,7 +4,6 @@ import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 import com.jeanbarrossilva.ongoing.core.registry.inmemory.InMemoryActivityRegistry
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.Test
@@ -39,7 +38,7 @@ internal class ActivityRegistryTests {
         runTest {
             val name = "Learn Flutter"
             val activityId = activityRegistry.register(userId, name)
-            val activity = activityRegistry.getActivityById(activityId).first()
+            val activity = activityRegistry.getActivityById(activityId)
             assertNotNull(activity)
             assertEquals(activityId, activity.id)
             assertEquals(userId, activity.ownerUserId)
@@ -56,7 +55,7 @@ internal class ActivityRegistryTests {
             val ownerUserId = uuid()
             val activityId = activityRegistry.register(ownerUserId, name = "Stop procrastinating")
             activityRegistry.unregister(ownerUserId, activityId)
-            assertNull(activityRegistry.getActivityById(activityId).first())
+            assertNull(activityRegistry.getActivityById(activityId))
         }
     }
 
@@ -78,7 +77,7 @@ internal class ActivityRegistryTests {
                 activityRegistry.register(userId, name = "Do whatever whenever with whomever")
             }
             activityRegistry.clear(userId)
-            assertEquals(emptyList(), activityRegistry.activities.first())
+            assertEquals(emptyList(), activityRegistry.getActivities())
         }
     }
 }

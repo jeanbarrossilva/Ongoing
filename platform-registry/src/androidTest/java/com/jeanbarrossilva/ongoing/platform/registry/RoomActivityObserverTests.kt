@@ -43,7 +43,7 @@ internal class RoomActivityObserverTests {
             val id = activityRegistry.register(getCurrentUserId(), "🙃")
             activityObserver.attach(getCurrentUserId(), id) { _, _, _ -> }
             assertThat(
-                activityRegistry.getActivityById(id).first()?.observerUserIds,
+                activityRegistry.getActivityById(id)?.observerUserIds,
                 hasItem(getCurrentUserId())
             )
         }
@@ -83,7 +83,7 @@ internal class RoomActivityObserverTests {
             activityObserver.attach(getCurrentUserId(), id) { _, _, _ -> }
             activityObserver.detach(getCurrentUserId(), id)
             assertThat(
-                activityRegistry.getActivityById(id).first()?.observerUserIds,
+                activityRegistry.getActivityById(id)?.observerUserIds,
                 not(hasItem(getCurrentUserId()))
             )
         }

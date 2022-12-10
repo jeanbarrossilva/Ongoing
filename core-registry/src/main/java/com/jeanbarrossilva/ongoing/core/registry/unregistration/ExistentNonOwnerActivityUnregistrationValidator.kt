@@ -9,7 +9,7 @@ internal class ExistentNonOwnerActivityUnregistrationValidator(
     override val next: ActivityRegistryUnregistrationValidator?
 ): ActivityRegistryUnregistrationValidator() {
     override suspend fun validate(userId: String, activityId: String) {
-        val activity = activityRegistry.getActivityById(activityId).first()
+        val activity = activityRegistry.getActivityById(activityId)
         if (activity != null && userId != activity.ownerUserId) {
             throw IllegalArgumentException(
                 "Only the owner of activity ${activity.id} can unregister it."

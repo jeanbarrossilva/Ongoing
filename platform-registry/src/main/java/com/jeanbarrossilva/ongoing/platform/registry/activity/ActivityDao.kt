@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 abstract class ActivityDao internal constructor() {
     @Query("SELECT * FROM activities")
-    internal abstract fun selectAll(): Flow<List<ActivityEntity>>
+    internal abstract suspend fun selectAll(): List<ActivityEntity>
 
     @Query("SELECT * FROM activities WHERE id = :id")
-    internal abstract fun selectById(id: String): Flow<ActivityEntity?>
+    internal abstract suspend fun selectById(id: String): ActivityEntity?
 
     @Query("SELECT * FROM activities WHERE owner_user_id = :ownerUserId")
     internal abstract suspend fun selectByOwnerUserId(ownerUserId: String): List<ActivityEntity>

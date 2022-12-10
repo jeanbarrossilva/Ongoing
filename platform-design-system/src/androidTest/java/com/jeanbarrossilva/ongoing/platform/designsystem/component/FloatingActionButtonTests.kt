@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.platform.designsystem
+package com.jeanbarrossilva.ongoing.platform.designsystem.component
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag

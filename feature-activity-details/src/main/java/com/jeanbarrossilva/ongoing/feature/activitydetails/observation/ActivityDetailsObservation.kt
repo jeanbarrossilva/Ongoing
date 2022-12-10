@@ -3,8 +3,8 @@ package com.jeanbarrossilva.ongoing.feature.activitydetails.observation
 import android.content.Context
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.domain.observation.ContextualChange
-import com.jeanbarrossilva.ongoing.context.registry.extensions.toContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.extensions.contextualize
+import com.jeanbarrossilva.ongoing.context.registry.extensions.toContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Change
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
@@ -14,9 +14,8 @@ import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsActivi
 import com.jeanbarrossilva.ongoing.feature.activitydetails.R
 import com.jeanbarrossilva.ongoing.platform.extensions.createNotificationChannel
 import com.jeanbarrossilva.ongoing.platform.extensions.notify
-import java.lang.ref.WeakReference
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import java.lang.ref.WeakReference
 
 internal class ActivityDetailsObservation(
     private val contextRef: WeakReference<Context>,
@@ -38,12 +37,10 @@ internal class ActivityDetailsObservation(
         val isChangeMadeBySomeoneElse = session.getUser().first()?.id != changerUserId
         if (isChangeMadeBySomeoneElse) {
             val contextualChange = change.contextualize()
-            val activity = activityRegistry
+            activityRegistry
                 .getActivityById(activityId)
-                .filterNotNull()
-                .first()
-                .toContextualActivity(session, userRepository)
-            notify(contextualChange, activity)
+                ?.toContextualActivity(session, userRepository)
+                ?.let { notify(contextualChange, it) }
         }
     }
 

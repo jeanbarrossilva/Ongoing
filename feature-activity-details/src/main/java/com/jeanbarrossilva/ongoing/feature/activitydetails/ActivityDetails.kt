@@ -35,7 +35,7 @@ fun ActivityDetails(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val contextualActivity by viewModel.activity.collectAsState()
+    val contextualActivity by viewModel.getActivity().collectAsState()
 
     ActivityDetails(
         contextualActivity,

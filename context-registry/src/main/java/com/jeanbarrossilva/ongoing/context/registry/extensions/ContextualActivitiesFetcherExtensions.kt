@@ -33,11 +33,12 @@ fun ContextualActivitiesFetcher.getActivities():
  **/
 fun ContextualActivitiesFetcher.getActivity(activityId: String):
     Flow<Loadable<ContextualActivity>> {
-    return getActivities().map { loadable ->
-        loadable.map { activities ->
-            activities.first { activity ->
-                activity.id == activityId
-            }
+    return getActivities().map {
+        it.map {
+            activityRegistry
+                .getActivityById(activityId)
+                ?.toContextualActivity(session, userRepository)
+                ?: throw IllegalArgumentException("Could not find activity $activityId.")
         }
     }
 }

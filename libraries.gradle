@@ -96,7 +96,8 @@ buildscript {
                     junit: "androidx.test.ext:junit-ktx:${versions.test.ext.junit}"
                 ],
                 runner: "androidx.test:runner:${versions.test.runner}"
-            ]
+            ],
+            turbine: "app.cash.turbine:turbine:${versions.turbine}"
         ]
     }
 }

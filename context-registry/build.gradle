@@ -53,4 +53,5 @@ dependencies {
     testImplementation project(':core-session-in-memory')
     testImplementation libraries.junit
     testImplementation libraries.kotlinx.coroutines.test
+    testImplementation libraries.turbine
 }

@@ -5,13 +5,14 @@ import com.jeanbarrossilva.ongoing.context.registry.extensions.toContextualActiv
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import java.util.concurrent.ConcurrentLinkedQueue
 
 class ContextualActivitiesFetcher(
-    private val session: Session,
-    private val userRepository: UserRepository,
-    private val activityRegistry: ActivityRegistry
+    internal val session: Session,
+    internal val userRepository: UserRepository,
+    internal val activityRegistry: ActivityRegistry
 ) {
-    private val listeners = mutableListOf<OnFetchListener>()
+    private val listeners = ConcurrentLinkedQueue<OnFetchListener>()
 
     suspend fun fetch() {
         val activities = getActivities()

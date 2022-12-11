@@ -6,7 +6,6 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.jeanbarrossilva.ongoing.app.OngoingActivity
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
 import com.jeanbarrossilva.ongoing.extensions.hasNodeWithTag
 import com.jeanbarrossilva.ongoing.extensions.hasTestTagPrefixedWith

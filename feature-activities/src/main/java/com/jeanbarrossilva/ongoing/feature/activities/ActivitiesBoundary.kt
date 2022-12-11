@@ -6,7 +6,6 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.user.User
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 interface ActivitiesBoundary {
     fun navigateToAuthentication(context: Context)
@@ -19,7 +18,6 @@ interface ActivitiesBoundary {
         activityRegistry: ActivityRegistry,
         observation: Observation,
         fetcher: ContextualActivitiesFetcher,
-        navigator: DestinationsNavigator,
         activityId: String
     )
 

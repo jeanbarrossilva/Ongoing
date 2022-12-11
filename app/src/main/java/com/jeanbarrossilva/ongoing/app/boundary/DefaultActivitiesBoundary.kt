@@ -34,7 +34,6 @@ internal class DefaultActivitiesBoundary(
         activityRegistry: ActivityRegistry,
         observation: Observation,
         fetcher: ContextualActivitiesFetcher,
-        navigator: DestinationsNavigator,
         activityId: String
     ) {
         ActivityDetailsBridge.cross(

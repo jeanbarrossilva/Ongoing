@@ -25,11 +25,9 @@ import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableList
 import com.jeanbarrossilva.ongoing.platform.loadable.type.SerializableList
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 fun Activities(
-    navigator: DestinationsNavigator,
     viewModel: ActivitiesViewModel,
     boundary: ActivitiesBoundary,
     activityRegistry: ActivityRegistry,
@@ -57,7 +55,6 @@ fun Activities(
                 activityRegistry,
                 observation,
                 fetcher,
-                navigator,
                 it.id
             )
         },

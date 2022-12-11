@@ -6,21 +6,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
+import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
+import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.feature.activities.Activities
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesBoundary
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesViewModel
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
-import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
-import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.feature.authentication.prompter.AuthenticationPrompter
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.get
 
 @Composable
 @Destination(start = true)
-internal fun Activities(navigator: DestinationsNavigator, modifier: Modifier = Modifier) {
+internal fun Activities(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val session = get<Session>()
     val activityRegistry = get<ActivityRegistry>()
@@ -39,5 +38,5 @@ internal fun Activities(navigator: DestinationsNavigator, modifier: Modifier = M
         }
     }
 
-    Activities(navigator, viewModel, boundary, activityRegistry, observation, modifier)
+    Activities(viewModel, boundary, activityRegistry, observation, modifier)
 }

@@ -11,7 +11,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 
-internal open class OngoingApplication: Application() {
+open class OngoingApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         setUpInjection()

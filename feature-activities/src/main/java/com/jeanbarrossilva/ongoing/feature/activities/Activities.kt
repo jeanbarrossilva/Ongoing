@@ -2,15 +2,11 @@ package com.jeanbarrossilva.ongoing.feature.activities
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
@@ -18,10 +14,10 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
+import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.plus
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
@@ -97,15 +93,7 @@ private fun Activities(
     Scaffold(
         topBar = { TopAppBar(user, onAccountDetailsRequest) },
         modifier,
-        floatingActionButton = {
-            FloatingActionButton(onClick = onAddRequest) {
-                Icon(
-                    Icons.Rounded.Add,
-                    contentDescription =
-                        stringResource(R.string.feature_activities_fab_content_description)
-                )
-            }
-        }
+        floatingActionButton = { FloatingActionButton(onClick = onAddRequest) }
     ) {
         Background {
             ActivityCards(

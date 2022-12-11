@@ -10,15 +10,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.jeanbarrossilva.ongoing.feature.authentication.Authentication.TAG
 import com.jeanbarrossilva.ongoing.feature.authentication.component.Buttons
 import com.jeanbarrossilva.ongoing.platform.authentication.R
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+
+object Authentication {
+    const val TAG = "authentication"
+}
 
 @Composable
 fun Authentication(
@@ -35,7 +41,11 @@ internal fun Authentication(
     onNavigationRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Background(modifier.padding(Size.Spacing.xxl)) {
+    Background(
+        modifier
+            .padding(Size.Spacing.xxl)
+            .testTag(TAG)
+    ) {
         ConstraintLayout(Modifier.fillMaxSize()) {
             val (logoRef, buttonsRef) = createRefs()
 

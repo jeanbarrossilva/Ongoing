@@ -14,7 +14,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.button.Button
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.button.ButtonRelevance
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
-internal object DismissButton {
+object DismissButton {
     const val TAG = "dismiss_button"
 }
 

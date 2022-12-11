@@ -19,6 +19,10 @@ android {
     }
 
     productFlavors {
+        clean {
+            dimension dimensions.mode.name
+        }
+
         demo {
             dimension dimensions.mode.name
             applicationIdSuffix dimensions.mode.flavors.demo.suffix
@@ -26,6 +30,7 @@ android {
     }
 
     sourceSets {
+        clean.java.srcDir 'src/shared/java'
         demo.java.srcDir 'src/shared/java'
     }
 
@@ -85,6 +90,5 @@ dependencies {
     androidTestImplementation project(':core-registry-in-memory')
     androidTestImplementation project(':platform-registry-test')
     androidTestImplementation libraries.compose.ui.test.junit4
-    androidTestImplementation libraries.compose.ui.test.manifest
     androidTestImplementation libraries.test.ext.junit
 }

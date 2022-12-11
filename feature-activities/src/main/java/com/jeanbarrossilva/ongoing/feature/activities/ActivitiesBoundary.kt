@@ -11,7 +11,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 interface ActivitiesBoundary {
     fun navigateToAuthentication(context: Context)
 
-    fun navigateToAccount(navigator: DestinationsNavigator, user: User)
+    fun navigateToAccount(context: Context, user: User)
 
     fun navigateToActivityDetails(
         context: Context,

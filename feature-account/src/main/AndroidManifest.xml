@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.jeanbarrossilva.ongoing.feature.account" />
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jeanbarrossilva.ongoing.feature.account">
+    <application>
+        <activity android:name=".AccountActivity" />
+    </application>
+</manifest>

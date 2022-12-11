@@ -1,12 +1,12 @@
 package com.jeanbarrossilva.ongoing.app.boundary
 
 import android.content.Context
-import com.jeanbarrossilva.ongoing.app.destination.destinations.AccountDestination
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.feature.account.AccountActivity
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesBoundary
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsBoundary
 import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetailsBridge
@@ -24,9 +24,8 @@ internal class DefaultActivitiesBoundary(
         context.startActivity<AuthenticationActivity>()
     }
 
-    override fun navigateToAccount(navigator: DestinationsNavigator, user: User) {
-        val destination = AccountDestination(user)
-        navigator.navigate(destination)
+    override fun navigateToAccount(context: Context, user: User) {
+        AccountActivity.start(context, user)
     }
 
     override fun navigateToActivityDetails(

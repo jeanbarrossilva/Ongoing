@@ -55,7 +55,12 @@ fun ActivityEditing(
     val onBackPressedCallback = remember(hasChanges) {
         object: OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (hasChanges) isConfirmationDialogVisible = true else onNavigationRequest()
+                if (hasChanges) {
+                    isConfirmationDialogVisible = true
+                } else {
+                    remove()
+                    onNavigationRequest()
+                }
             }
         }
     }

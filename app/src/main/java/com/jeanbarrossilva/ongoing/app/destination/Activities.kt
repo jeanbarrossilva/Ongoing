@@ -6,7 +6,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.jeanbarrossilva.ongoing.app.destination.destinations.AuthenticationDestination
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.feature.activities.Activities
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesBoundary
@@ -36,7 +35,7 @@ internal fun Activities(navigator: DestinationsNavigator, modifier: Modifier = M
 
     LaunchedEffect(Unit) {
         authenticationPrompter.prompt(context) {
-            navigator.navigate(AuthenticationDestination)
+            boundary.navigateToAuthentication(context)
         }
     }
 

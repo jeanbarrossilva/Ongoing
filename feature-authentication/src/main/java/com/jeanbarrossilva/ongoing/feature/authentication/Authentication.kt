@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.jeanbarrossilva.ongoing.feature.authentication.Authentication.TAG
 import com.jeanbarrossilva.ongoing.feature.authentication.component.Buttons
-import com.jeanbarrossilva.ongoing.platform.authentication.R
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme

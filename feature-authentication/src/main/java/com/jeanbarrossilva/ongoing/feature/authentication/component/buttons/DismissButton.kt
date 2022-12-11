@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.jeanbarrossilva.ongoing.feature.authentication.R
 import com.jeanbarrossilva.ongoing.feature.authentication.component.buttons.DismissButton.TAG
-import com.jeanbarrossilva.ongoing.platform.authentication.R
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.button.Button
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.button.ButtonRelevance
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme

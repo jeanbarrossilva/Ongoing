@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.jeanbarrossilva.ongoing.platform.authentication" />
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jeanbarrossilva.ongoing.feature.authentication">
+    <application>
+        <activity android:name=".AuthenticationActivity" />
+    </application>
+</manifest>

@@ -2,7 +2,6 @@ package com.jeanbarrossilva.ongoing.app.boundary
 
 import android.content.Context
 import com.jeanbarrossilva.ongoing.app.destination.destinations.AccountDestination
-import com.jeanbarrossilva.ongoing.app.destination.destinations.AuthenticationDestination
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
@@ -14,13 +13,15 @@ import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetail
 import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetailsBridgeCrossing
 import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingActivity
 import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingMode
+import com.jeanbarrossilva.ongoing.feature.authentication.AuthenticationActivity
+import com.jeanbarrossilva.ongoing.platform.extensions.startActivity
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 internal class DefaultActivitiesBoundary(
     private val activityDetailsBoundary: ActivityDetailsBoundary
 ): ActivitiesBoundary {
-    override fun navigateToAuthentication(navigator: DestinationsNavigator) {
-        navigator.navigate(AuthenticationDestination)
+    override fun navigateToAuthentication(context: Context) {
+        context.startActivity<AuthenticationActivity>()
     }
 
     override fun navigateToAccount(navigator: DestinationsNavigator, user: User) {

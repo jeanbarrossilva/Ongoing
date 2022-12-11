@@ -9,7 +9,7 @@ import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 interface ActivitiesBoundary {
-    fun navigateToAuthentication(navigator: DestinationsNavigator)
+    fun navigateToAuthentication(context: Context)
 
     fun navigateToAccount(navigator: DestinationsNavigator, user: User)
 

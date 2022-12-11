@@ -15,7 +15,6 @@ import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingActivi
 import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingMode
 import com.jeanbarrossilva.ongoing.feature.authentication.AuthenticationActivity
 import com.jeanbarrossilva.ongoing.platform.extensions.startActivity
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 internal class DefaultActivitiesBoundary(
     private val activityDetailsBoundary: ActivityDetailsBoundary

@@ -30,12 +30,6 @@ buildscript {
                 ],
                 runtime: "androidx.compose.runtime:runtime:${versions.compose_runtime}"
             ],
-            compose_destinations: [
-                animations_core: 'io.github.raamcosta.compose-destinations:animations-core:' +
-                    versions.compose_destinations,
-                core: 'io.github.raamcosta.compose-destinations:core:' +
-                    versions.compose_destinations
-            ],
             constraintlayout: [
                 compose: 'androidx.constraintlayout:constraintlayout-compose:' +
                     versions.constraintlayout.compose

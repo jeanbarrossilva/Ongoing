@@ -70,8 +70,6 @@ android {
 }
 
 dependencies {
-    ksp _plugins.compose_destinations
-
     implementation project(':context-registry')
     implementation project(':core-session-in-memory')
     implementation project(':feature-account')
@@ -82,7 +80,6 @@ dependencies {
     implementation project(':platform-design-system')
     implementation project(':platform-extensions')
     implementation project(':platform-registry')
-    implementation libraries.compose_destinations.animations_core
     implementation libraries.koin.androidx_compose
     implementation libraries.material
     implementation libraries.navigation.compose

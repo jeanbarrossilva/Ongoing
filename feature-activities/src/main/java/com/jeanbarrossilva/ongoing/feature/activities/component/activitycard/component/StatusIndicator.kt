@@ -11,13 +11,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
 import com.jeanbarrossilva.ongoing.context.registry.extensions.title
+import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.component.StatusIndicator.TAG
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.ContentAlpha
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+
+object StatusIndicator {
+    const val TAG = "status_indicator"
+}
 
 @Composable
 internal fun StatusIndicator(status: ContextualStatus?, modifier: Modifier = Modifier) {
@@ -32,7 +38,9 @@ internal fun StatusIndicator(status: ContextualStatus?, modifier: Modifier = Mod
     }
 
     Card(
-        modifier.height(TertiaryInfo.Height),
+        modifier
+            .height(TertiaryInfo.Height)
+            .testTag(TAG),
         MaterialTheme.shapes.small,
         cardColors(containerColor)
     ) {

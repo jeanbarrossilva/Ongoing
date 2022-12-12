@@ -3,7 +3,10 @@ package com.jeanbarrossilva.ongoing.app
 import android.app.ActivityManager
 import android.content.Context
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.filterToOne
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasTextExactly
+import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextReplacement
@@ -14,6 +17,8 @@ import com.jeanbarrossilva.ongoing.app.extensions.createAndroidComposeRule
 import com.jeanbarrossilva.ongoing.app.extensions.hasNodeThat
 import com.jeanbarrossilva.ongoing.app.extensions.hasTestTagPrefixedWith
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
+import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.component.StatusIndicator
+import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityStatusHistory
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownMenuItem
@@ -63,6 +68,25 @@ internal class ActivityUpdateTests {
         composeRule.onNodeWithTag(ActivityCardHeadlineName.TAG).assertTextEquals(newName)
     }
 
+    @Test
+    fun synchronizeStatusEdit() {
+        val oldStatus = ContextualStatus.TO_DO
+        val newStatus = ContextualStatus.DONE
+        val newStatusTitle = context.getString(newStatus.titleRes)
+        composeRule.onNodeWithTag(ActivitiesFloatingActionButton.TAG).performClick()
+        editActivity(name = "Take out the trash", oldStatus)
+        composeRule.onNodeWithTag(ActivityDetailsFloatingActionButton.TAG).performClick()
+        editActivity(name = null, newStatus)
+        waitForActivityDetailsToLoad()
+        composeRule
+            .onNodeWithTag(ActivityStatusHistory.TAG)
+            .onChildren()
+            .filterToOne(hasTextExactly(newStatusTitle))
+            .assertExists()
+        composeRule.onNodeWithTag(NavigationButton.TAG).performClick()
+        composeRule.onNodeWithTag(StatusIndicator.TAG).assertTextEquals(newStatusTitle)
+    }
+
     private fun dismissAuthenticationPromptIfDisplayed() {
         val isPrompted = composeRule.hasNodeThat(hasTestTag(Authentication.TAG))
         if (isPrompted) {
@@ -70,8 +94,10 @@ internal class ActivityUpdateTests {
         }
     }
 
-    private fun editActivity(name: String, status: ContextualStatus? = ContextualStatus.TO_DO) {
-        composeRule.onNodeWithTag(ActivityNameTextField.TAG).performTextReplacement(name)
+    private fun editActivity(name: String?, status: ContextualStatus? = ContextualStatus.TO_DO) {
+        name?.let {
+            composeRule.onNodeWithTag(ActivityNameTextField.TAG).performTextReplacement(it)
+        }
         composeRule.onNodeWithTag(ActivityStatusDropdownField.TAG).performClick()
         status?.let {
             composeRule.onNodeWithTag(ActivityStatusDropdownMenuItem.getTag(it)).performClick()

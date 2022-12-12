@@ -2,9 +2,9 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.jeanbarrossilva.ongoing">
+    package="com.jeanbarrossilva.ongoing.app">
     <application
-        android:name=".app.DemoOngoingApplication"
+        android:name=".DemoOngoingApplication"
         tools:replace="name"
         tools:ignore="MissingApplicationIcon" />
 </manifest>

@@ -4,16 +4,15 @@ import android.app.ActivityManager
 import android.content.Context
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasTestTag
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextReplacement
 import androidx.core.content.getSystemService
 import androidx.test.core.app.ApplicationProvider
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
+import com.jeanbarrossilva.ongoing.extensions.createAndroidComposeRule
 import com.jeanbarrossilva.ongoing.extensions.hasNodeThat
 import com.jeanbarrossilva.ongoing.extensions.hasTestTagPrefixedWith
-import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesActivity
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField
@@ -36,7 +35,7 @@ internal class ActivityUpdateTests {
         get() = ApplicationProvider.getApplicationContext<Context>()
 
     @get:Rule
-    val composeRule = createAndroidComposeRule<ActivitiesActivity>()
+    val composeRule = createAndroidComposeRule()
 
     @Before
     fun setUp() {

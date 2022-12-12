@@ -2,7 +2,6 @@ package com.jeanbarrossilva.ongoing
 
 import android.app.ActivityManager
 import android.content.Context
-import android.util.Log
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -11,7 +10,6 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextReplacement
 import androidx.core.content.getSystemService
 import androidx.test.core.app.ApplicationProvider
-import com.jeanbarrossilva.ongoing.app.BuildConfig
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
 import com.jeanbarrossilva.ongoing.extensions.hasNodeThat
 import com.jeanbarrossilva.ongoing.extensions.hasTestTagPrefixedWith
@@ -42,7 +40,6 @@ internal class ActivityUpdateTests {
 
     @Before
     fun setUp() {
-        warnAboutAppFlavorIfItIsNotClean()
         dismissAuthenticationPromptIfDisplayed()
     }
 
@@ -67,15 +64,6 @@ internal class ActivityUpdateTests {
         composeRule.onNodeWithTag(ActivityCardHeadlineName.TAG).assertTextEquals(newName)
     }
 
-    @Suppress("KotlinConstantConditions")
-    private fun warnAboutAppFlavorIfItIsNotClean() {
-        val cleanFlavor = "clean"
-        val isNotCleanFlavor = BuildConfig.FLAVOR != cleanFlavor
-        if (isNotCleanFlavor) {
-            Log.w(TAG, "These tests are suited for the '$cleanFlavor' app flavor.")
-        }
-    }
-
     private fun dismissAuthenticationPromptIfDisplayed() {
         val isPrompted = composeRule.hasNodeThat(hasTestTag(Authentication.TAG))
         if (isPrompted) {
@@ -98,9 +86,5 @@ internal class ActivityUpdateTests {
                 hasNodeThat(hasTestTag(ActivityDetailsFloatingActionButton.TAG))
             }
         }
-    }
-
-    companion object {
-        private const val TAG = "ActivityUpdateTests"
     }
 }

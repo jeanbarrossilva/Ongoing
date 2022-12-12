@@ -1,10 +1,15 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jeanbarrossilva.ongoing.test">
+    package="com.jeanbarrossilva.ongoing.app">
     <application>
         <activity
             android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
-            android:label="InstrumentationActivityInvoker$BootstrapActivity" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"

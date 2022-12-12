@@ -7,14 +7,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.platform.designsystem.R
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.component.NavigationButton.TAG
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+
+object NavigationButton {
+    const val TAG = "navigation_button"
+}
 
 @Composable
 internal fun NavigationButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    IconButton(onClick) {
+    IconButton(onClick, modifier.testTag(TAG)) {
         Icon(
             Icons.Rounded.Close,
             contentDescription = stringResource(

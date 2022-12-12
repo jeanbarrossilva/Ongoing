@@ -1,13 +1,13 @@
 package com.jeanbarrossilva.ongoing.extensions
 
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
-import androidx.compose.ui.test.onNodeWithTag
 
 /**
- * Whether or not there is a node with the given [testTag].
+ * Whether or not there is a node with that matches the given [matcher].
  *
- * @param testTag Test tag of the node to look for.
+ * @param matcher [SemanticsMatcher] to match the node against.
  **/
-internal fun SemanticsNodeInteractionsProvider.hasNodeWithTag(testTag: String): Boolean {
-    return try { onNodeWithTag(testTag).assertExists() } catch (_: AssertionError) { null } != null
+internal fun SemanticsNodeInteractionsProvider.hasNodeThat(matcher: SemanticsMatcher): Boolean {
+    return try { onNode(matcher).assertExists() } catch (_: AssertionError) { null } != null
 }

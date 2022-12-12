@@ -4,4 +4,6 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualAc
 
 fun interface OnFetchListener {
     suspend fun onRefresh(activities: List<ContextualActivity>)
+
+    companion object
 }

@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.extensions
+package com.jeanbarrossilva.ongoing.app.extensions
 
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher

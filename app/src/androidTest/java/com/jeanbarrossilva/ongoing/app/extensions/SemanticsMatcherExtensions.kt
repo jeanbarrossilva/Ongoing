@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.extensions
+package com.jeanbarrossilva.ongoing.app.extensions
 
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull

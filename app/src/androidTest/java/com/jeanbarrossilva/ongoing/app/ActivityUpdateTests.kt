@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing
+package com.jeanbarrossilva.ongoing.app
 
 import android.app.ActivityManager
 import android.content.Context
@@ -10,9 +10,9 @@ import androidx.compose.ui.test.performTextReplacement
 import androidx.core.content.getSystemService
 import androidx.test.core.app.ApplicationProvider
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
-import com.jeanbarrossilva.ongoing.extensions.createAndroidComposeRule
-import com.jeanbarrossilva.ongoing.extensions.hasNodeThat
-import com.jeanbarrossilva.ongoing.extensions.hasTestTagPrefixedWith
+import com.jeanbarrossilva.ongoing.app.extensions.createAndroidComposeRule
+import com.jeanbarrossilva.ongoing.app.extensions.hasNodeThat
+import com.jeanbarrossilva.ongoing.app.extensions.hasTestTagPrefixedWith
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField

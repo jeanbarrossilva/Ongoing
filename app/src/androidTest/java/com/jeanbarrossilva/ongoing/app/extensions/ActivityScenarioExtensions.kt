@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.extensions
+package com.jeanbarrossilva.ongoing.app.extensions
 
 import android.app.Activity
 import androidx.test.core.app.ActivityScenario

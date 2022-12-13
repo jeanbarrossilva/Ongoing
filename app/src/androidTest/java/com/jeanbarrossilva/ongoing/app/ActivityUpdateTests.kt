@@ -39,6 +39,13 @@ internal class ActivityUpdateTests {
     private val context
         get() = ApplicationProvider.getApplicationContext<Context>()
 
+    private val activitiesFab
+        get() = composeRule.onNodeWithTag(ActivitiesFloatingActionButton.TAG)
+    private val activityDetailsFab
+        get() = composeRule.onNodeWithTag(ActivityDetailsFloatingActionButton.TAG)
+    private val navigationButton
+        get() = composeRule.onNodeWithTag(NavigationButton.TAG)
+
     @get:Rule
     val composeRule = createAndroidComposeRule()
 
@@ -56,15 +63,15 @@ internal class ActivityUpdateTests {
     fun synchronizeNameEdit() {
         val oldName = "Have breakfast"
         val newName = "Have lunch"
-        composeRule.onNodeWithTag(ActivitiesFloatingActionButton.TAG).performClick()
+        activitiesFab.performClick()
         editActivity(oldName)
         composeRule.onNode(hasTestTagPrefixedWith(ActivityCard.TAG)).performClick()
         waitForActivityDetailsToLoad()
-        composeRule.onNodeWithTag(ActivityDetailsFloatingActionButton.TAG).performClick()
+        activityDetailsFab.performClick()
         editActivity(newName, status = null)
         waitForActivityDetailsToLoad()
         composeRule.onNodeWithTag(ActivityDetailsHeadlineName.TAG).assertTextEquals(newName)
-        composeRule.onNodeWithTag(NavigationButton.TAG).performClick()
+        navigationButton.performClick()
         composeRule.onNodeWithTag(ActivityCardHeadlineName.TAG).assertTextEquals(newName)
     }
 
@@ -73,9 +80,9 @@ internal class ActivityUpdateTests {
         val oldStatus = ContextualStatus.TO_DO
         val newStatus = ContextualStatus.DONE
         val newStatusTitle = context.getString(newStatus.titleRes)
-        composeRule.onNodeWithTag(ActivitiesFloatingActionButton.TAG).performClick()
+        activitiesFab.performClick()
         editActivity(name = "Take out the trash", oldStatus)
-        composeRule.onNodeWithTag(ActivityDetailsFloatingActionButton.TAG).performClick()
+        activityDetailsFab.performClick()
         editActivity(name = null, newStatus)
         waitForActivityDetailsToLoad()
         composeRule
@@ -83,7 +90,7 @@ internal class ActivityUpdateTests {
             .onChildren()
             .filterToOne(hasTextExactly(newStatusTitle))
             .assertExists()
-        composeRule.onNodeWithTag(NavigationButton.TAG).performClick()
+        navigationButton.performClick()
         composeRule.onNodeWithTag(StatusIndicator.TAG).assertTextEquals(newStatusTitle)
     }
 
@@ -95,14 +102,12 @@ internal class ActivityUpdateTests {
     }
 
     private fun editActivity(name: String?, status: ContextualStatus? = ContextualStatus.TO_DO) {
-        name?.let {
-            composeRule.onNodeWithTag(ActivityNameTextField.TAG).performTextReplacement(it)
+        with(composeRule) {
+            name?.let { onNodeWithTag(ActivityNameTextField.TAG).performTextReplacement(it) }
+            onNodeWithTag(ActivityStatusDropdownField.TAG).performClick()
+            status?.let { onNodeWithTag(ActivityStatusDropdownMenuItem.getTag(it)).performClick() }
+            onNodeWithTag(ActivityEditingFloatingActionButton.TAG).performClick()
         }
-        composeRule.onNodeWithTag(ActivityStatusDropdownField.TAG).performClick()
-        status?.let {
-            composeRule.onNodeWithTag(ActivityStatusDropdownMenuItem.getTag(it)).performClick()
-        }
-        composeRule.onNodeWithTag(ActivityEditingFloatingActionButton.TAG).performClick()
     }
 
     private fun waitForActivityDetailsToLoad() {

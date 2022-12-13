@@ -12,7 +12,7 @@ import com.jeanbarrossilva.ongoing.context.registry.extensions.title
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownMenuItem.getTag
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
-internal object ActivityStatusDropdownMenuItem {
+object ActivityStatusDropdownMenuItem {
     fun getTag(status: ContextualStatus): String {
         return "activity_status_dropdown_menu_item_${status.name.lowercase()}"
     }

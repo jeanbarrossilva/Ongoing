@@ -25,8 +25,8 @@ import com.jeanbarrossilva.ongoing.feature.activityediting.component.Confirmatio
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton
-import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarStyle
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
@@ -55,8 +55,12 @@ fun ActivityEditing(
     val onBackPressedCallback = remember(hasChanges) {
         object: OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                remove()
-                if (hasChanges) isConfirmationDialogVisible = true else onNavigationRequest()
+                if (hasChanges) {
+                    isConfirmationDialogVisible = true
+                } else {
+                    remove()
+                    onNavigationRequest()
+                }
             }
         }
     }
@@ -89,6 +93,7 @@ fun ActivityEditing(
         onNavigationRequest = onNavigationRequest,
         onSaveRequest = {
             viewModel.save()
+            onBackPressedCallback.remove()
             onDone()
         },
         modifier

@@ -16,7 +16,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floa
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButtonEnableability
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
-internal object FloatingActionButton {
+object FloatingActionButton {
     const val TAG = "activity_editing_fab"
 }
 

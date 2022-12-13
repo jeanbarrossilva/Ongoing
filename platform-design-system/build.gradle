@@ -44,7 +44,6 @@ android {
 dependencies {
     api libraries.compose.material3
     api libraries.compose.ui.tooling
-    api libraries.compose_destinations.core
     api libraries.customview
     api libraries.customview_poolingcontainer
     api libraries.fragment

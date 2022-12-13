@@ -19,6 +19,10 @@ android {
     }
 
     productFlavors {
+        clean {
+            dimension dimensions.mode.name
+        }
+
         demo {
             dimension dimensions.mode.name
             applicationIdSuffix dimensions.mode.flavors.demo.suffix
@@ -26,6 +30,7 @@ android {
     }
 
     sourceSets {
+        clean.java.srcDir 'src/shared/java'
         demo.java.srcDir 'src/shared/java'
     }
 
@@ -65,8 +70,6 @@ android {
 }
 
 dependencies {
-    ksp _plugins.compose_destinations
-
     implementation project(':context-registry')
     implementation project(':core-session-in-memory')
     implementation project(':feature-account')
@@ -77,8 +80,12 @@ dependencies {
     implementation project(':platform-design-system')
     implementation project(':platform-extensions')
     implementation project(':platform-registry')
-    implementation libraries.compose_destinations.animations_core
     implementation libraries.koin.androidx_compose
     implementation libraries.material
     implementation libraries.navigation.compose
+
+    androidTestImplementation project(':core-registry-in-memory')
+    androidTestImplementation project(':platform-registry-test')
+    androidTestImplementation libraries.compose.ui.test.junit4
+    androidTestImplementation libraries.test.ext.junit
 }

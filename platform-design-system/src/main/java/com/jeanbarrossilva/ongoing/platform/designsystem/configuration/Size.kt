@@ -8,7 +8,7 @@ object Size {
         val xxs = 2.dp
         val xs = 4.dp
         val s = 8.dp
-        val x = 12.dp
+        val m = 12.dp
         val xl = 16.dp
         val xxl = 20.dp
         val xxxl = 24.dp

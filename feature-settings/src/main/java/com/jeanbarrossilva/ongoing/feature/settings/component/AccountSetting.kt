@@ -1,6 +1,8 @@
 package com.jeanbarrossilva.ongoing.feature.settings.component
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -27,30 +29,35 @@ internal fun AccountSetting(
     onSignOutRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    SettingsMenuLink(
-        modifier.padding(Size.Spacing.x),
-        title = {
-            Text(
-                user.name,
-                Modifier.offset(x = Size.Spacing.x),
-                style = MaterialTheme.typography.titleSmall
-            )
-        },
-        icon = { Avatar(user) },
-        action = {
-            IconButton(
-                onClick = onSignOutRequest,
-                Modifier.offset(x = Size.Spacing.xl),
-                colors = iconButtonColors(contentColor = MaterialTheme.colorScheme.error)
-            ) {
-                Icon(
-                    Icons.Rounded.ExitToApp,
-                    contentDescription = stringResource(R.string.feature_settings_sign_out)
+    Box(
+        modifier
+            .clickable(enabled = false) { }
+            .padding(Size.Spacing.m)
+    ) {
+        SettingsMenuLink(
+            title = {
+                Text(
+                    user.name,
+                    Modifier.offset(x = Size.Spacing.m),
+                    style = MaterialTheme.typography.titleSmall
                 )
-            }
-        },
-        onClick = { }
-    )
+            },
+            icon = { Avatar(user) },
+            action = {
+                IconButton(
+                    onClick = onSignOutRequest,
+                    Modifier.offset(x = Size.Spacing.xl),
+                    colors = iconButtonColors(contentColor = MaterialTheme.colorScheme.error)
+                ) {
+                    Icon(
+                        Icons.Rounded.ExitToApp,
+                        contentDescription = stringResource(R.string.feature_settings_sign_out)
+                    )
+                }
+            },
+            onClick = { }
+        )
+    }
 }
 
 @Composable

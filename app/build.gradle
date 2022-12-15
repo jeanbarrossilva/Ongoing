@@ -72,7 +72,7 @@ android {
 dependencies {
     implementation project(':context-registry')
     implementation project(':core-session-in-memory')
-    implementation project(':feature-account')
+    implementation project(':feature-settings')
     implementation project(':feature-activities')
     implementation project(':feature-activity-details')
     implementation project(':feature-activity-editing')

@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.feature.account.component
+package com.jeanbarrossilva.ongoing.feature.settings.component
 
 import android.content.res.Configuration
 import androidx.compose.material.icons.Icons
@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.feature.account.R
+import com.jeanbarrossilva.ongoing.feature.settings.R
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.button.Button
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.button.ButtonPriority
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.button.ButtonRelevance
@@ -24,11 +24,11 @@ internal fun SignOutButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
         icon = {
             Icon(
                 Icons.Rounded.ExitToApp,
-                contentDescription = stringResource(R.string.feature_account_sign_out)
+                contentDescription = stringResource(R.string.feature_settings_sign_out)
             )
         }
     ) {
-        Text(stringResource(R.string.feature_account_sign_out))
+        Text(stringResource(R.string.feature_settings_sign_out))
     }
 }
 

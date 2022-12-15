@@ -10,7 +10,7 @@ import com.jeanbarrossilva.ongoing.core.session.user.User
 interface ActivitiesBoundary {
     fun navigateToAuthentication(context: Context)
 
-    fun navigateToAccount(context: Context, user: User)
+    fun navigateToSettings(context: Context, user: User)
 
     fun navigateToActivityDetails(
         context: Context,

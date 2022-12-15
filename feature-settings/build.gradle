@@ -45,4 +45,5 @@ dependencies {
     implementation project(':core-session')
     implementation project(':platform-design-system')
     implementation project(':platform-extensions')
+    implementation libraries.compose_settings
 }

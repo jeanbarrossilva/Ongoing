@@ -51,7 +51,7 @@ internal fun AccountSetting(
                 ) {
                     Icon(
                         Icons.Rounded.ExitToApp,
-                        contentDescription = stringResource(R.string.feature_settings_sign_out)
+                        contentDescription = stringResource(R.string.feature_settings_account_sign_out)
                     )
                 }
             },

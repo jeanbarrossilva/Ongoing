@@ -30,7 +30,7 @@ buildscript {
                 ],
                 runtime: "androidx.compose.runtime:runtime:${versions.compose_runtime}"
             ],
-            compose_settings: 'com.github.alorma:compose-settings-ui-m3:' +
+            compose_settings: 'com.github.alorma:compose-settings-ui:' +
                 versions.compose_settings,
             constraintlayout: [
                 compose: 'androidx.constraintlayout:constraintlayout-compose:' +

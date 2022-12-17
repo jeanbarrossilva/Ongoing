@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.core.session.user.User
-import com.jeanbarrossilva.ongoing.feature.settings.component.AccountSetting
+import com.jeanbarrossilva.ongoing.feature.settings.component.account.AccountSetting
 import com.jeanbarrossilva.ongoing.feature.settings.component.activities.ActivitiesSettings
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold

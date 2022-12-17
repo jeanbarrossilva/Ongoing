@@ -1,19 +1,17 @@
 package com.jeanbarrossilva.ongoing.feature.activityediting
 
-import android.content.Context
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import androidx.test.core.app.ApplicationProvider
+import androidx.compose.ui.test.performTextReplacement
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
+import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.ConfirmationDialog
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField
@@ -21,16 +19,17 @@ import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.feature.activityediting.extensions.pressBack
 import com.jeanbarrossilva.ongoing.platform.registry.test.PlatformRegistryTestRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
 internal class ActivityEditingTests {
-    private val context
-        get() = ApplicationProvider.getApplicationContext<Context>()
 
     @get:Rule
-    val platformRegistryTestRule = PlatformRegistryTestRule.create()
+    val platformRegistryRule = PlatformRegistryTestRule.create()
 
     @Suppress("UNCHECKED_CAST")
     @get:Rule
@@ -70,23 +69,21 @@ internal class ActivityEditingTests {
         assertConfirmationDialogDisplayedOnBackPress(true)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun save() {
-        var isDone = false
-        setContent(ActivityEditingMode.Addition, onDone = { isDone = true })
-        composeRule.onNodeWithTag(ActivityNameTextField.TAG).performTextInput("Name")
+        val name = "Rent an apartment"
+        val status = ContextualStatus.DONE
+        setContent(ActivityEditingMode.Addition)
+        composeRule.onNodeWithTag(ActivityNameTextField.TAG).performTextReplacement(name)
         composeRule.onNodeWithTag(ActivityStatusDropdownField.TAG).performClick()
-        composeRule
-            .onNodeWithTag(ActivityStatusDropdownMenuItem.getTag(ContextualStatus.ONGOING))
-            .performClick()
-        composeRule
-            .onAllNodesWithText(
-                context.getString(R.string.feature_activity_editing_error_blank_field)
-            )
-            .assertCountEquals(0)
+        composeRule.onNodeWithTag(ActivityStatusDropdownMenuItem.getTag(status)).performClick()
         composeRule.onNodeWithTag(FloatingActionButton.TAG).assertIsEnabled()
         composeRule.onNodeWithTag(FloatingActionButton.TAG).performClick()
-        assertTrue(isDone)
+        runTest {
+            assertEquals(name, getLastActivity()?.name)
+            assertEquals(status.toStatus(), getLastActivity()?.status)
+        }
     }
 
     private fun setContent(
@@ -95,8 +92,8 @@ internal class ActivityEditingTests {
         onNavigationRequest: () -> Unit = { }
     ) {
         val viewModel = ActivityEditingViewModel(
-            platformRegistryTestRule.session,
-            platformRegistryTestRule.activityRegistry,
+            platformRegistryRule.session,
+            platformRegistryRule.activityRegistry,
             mode
         )
         composeRule.setContent {
@@ -114,5 +111,9 @@ internal class ActivityEditingTests {
         composeRule
             .onNodeWithTag(ConfirmationDialog.TAG)
             .run { if (isDisplayed) assertIsDisplayed() else assertDoesNotExist() }
+    }
+
+    private suspend fun getLastActivity(): Activity? {
+        return platformRegistryRule.activityRegistry.getActivities().lastOrNull()
     }
 }

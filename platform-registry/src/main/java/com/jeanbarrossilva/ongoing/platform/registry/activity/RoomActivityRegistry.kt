@@ -45,7 +45,7 @@ class RoomActivityRegistry(
         assert(name.isNotBlank())
         val entity = ActivityEntity(id = 0, ownerUserId, name, Icon.default)
         val generatedActivityId = activityDao.insert(entity).toString()
-        recorder.status(generatedActivityId, Status.TO_DO)
+        statuses.forEach { recorder.status(generatedActivityId, it) }
         return generatedActivityId
     }
 

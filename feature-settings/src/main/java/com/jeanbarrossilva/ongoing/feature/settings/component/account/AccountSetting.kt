@@ -14,6 +14,7 @@ import androidx.compose.material3.IconButtonDefaults.iconButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,8 +22,11 @@ import com.alorma.compose.settings.ui.SettingsMenuLink
 import com.jeanbarrossilva.ongoing.context.registry.component.Avatar
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.feature.settings.R
+import com.jeanbarrossilva.ongoing.feature.settings.component.account.component.AccountSettingNameAndEmail
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+
+internal const val ACCOUNT_SETTING_SIGN_OUT_BUTTON_TAG = "account_setting_sign_out_button"
 
 @Composable
 internal fun AccountSetting(
@@ -41,7 +45,9 @@ internal fun AccountSetting(
             action = {
                 IconButton(
                     onClick = onSignOutRequest,
-                    Modifier.offset(x = Size.Spacing.xl),
+                    Modifier
+                        .offset(x = Size.Spacing.xl)
+                        .testTag(ACCOUNT_SETTING_SIGN_OUT_BUTTON_TAG),
                     colors = iconButtonColors(contentColor = MaterialTheme.colorScheme.error)
                 ) {
                     Icon(

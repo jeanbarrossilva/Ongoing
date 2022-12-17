@@ -53,4 +53,5 @@ dependencies {
     androidTestImplementation project(':platform-registry-test')
     androidTestImplementation libraries.compose.ui.test.junit4
     androidTestImplementation libraries.compose.ui.test.manifest
+    androidTestImplementation libraries.turbine
 }

@@ -13,4 +13,5 @@
     <string name="feature_settings_activities_clear_confirmation_description">
         This action cannot be undone.
     </string>
+    <string name="feature_settings_about_version">v%s</string>
 </resources>

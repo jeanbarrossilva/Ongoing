@@ -7,6 +7,8 @@ import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
 import com.jeanbarrossilva.ongoing.feature.settings.Settings
 import com.jeanbarrossilva.ongoing.feature.settings.SettingsViewModel
+import com.jeanbarrossilva.ongoing.feature.settings.app.AppNameProvider
+import com.jeanbarrossilva.ongoing.feature.settings.app.CurrentVersionNameProvider
 import com.jeanbarrossilva.ongoing.platform.registry.test.PlatformRegistryTestRule
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -39,7 +41,13 @@ internal class SettingsTestRule(
             userRepository,
             platformRegistryRule.activityRegistry
         )
-        viewModel = SettingsViewModel(session, runBlocking { getCurrentUser() }, activitiesFetcher)
+        viewModel = SettingsViewModel(
+            session,
+            runBlocking { getCurrentUser() },
+            AppNameProvider.sample,
+            CurrentVersionNameProvider.sample,
+            activitiesFetcher
+        )
     }
 
     private fun setContent() {

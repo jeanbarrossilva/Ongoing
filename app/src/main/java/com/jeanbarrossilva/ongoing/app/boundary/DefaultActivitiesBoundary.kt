@@ -6,7 +6,7 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.user.User
-import com.jeanbarrossilva.ongoing.feature.account.AccountActivity
+import com.jeanbarrossilva.ongoing.feature.settings.SettingsActivity
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesBoundary
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsBoundary
 import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetailsBridge
@@ -23,8 +23,8 @@ internal class DefaultActivitiesBoundary(
         context.startActivity<AuthenticationActivity>()
     }
 
-    override fun navigateToAccount(context: Context, user: User) {
-        AccountActivity.start(context, user)
+    override fun navigateToSettings(context: Context, user: User) {
+        SettingsActivity.start(context, user)
     }
 
     override fun navigateToActivityDetails(

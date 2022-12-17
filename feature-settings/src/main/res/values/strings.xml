@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_settings">Settings</string>
+    <string name="feature_settings_account_sign_out">Sign out</string>
+    <string name="feature_settings_activities">Activities</string>
+    <string name="feature_settings_activities_clear">Clear</string>
+    <string name="feature_settings_activities_clear_description">
+        Remove all your activities.
+    </string>
+    <string name="feature_settings_activities_clear_confirmation_title">
+        Are you sure you want to remove all your activities?
+    </string>
+    <string name="feature_settings_activities_clear_confirmation_description">
+        This action cannot be undone.
+    </string>
+    <string name="feature_settings_about_version">v%s</string>
+</resources>

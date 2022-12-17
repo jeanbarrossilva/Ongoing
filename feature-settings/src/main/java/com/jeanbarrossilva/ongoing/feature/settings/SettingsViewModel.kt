@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
+import com.jeanbarrossilva.ongoing.context.registry.extensions.clear
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
-import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 class SettingsViewModel internal constructor(
     private val session: Session,
     private val user: User,
-    private val activityRegistry: ActivityRegistry,
     private val activitiesFetcher: ContextualActivitiesFetcher
 ): ViewModel() {
     val hasActivities = activitiesFetcher
@@ -37,7 +36,7 @@ class SettingsViewModel internal constructor(
 
     fun clearActivities() {
         viewModelScope.launch {
-            activityRegistry.clear(user.id)
+            activitiesFetcher.clear(user.id)
         }
     }
 
@@ -51,12 +50,11 @@ class SettingsViewModel internal constructor(
         fun createFactory(
             session: Session,
             user: User,
-            activityRegistry: ActivityRegistry,
             activitiesFetcher: ContextualActivitiesFetcher
         ): ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(SettingsViewModel::class) {
-                    SettingsViewModel(session, user, activityRegistry, activitiesFetcher)
+                    SettingsViewModel(session, user, activitiesFetcher)
                 }
             }
         }

@@ -18,7 +18,7 @@ class SettingsActivity internal constructor(): ComposableActivity() {
     private val activitiesFetcher by inject<ContextualActivitiesFetcher>()
     private val user by argumentOf<User>(USER_KEY)
     private val viewModel by viewModels<SettingsViewModel> {
-        SettingsViewModel.createFactory(session, user, activityRegistry, activitiesFetcher)
+        SettingsViewModel.createFactory(session, user, activitiesFetcher)
     }
 
     @Composable

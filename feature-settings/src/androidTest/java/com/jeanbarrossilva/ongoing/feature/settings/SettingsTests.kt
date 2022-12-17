@@ -1,18 +1,19 @@
 package com.jeanbarrossilva.ongoing.feature.settings
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
+import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
 import com.jeanbarrossilva.ongoing.context.registry.extensions.register
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
-import com.jeanbarrossilva.ongoing.feature.settings.component.activities.clear.ActivitiesClearSetting
-import com.jeanbarrossilva.ongoing.feature.settings.component.activities.clear.confirmation.ActivitiesClearConfirmationButton
-import com.jeanbarrossilva.ongoing.feature.settings.component.activities.clear.confirmation.ActivitiesClearConfirmationDialog
+import com.jeanbarrossilva.ongoing.feature.settings.extensions.clearActivities
+import com.jeanbarrossilva.ongoing.feature.settings.extensions.onClearActivitiesConfirmationButton
+import com.jeanbarrossilva.ongoing.feature.settings.extensions.onClearActivitiesSetting
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.unwrap
 import com.jeanbarrossilva.ongoing.platform.registry.test.PlatformRegistryTestRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filterNotNull
@@ -50,7 +51,6 @@ internal class SettingsTests {
             viewModel = SettingsViewModel(
                 session,
                 getCurrentUser(),
-                activityRegistry,
                 activitiesFetcher
             )
         }
@@ -62,27 +62,26 @@ internal class SettingsTests {
     @Test
     fun showClearActivitiesSettingWhenHasActivities() {
         registerActivities()
-        composeRule.onNodeWithTag(ActivitiesClearSetting.TAG).assertExists()
+        composeRule.onClearActivitiesSetting().assertExists()
     }
 
     @Test
     fun hideClearActivitiesSettingWhenHasNoActivities() {
-        composeRule.onNodeWithTag(ActivitiesClearSetting.TAG).assertDoesNotExist()
+        composeRule.onClearActivitiesSetting().assertDoesNotExist()
     }
 
     @Test
     fun showConfirmationDialogOnActivityClearing() {
         registerActivities()
-        composeRule.onNodeWithTag(ActivitiesClearSetting.TAG).performClick()
-        composeRule.onNodeWithTag(ActivitiesClearConfirmationDialog.TAG).assertExists()
+        composeRule.onClearActivitiesSetting().performClick()
+        composeRule.onClearActivitiesConfirmationButton().assertExists()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun clearActivities() {
         registerActivities()
-        composeRule.onNodeWithTag(ActivitiesClearSetting.TAG).performClick()
-        composeRule.onNodeWithTag(ActivitiesClearConfirmationButton.TAG).performClick()
+        composeRule.clearActivities()
         runTest {
             activitiesFetcher.fetch()
             assertEquals(
@@ -90,6 +89,18 @@ internal class SettingsTests {
                 platformRegistryRule.activityRegistry.getActivities()
             )
         }
+    }
+
+    @Test
+    fun hideClearActivitiesSettingAfterClearing() {
+        registerActivities()
+        composeRule.clearActivities()
+        composeRule.waitUntil {
+            runBlocking {
+                activitiesFetcher.getActivities().unwrap().first().isEmpty()
+            }
+        }
+        composeRule.onClearActivitiesSetting().assertDoesNotExist()
     }
 
     private suspend fun getCurrentUser(): User {

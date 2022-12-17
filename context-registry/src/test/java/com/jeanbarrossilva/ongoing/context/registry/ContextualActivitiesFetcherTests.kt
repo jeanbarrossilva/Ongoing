@@ -4,12 +4,14 @@ import app.cash.turbine.test
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.OnFetchListener
+import com.jeanbarrossilva.ongoing.context.registry.extensions.clear
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivity
 import com.jeanbarrossilva.ongoing.context.registry.extensions.register
 import com.jeanbarrossilva.ongoing.core.registry.inmemory.InMemoryActivityRegistry
 import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySession
 import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.emptySerializableList
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableList
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.unwrap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,7 +41,7 @@ internal class ContextualActivitiesFetcherTests {
     @After
     fun tearDown() {
         runTest {
-            activityRegistry.clear(getCurrentUserId())
+            fetcher.clear(getCurrentUserId())
             session.logOut()
         }
     }
@@ -91,6 +93,18 @@ internal class ContextualActivitiesFetcherTests {
             fetcher.getActivity(activityId).unwrap().test {
                 fetcher.fetch()
                 assertEquals(ContextualActivity.sample.name, awaitItem().name)
+            }
+        }
+    }
+
+    @Test
+    fun clear() {
+        runTest {
+            activityRegistry.register(getCurrentUserId(), ContextualActivity.samples)
+            fetcher.clear(getCurrentUserId())
+            fetcher.getActivities().unwrap().test {
+                fetcher.fetch()
+                assertEquals(emptySerializableList<ContextualActivity>(), awaitItem())
             }
         }
     }

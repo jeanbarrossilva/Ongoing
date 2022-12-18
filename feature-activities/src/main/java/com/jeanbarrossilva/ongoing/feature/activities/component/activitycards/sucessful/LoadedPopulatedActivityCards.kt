@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesSelection
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
+import com.jeanbarrossilva.ongoing.feature.activities.extensions.contains
 import com.jeanbarrossilva.ongoing.feature.activities.extensions.ifOff
 import com.jeanbarrossilva.ongoing.feature.activities.extensions.ifOn
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
@@ -42,7 +43,7 @@ internal fun LoadedPopulatedActivityCards(
         items(activities) {
             ActivityCard(
                 Loadable.Loaded(it),
-                isSelected = selection.ifOn { isSelected(it) } ?: false,
+                isSelected = it in selection,
                 onClick = {
                     selection.ifOn { selection = toggle(it) } ?: onActivityDetailsRequest(it)
                 },

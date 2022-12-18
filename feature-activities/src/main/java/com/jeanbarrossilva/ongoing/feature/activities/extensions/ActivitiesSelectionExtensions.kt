@@ -1,6 +1,16 @@
 package com.jeanbarrossilva.ongoing.feature.activities.extensions
 
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesSelection
+
+/**
+ * Whether or not the given [activity] is in the [ActivitiesSelection].
+ *
+ * @param activity [ContextualActivity] whose presence will be checked.
+ **/
+internal operator fun ActivitiesSelection.contains(activity: ContextualActivity): Boolean {
+    return ifOn { isSelected(activity) } ?: false
+}
 
 /**
  * Returns the result of the given [transform] if this is [off][ActivitiesSelection.Off].

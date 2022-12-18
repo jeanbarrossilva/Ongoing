@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
+import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesSelection
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.sucessful.LoadedActivityCards
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
@@ -16,6 +17,8 @@ import com.jeanbarrossilva.ongoing.platform.loadable.type.SerializableList
 @Composable
 internal fun ActivityCards(
     activities: Loadable<SerializableList<ContextualActivity>>,
+    selection: ActivitiesSelection,
+    onSelectionChange: (selection: ActivitiesSelection) -> Unit,
     contentPadding: PaddingValues,
     onActivityDetailsRequest: (activity: ContextualActivity) -> Unit,
     modifier: Modifier = Modifier
@@ -23,6 +26,8 @@ internal fun ActivityCards(
     when (activities) {
         is Loadable.Loaded -> LoadedActivityCards(
             activities.value,
+            selection,
+            onSelectionChange,
             contentPadding,
             onActivityDetailsRequest,
             modifier
@@ -32,15 +37,26 @@ internal fun ActivityCards(
 }
 
 @Composable
+private fun ActivityCards(
+    activities: Loadable<SerializableList<ContextualActivity>>,
+    modifier: Modifier = Modifier
+) {
+    ActivityCards(
+        activities,
+        ActivitiesSelection.Off,
+        onSelectionChange = { },
+        PaddingValues(0.dp),
+        onActivityDetailsRequest = { },
+        modifier
+    )
+}
+
+@Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun SuccessfulActivityCardsPreview() {
     OngoingTheme {
-        ActivityCards(
-            Loadable.Loaded(ContextualActivity.samples.toSerializableList()),
-            contentPadding = PaddingValues(0.dp),
-            onActivityDetailsRequest = { }
-        )
+        ActivityCards(Loadable.Loaded(ContextualActivity.samples.toSerializableList()))
     }
 }
 
@@ -49,10 +65,6 @@ private fun SuccessfulActivityCardsPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun LoadingActivityCardsPreview() {
     OngoingTheme {
-        ActivityCards(
-            Loadable.Loading(),
-            contentPadding = PaddingValues(0.dp),
-            onActivityDetailsRequest = { }
-        )
+        ActivityCards(Loadable.Loading())
     }
 }

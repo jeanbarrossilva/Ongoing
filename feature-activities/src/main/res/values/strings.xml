@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="feature_activities">Activities</string>
+    <plurals name="feature_activities_selection">
+        <item quantity="one">%d activity selected</item>
+        <item quantity="other">%d activities selected</item>
+    </plurals>
     <string name="feature_activities_top_app_bar_action_account_content_description">
         Account
     </string>

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
 import com.jeanbarrossilva.ongoing.core.session.Session
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 
@@ -15,6 +16,7 @@ class ActivitiesViewModel private constructor(
 ): ViewModel() {
     internal val user = flow { emitAll(session.getUser()) }
     internal val activities = fetcher.getActivities()
+    internal val selection = MutableStateFlow<ActivitiesSelection>(ActivitiesSelection.Off)
 
     companion object {
         fun createFactory(session: Session, fetcher: ContextualActivitiesFetcher):

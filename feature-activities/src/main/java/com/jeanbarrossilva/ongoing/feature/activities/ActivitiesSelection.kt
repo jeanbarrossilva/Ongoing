@@ -27,6 +27,9 @@ internal sealed class ActivitiesSelection {
      * @param selected [Contextual activities][ContextualActivity] that are selected.
      **/
     data class On(private val selected: List<ContextualActivity>): ActivitiesSelection() {
+        /** Quantity of selected [contextual activities][ContextualActivity]. **/
+        val size get() = selected.size
+
         constructor(): this(emptyList())
 
         constructor(activity: ContextualActivity): this(listOf(activity))

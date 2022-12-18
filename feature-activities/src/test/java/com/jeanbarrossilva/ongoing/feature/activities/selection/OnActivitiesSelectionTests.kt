@@ -12,6 +12,11 @@ import org.junit.Test
 
 internal class OnActivitiesSelectionTests {
     @Test
+    fun `GIVEN some selected activities WHEN getting the size THEN it is the same number of selected activities`() {
+        assertEquals(4, ActivitiesSelection.On(List(4) { ContextualActivity.sample }).size)
+    }
+
+    @Test
     fun `GIVEN an unselected activity WHEN checking if it is selected THEN it is`() {
         assertFalse(ActivitiesSelection.On().isSelected(ContextualActivity.sample))
     }

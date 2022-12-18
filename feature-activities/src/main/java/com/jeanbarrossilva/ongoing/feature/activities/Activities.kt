@@ -38,12 +38,15 @@ fun Activities(
     val fetcher = viewModel.fetcher
     val user by viewModel.user.collectAsState(initial = null)
     val activities by viewModel.activities.collectAsState()
+    val selection by viewModel.selection.collectAsState()
 
     ResumedFetchEffect(fetcher)
 
     Activities(
         user,
         activities,
+        selection,
+        onSelectionChange = { viewModel.selection.value = it },
         onAccountDetailsRequest = {
             user?.let { boundary.navigateToSettings(context, it) }
                 ?: boundary.navigateToAuthentication(context)
@@ -71,6 +74,8 @@ private fun Activities(
     Activities(
         User.sample,
         activities,
+        ActivitiesSelection.Off,
+        onSelectionChange = { },
         onAccountDetailsRequest = { },
         onActivityDetailsRequest = { },
         onAddRequest = { },
@@ -82,19 +87,23 @@ private fun Activities(
 private fun Activities(
     user: User?,
     activities: Loadable<SerializableList<ContextualActivity>>,
+    selection: ActivitiesSelection,
+    onSelectionChange: (selection: ActivitiesSelection) -> Unit,
     onAccountDetailsRequest: () -> Unit,
     onActivityDetailsRequest: (activity: ContextualActivity) -> Unit,
     onAddRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        topBar = { TopAppBar(user, onAccountDetailsRequest) },
+        topBar = { TopAppBar(user, selection, onAccountDetailsRequest) },
         modifier,
         floatingActionButton = { FloatingActionButton(onClick = onAddRequest) }
     ) {
         Background {
             ActivityCards(
                 activities,
+                selection,
+                onSelectionChange,
                 contentPadding = PaddingValues(Size.Spacing.xxxl) + it,
                 onActivityDetailsRequest
             )

@@ -7,10 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,14 +23,12 @@ import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 @Composable
 internal fun LoadedPopulatedActivityCards(
     activities: List<ContextualActivity>,
+    selection: ActivitiesSelection,
+    onSelectionChange: (selection: ActivitiesSelection) -> Unit,
     contentPadding: PaddingValues,
     onActivityDetailsRequest: (activity: ContextualActivity) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var selection by remember {
-        mutableStateOf<ActivitiesSelection>(ActivitiesSelection.Off)
-    }
-
     LazyColumn(
         modifier,
         contentPadding = contentPadding,
@@ -45,11 +39,11 @@ internal fun LoadedPopulatedActivityCards(
                 Loadable.Loaded(it),
                 isSelected = it in selection,
                 onClick = {
-                    selection.ifOn { selection = toggle(it) } ?: onActivityDetailsRequest(it)
+                    selection.ifOn { onSelectionChange(toggle(it)) } ?: onActivityDetailsRequest(it)
                 },
                 onLongClick = {
                     selection.ifOff {
-                        selection = ActivitiesSelection.On(it)
+                        onSelectionChange(ActivitiesSelection.On(it))
                     }
                 },
                 Modifier.fillMaxWidth()
@@ -65,6 +59,8 @@ private fun LoadedPopulatedActivityCardsPreview() {
     OngoingTheme {
         LoadedPopulatedActivityCards(
             ContextualActivity.samples,
+            ActivitiesSelection.Off,
+            onSelectionChange = { },
             contentPadding = PaddingValues(0.dp),
             onActivityDetailsRequest = { }
         )

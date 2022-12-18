@@ -27,7 +27,7 @@ internal fun ActivityHeadline(
         Arrangement.spacedBy(Size.Spacing.xxxl),
         Alignment.CenterHorizontally
     ) {
-        ActivityIcon(activity, ActivityIconSize.LARGE)
+        ActivityIcon(activity, ActivityIconSize.LARGE, isSelected = false)
         ActivityHeadlineName(activity)
     }
 }

@@ -7,11 +7,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
+import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesSelection
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
+import com.jeanbarrossilva.ongoing.feature.activities.extensions.ifOff
+import com.jeanbarrossilva.ongoing.feature.activities.extensions.ifOn
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
@@ -23,6 +30,10 @@ internal fun LoadedPopulatedActivityCards(
     onActivityDetailsRequest: (activity: ContextualActivity) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var selection by remember {
+        mutableStateOf<ActivitiesSelection>(ActivitiesSelection.Off)
+    }
+
     LazyColumn(
         modifier,
         contentPadding = contentPadding,
@@ -31,7 +42,15 @@ internal fun LoadedPopulatedActivityCards(
         items(activities) {
             ActivityCard(
                 Loadable.Loaded(it),
-                onClick = { onActivityDetailsRequest(it) },
+                isSelected = selection.ifOn { isSelected(it) } ?: false,
+                onClick = {
+                    selection.ifOn { selection = toggle(it) } ?: onActivityDetailsRequest(it)
+                },
+                onLongClick = {
+                    selection.ifOff {
+                        selection = ActivitiesSelection.On(it)
+                    }
+                },
                 Modifier.fillMaxWidth()
             )
         }

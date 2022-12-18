@@ -16,8 +16,16 @@ internal fun LoadedActivityCards(
     onActivityDetailsRequest: (activity: ContextualActivity) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    activities.ifEmpty { LoadedEmptyActivityCards(modifier) }
-    LoadedPopulatedActivityCards(activities, contentPadding, onActivityDetailsRequest, modifier)
+    activities.ifEmpty {
+        LoadedEmptyActivityCards(modifier)
+    }
+
+    LoadedPopulatedActivityCards(
+        activities,
+        contentPadding,
+        onActivityDetailsRequest,
+        modifier
+    )
 }
 
 @Composable

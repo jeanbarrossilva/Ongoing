@@ -1,13 +1,14 @@
 package com.jeanbarrossilva.ongoing.feature.activities.component.activitycard
 
 import android.content.res.Configuration
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults.cardColors
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,11 +40,13 @@ object ActivityCard {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun ActivityCard(
     activity: Loadable<ContextualActivity>,
+    isSelected: Boolean,
     onClick: () -> Unit,
+    onLongClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var prominence by remember { mutableStateOf(ActivityCardProminence.STILL) }
@@ -51,7 +54,6 @@ internal fun ActivityCard(
     val spacing = Size.Spacing.xxxl
 
     Card(
-        onClick,
         modifier
             .pointerInput(Unit) {
                 awaitPointerEventScope {
@@ -63,12 +65,13 @@ internal fun ActivityCard(
                     }
                 }
             }
+            .combinedClickable(onLongClick = onLongClick, onClick = onClick)
             .testTag(activity.ifLoaded(::getTag) ?: TAG),
         colors = cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         border = prominence.getBorderStroke(isPressed)
     ) {
         Row(Modifier.padding(spacing), Arrangement.spacedBy(spacing), Alignment.CenterVertically) {
-            ActivityIcon(activity, ActivityIconSize.SMALL)
+            ActivityIcon(activity, ActivityIconSize.SMALL, isSelected)
             ActivityHeadline(activity)
         }
     }
@@ -81,7 +84,9 @@ private fun ActivityCardPreview() {
     OngoingTheme {
         ActivityCard(
             Loadable.Loaded(ContextualActivity.sample),
+            isSelected = false,
             onClick = { },
+            onLongClick = { },
             Modifier.fillMaxWidth()
         )
     }

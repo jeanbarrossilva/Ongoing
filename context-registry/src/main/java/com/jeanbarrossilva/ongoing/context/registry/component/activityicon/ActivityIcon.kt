@@ -1,13 +1,17 @@
 package com.jeanbarrossilva.ongoing.context.registry.component.activityicon
 
 import android.content.res.Configuration
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -22,26 +26,36 @@ import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 fun ActivityIcon(
     activity: Loadable<ContextualActivity>,
     size: ActivityIconSize,
+    isSelected: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val vector = activity.ifLoaded(ContextualActivity::icon)?.vector
-    val containerSize = vector?.let { size.adaptedValue } ?: size.value
+    val activityIcon = activity.ifLoaded(ContextualActivity::icon)?.vector
+    val icon = if (isSelected) Icons.Rounded.Check else activityIcon
+    val containerSize = activityIcon?.let { size.adaptedValue } ?: size.value
+    val secondaryContainerColor = MaterialTheme.colorScheme.secondaryContainer
+    val primaryColor = MaterialTheme.colorScheme.primary
+    val backgroundColor by animateColorAsState(
+        if (isSelected) primaryColor else secondaryContainerColor
+    )
+    val contentColor by animateColorAsState(
+        if (isSelected) secondaryContainerColor else primaryColor
+    )
 
     Box(
         modifier
             .clip(size.shape)
-            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .background(backgroundColor)
             .padding(size.padding)
             .size(containerSize)
     ) {
-        vector?.let {
+        icon?.let {
             Icon(
                 it,
                 contentDescription = stringResource(
                     R.string.platform_registry_activity_card_icon_content_description
                 ),
                 Modifier.size(size.adaptedValue),
-                MaterialTheme.colorScheme.primary
+                contentColor
             )
         }
     }
@@ -50,17 +64,25 @@ fun ActivityIcon(
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun SmallActivityIconPreview() {
+private fun SelectedActivityIconPreview() {
     OngoingTheme {
-        ActivityIcon(Loadable.Loaded(ContextualActivity.sample), ActivityIconSize.SMALL)
+        ActivityIcon(
+            Loadable.Loaded(ContextualActivity.sample),
+            ActivityIconSize.LARGE,
+            isSelected = false
+        )
     }
 }
 
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun LargeActivityIconPreview() {
+private fun UnselectedActivityIconPreview() {
     OngoingTheme {
-        ActivityIcon(Loadable.Loaded(ContextualActivity.sample), ActivityIconSize.LARGE)
+        ActivityIcon(
+            Loadable.Loaded(ContextualActivity.sample),
+            ActivityIconSize.LARGE,
+            isSelected = true
+        )
     }
 }

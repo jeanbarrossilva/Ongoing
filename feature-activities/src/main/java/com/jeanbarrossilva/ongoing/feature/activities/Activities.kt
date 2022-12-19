@@ -15,7 +15,7 @@ import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.FloatingActionButton
-import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.TopAppBar
+import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
@@ -47,10 +47,11 @@ fun Activities(
         activities,
         selection,
         onSelectionChange = { viewModel.selection.value = it },
-        onAccountDetailsRequest = {
+        onSettingsRequest = {
             user?.let { boundary.navigateToSettings(context, it) }
                 ?: boundary.navigateToAuthentication(context)
         },
+        onUnregistrationRequest = viewModel::unregister,
         onActivityDetailsRequest = {
             boundary.navigateToActivityDetails(
                 context,
@@ -76,7 +77,8 @@ private fun Activities(
         activities,
         ActivitiesSelection.Off,
         onSelectionChange = { },
-        onAccountDetailsRequest = { },
+        onSettingsRequest = { },
+        onUnregistrationRequest = { },
         onActivityDetailsRequest = { },
         onAddRequest = { },
         modifier
@@ -89,13 +91,14 @@ private fun Activities(
     activities: Loadable<SerializableList<ContextualActivity>>,
     selection: ActivitiesSelection,
     onSelectionChange: (selection: ActivitiesSelection) -> Unit,
-    onAccountDetailsRequest: () -> Unit,
+    onSettingsRequest: () -> Unit,
+    onUnregistrationRequest: (activities: List<ContextualActivity>) -> Unit,
     onActivityDetailsRequest: (activity: ContextualActivity) -> Unit,
     onAddRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        topBar = { TopAppBar(user, selection, onAccountDetailsRequest) },
+        topBar = { TopAppBar(user, selection, onSettingsRequest, onUnregistrationRequest) },
         modifier,
         floatingActionButton = { FloatingActionButton(onClick = onAddRequest) }
     ) {

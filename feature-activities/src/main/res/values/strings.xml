@@ -8,6 +8,7 @@
     <string name="feature_activities_top_app_bar_action_account_content_description">
         Account
     </string>
+    <string name="feature_activities_top_app_bar_action_remove_content_description">Remove</string>
     <string name="feature_activities_list_message_title">You have no activities.</string>
     <string name="feature_activities_list_message_description">
         Try adding some by tapping the \'+\' below!

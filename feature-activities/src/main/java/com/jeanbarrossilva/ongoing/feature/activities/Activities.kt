@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,6 +16,7 @@ import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.feature.activities.component.RemovalConfirmationDialog
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.topappbar.TopAppBar
@@ -97,8 +101,25 @@ private fun Activities(
     onAddRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var isRemovalConfirmationDialogVisible by remember { mutableStateOf(false) }
+
+    if (isRemovalConfirmationDialogVisible && selection is ActivitiesSelection.On) {
+        RemovalConfirmationDialog(
+            selection,
+            onDismissalRequest = { isRemovalConfirmationDialogVisible = false },
+            onConfirmationRequest = { onUnregistrationRequest(selection.selected) }
+        )
+    }
+
     Scaffold(
-        topBar = { TopAppBar(user, selection, onSettingsRequest, onUnregistrationRequest) },
+        topBar = {
+            TopAppBar(
+                user,
+                selection,
+                onSettingsRequest,
+                onUnregistrationRequest = { isRemovalConfirmationDialogVisible = true }
+            )
+        },
         modifier,
         floatingActionButton = { FloatingActionButton(onClick = onAddRequest) }
     ) {

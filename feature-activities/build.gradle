@@ -50,4 +50,10 @@ dependencies {
     implementation libraries.navigation.runtime
 
     testImplementation libraries.test.ext.junit
+
+    androidTestImplementation project(':core-session-in-memory')
+    androidTestImplementation project(':platform-registry-test')
+    androidTestImplementation libraries.compose.ui.test.junit4
+    androidTestImplementation libraries.compose.ui.test.manifest
+    androidTestImplementation libraries.turbine
 }

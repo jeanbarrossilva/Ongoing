@@ -15,6 +15,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.R
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
@@ -47,6 +49,7 @@ fun ActivityIcon(
             .background(backgroundColor)
             .padding(size.padding)
             .size(containerSize)
+            .semantics { set(SemanticsProperties.Selected, isSelected) }
     ) {
         icon?.let {
             Icon(

@@ -15,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jeanbarrossilva.ongoing.context.registry.component.activityicon.ActivityIcon
@@ -48,7 +50,9 @@ internal fun ActivityCard(
     val spacing = Size.Spacing.xxxl
 
     Card(
-        modifier.testTag(activity.ifLoaded(::getTag) ?: TAG),
+        modifier
+            .testTag(activity.ifLoaded(::getTag) ?: TAG)
+            .semantics { set(SemanticsProperties.Selected, isSelected) },
         colors = cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.secondaryContainer)
     ) {

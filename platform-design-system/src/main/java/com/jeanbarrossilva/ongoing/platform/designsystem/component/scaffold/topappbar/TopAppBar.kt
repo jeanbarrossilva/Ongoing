@@ -10,9 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults.centerAlignedTopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.component.NavigationButton
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+
+const val TOP_APP_BAR_TAG = "top_app_bar"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,7 +29,7 @@ fun TopAppBar(
 
     CenterAlignedTopAppBar(
         title = { ProvideTextStyle(MaterialTheme.typography.titleSmall, title) },
-        modifier,
+        modifier.testTag(TOP_APP_BAR_TAG),
         navigationIcon = {
             if (style is TopAppBarStyle.Navigable) {
                 NavigationButton(onClick = style::onNavigationRequest)

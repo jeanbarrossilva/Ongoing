@@ -68,3 +68,15 @@ suspend fun ContextualActivitiesFetcher.unregister(activityId: String) {
     activityRegistry.unregister(userId, activityId)
     fetch()
 }
+
+/**
+ * Registers the given [activity] (although it'll have a different [ContextualActivity.id]) and then
+ * fetches.
+ *
+ * @param activity [ContextualActivity] to register.
+ **/
+suspend fun ContextualActivitiesFetcher.register(activity: ContextualActivity) {
+    val ownerUserId = session.getUser().filterNotNull().first().id
+    activityRegistry.register(ownerUserId, activity)
+    fetch()
+}

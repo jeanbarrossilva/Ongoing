@@ -22,4 +22,27 @@ interface ActivitiesBoundary {
     )
 
     fun navigateToActivityEditing(context: Context)
+
+    companion object {
+        internal val empty = object: ActivitiesBoundary {
+            override fun navigateToAuthentication(context: Context) {
+            }
+
+            override fun navigateToSettings(context: Context, user: User) {
+            }
+
+            override fun navigateToActivityDetails(
+                context: Context,
+                session: Session,
+                activityRegistry: ActivityRegistry,
+                observation: Observation,
+                fetcher: ContextualActivitiesFetcher,
+                activityId: String
+            ) {
+            }
+
+            override fun navigateToActivityEditing(context: Context) {
+            }
+        }
+    }
 }

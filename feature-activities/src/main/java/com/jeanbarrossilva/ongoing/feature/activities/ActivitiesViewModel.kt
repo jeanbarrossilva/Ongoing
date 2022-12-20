@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-class ActivitiesViewModel private constructor(
+class ActivitiesViewModel internal constructor(
     internal val session: Session,
     internal val fetcher: ContextualActivitiesFetcher
 ): ViewModel() {

@@ -14,4 +14,8 @@
         Try adding some by tapping the \'+\' below!
     </string>
     <string name="feature_activities_fab_content_description">Add</string>
+    <plurals name="feature_activities_removal_confirmation">
+        <item quantity="one">Are you sure you want to remove \"%s\"?</item>
+        <item quantity="other">Are you sure you want to remove the %d selected activities?</item>
+    </plurals>
 </resources>

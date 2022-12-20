@@ -13,6 +13,7 @@ import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesSelection
 import com.jeanbarrossilva.ongoing.feature.activities.R
 
 internal const val REMOVAL_CONFIRMATION_DIALOG_TAG = "removal_confirmation_dialog"
+internal const val REMOVAL_CONFIRMATION_DIALOG_TEXT_TAG = "removal_confirmation_dialog_text"
 internal const val REMOVAL_CONFIRMATION_DIALOG_CONFIRMATION_BUTTON_TAG =
     "removal_confirmation_dialog_confirmation_button"
 
@@ -24,6 +25,10 @@ internal fun RemovalConfirmationDialog(
     onConfirmationRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val selectionCount = selection.selected.size
+    val textFormatArg =
+        if (selectionCount == 1) selection.selected.single().name else selectionCount
+
     AlertDialog(
         onDismissalRequest,
         confirmButton = {
@@ -44,9 +49,10 @@ internal fun RemovalConfirmationDialog(
             Text(
                 pluralStringResource(
                     R.plurals.feature_activities_removal_confirmation,
-                    selection.selected.size,
-                    selection.selected.size
-                )
+                    selectionCount,
+                    textFormatArg
+                ),
+                Modifier.testTag(REMOVAL_CONFIRMATION_DIALOG_TEXT_TAG)
             )
         }
     )

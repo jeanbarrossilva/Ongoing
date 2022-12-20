@@ -44,6 +44,7 @@ internal fun RemovalConfirmationDialog(
             Text(
                 pluralStringResource(
                     R.plurals.feature_activities_removal_confirmation,
+                    selection.selected.size,
                     selection.selected.size
                 )
             )

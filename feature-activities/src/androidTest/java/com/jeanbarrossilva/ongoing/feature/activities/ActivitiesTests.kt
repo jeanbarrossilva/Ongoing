@@ -2,6 +2,7 @@ package com.jeanbarrossilva.ongoing.feature.activities
 
 import android.content.Context
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.filterToOne
 import androidx.compose.ui.test.hasTextExactly
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -19,6 +20,7 @@ import com.jeanbarrossilva.ongoing.context.registry.extensions.register
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
 import com.jeanbarrossilva.ongoing.feature.activities.component.REMOVAL_CONFIRMATION_DIALOG_CONFIRMATION_BUTTON_TAG
+import com.jeanbarrossilva.ongoing.feature.activities.component.REMOVAL_CONFIRMATION_DIALOG_TEXT_TAG
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.topappbar.TOP_APP_BAR_SELECTION_ACTIONS_REMOVE_TAG
 import com.jeanbarrossilva.ongoing.feature.activities.extensions.hasTestTagPrefixedWith
@@ -36,12 +38,16 @@ import org.junit.Test
 internal class ActivitiesTests {
     private lateinit var fetcher: ContextualActivitiesFetcher
 
+    private val activity
+        get() = ContextualActivity.sample
     private val activityCard
         get() = composeRule.onNode(hasTestTagPrefixedWith(ActivityCard.TAG))
     private val activityRegistry
         get() = platformRegistryRule.activityRegistry
     private val context
         get() = ApplicationProvider.getApplicationContext<Context>()
+    private val removeButton
+        get() = composeRule.onNodeWithTag(TOP_APP_BAR_SELECTION_ACTIONS_REMOVE_TAG)
     private val session
         get() = platformRegistryRule.session
 
@@ -65,6 +71,22 @@ internal class ActivitiesTests {
             context.resources.getQuantityString(R.plurals.feature_activities_selection, 1, 1)
         )
         assertTrue(activityCard.fetchSemanticsNode().config[SemanticsProperties.Selected])
+    }
+
+    @Test
+    fun showConfirmationDialogWhenRemovingAnActivity() {
+        registerActivity()
+        longClickFirstActivity()
+        removeButton.performClick()
+        composeRule
+            .onNodeWithTag(REMOVAL_CONFIRMATION_DIALOG_TEXT_TAG)
+            .assertTextEquals(
+                context.resources.getQuantityString(
+                    R.plurals.feature_activities_removal_confirmation,
+                    1,
+                    activity.name
+                )
+            )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -107,7 +129,7 @@ internal class ActivitiesTests {
 
     private fun removeFirstActivity() {
         longClickFirstActivity()
-        composeRule.onNodeWithTag(TOP_APP_BAR_SELECTION_ACTIONS_REMOVE_TAG).performClick()
+        removeButton.performClick()
         composeRule.onNodeWithTag(REMOVAL_CONFIRMATION_DIALOG_CONFIRMATION_BUTTON_TAG)
             .performClick()
     }

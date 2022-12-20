@@ -28,6 +28,7 @@ class ActivitiesViewModel private constructor(
                 fetcher.unregister(it.id)
             }
         }
+        selection.value = ActivitiesSelection.Off
     }
 
     companion object {

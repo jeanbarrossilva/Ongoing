@@ -1,6 +1,7 @@
 package com.jeanbarrossilva.ongoing.feature.activities.component.activitycard
 
 import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,16 +12,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.jeanbarrossilva.ongoing.context.registry.component.activityicon.ActivityIcon
 import com.jeanbarrossilva.ongoing.context.registry.component.activityicon.ActivityIconSize
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
@@ -49,28 +45,21 @@ internal fun ActivityCard(
     onLongClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var prominence by remember { mutableStateOf(ActivityCardProminence.STILL) }
-    var isPressed by remember { mutableStateOf(false) }
     val spacing = Size.Spacing.xxxl
 
     Card(
-        modifier
-            .pointerInput(Unit) {
-                awaitPointerEventScope {
-                    when (currentEvent.type) {
-                        PointerEventType.Enter -> prominence = ActivityCardProminence.HOVERED
-                        PointerEventType.Press -> isPressed = true
-                        PointerEventType.Release -> isPressed = false
-                        PointerEventType.Exit -> prominence = ActivityCardProminence.STILL
-                    }
-                }
-            }
-            .combinedClickable(onLongClick = onLongClick, onClick = onClick)
-            .testTag(activity.ifLoaded(::getTag) ?: TAG),
+        modifier.testTag(activity.ifLoaded(::getTag) ?: TAG),
         colors = cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-        border = prominence.getBorderStroke(isPressed)
+        border = BorderStroke(2.dp, MaterialTheme.colorScheme.secondaryContainer)
     ) {
-        Row(Modifier.padding(spacing), Arrangement.spacedBy(spacing), Alignment.CenterVertically) {
+        Row(
+            Modifier
+                .combinedClickable(onLongClick = onLongClick, onClick = onClick)
+                .padding(spacing)
+                .fillMaxWidth(),
+            Arrangement.spacedBy(spacing),
+            Alignment.CenterVertically
+        ) {
             ActivityIcon(activity, ActivityIconSize.SMALL, isSelected)
             ActivityHeadline(activity)
         }
@@ -86,8 +75,7 @@ private fun ActivityCardPreview() {
             Loadable.Loaded(ContextualActivity.sample),
             isSelected = false,
             onClick = { },
-            onLongClick = { },
-            Modifier.fillMaxWidth()
+            onLongClick = { }
         )
     }
 }

@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,9 +16,10 @@ import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.feature.activities.component.RemovalConfirmationDialog
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.FloatingActionButton
-import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.TopAppBar
+import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
@@ -38,16 +42,20 @@ fun Activities(
     val fetcher = viewModel.fetcher
     val user by viewModel.user.collectAsState(initial = null)
     val activities by viewModel.activities.collectAsState()
+    val selection by viewModel.selection.collectAsState()
 
     ResumedFetchEffect(fetcher)
 
     Activities(
         user,
         activities,
-        onAccountDetailsRequest = {
+        selection,
+        onSelectionChange = { viewModel.selection.value = it },
+        onSettingsRequest = {
             user?.let { boundary.navigateToSettings(context, it) }
                 ?: boundary.navigateToAuthentication(context)
         },
+        onUnregistrationRequest = viewModel::unregister,
         onActivityDetailsRequest = {
             boundary.navigateToActivityDetails(
                 context,
@@ -71,7 +79,10 @@ private fun Activities(
     Activities(
         User.sample,
         activities,
-        onAccountDetailsRequest = { },
+        ActivitiesSelection.Off,
+        onSelectionChange = { },
+        onSettingsRequest = { },
+        onUnregistrationRequest = { },
         onActivityDetailsRequest = { },
         onAddRequest = { },
         modifier
@@ -82,19 +93,41 @@ private fun Activities(
 private fun Activities(
     user: User?,
     activities: Loadable<SerializableList<ContextualActivity>>,
-    onAccountDetailsRequest: () -> Unit,
+    selection: ActivitiesSelection,
+    onSelectionChange: (selection: ActivitiesSelection) -> Unit,
+    onSettingsRequest: () -> Unit,
+    onUnregistrationRequest: (activities: List<ContextualActivity>) -> Unit,
     onActivityDetailsRequest: (activity: ContextualActivity) -> Unit,
     onAddRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var isRemovalConfirmationDialogVisible by remember { mutableStateOf(false) }
+
+    if (isRemovalConfirmationDialogVisible && selection is ActivitiesSelection.On) {
+        RemovalConfirmationDialog(
+            selection,
+            onDismissalRequest = { isRemovalConfirmationDialogVisible = false },
+            onConfirmationRequest = { onUnregistrationRequest(selection.selected) }
+        )
+    }
+
     Scaffold(
-        topBar = { TopAppBar(user, onAccountDetailsRequest) },
+        topBar = {
+            TopAppBar(
+                user,
+                selection,
+                onSettingsRequest,
+                onUnregistrationRequest = { isRemovalConfirmationDialogVisible = true }
+            )
+        },
         modifier,
         floatingActionButton = { FloatingActionButton(onClick = onAddRequest) }
     ) {
         Background {
             ActivityCards(
                 activities,
+                selection,
+                onSelectionChange,
                 contentPadding = PaddingValues(Size.Spacing.xxxl) + it,
                 onActivityDetailsRequest
             )

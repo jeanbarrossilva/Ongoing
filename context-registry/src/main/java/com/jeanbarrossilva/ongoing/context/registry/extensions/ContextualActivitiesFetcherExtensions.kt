@@ -11,6 +11,8 @@ import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableLi
 import com.jeanbarrossilva.ongoing.platform.loadable.type.SerializableList
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 /**
@@ -53,4 +55,28 @@ fun ContextualActivitiesFetcher.getActivity(activityId: String):
                 ?: throw IllegalArgumentException("Could not find activity $activityId.")
         }
     }
+}
+
+/**
+ * Unregisters the [Activity] whose [Activity.id] is equal to the given [activityId] from the
+ * [ContextualActivitiesFetcher.activityRegistry].
+ *
+ * @param activityId ID of the [Activity] to unregister.
+ **/
+suspend fun ContextualActivitiesFetcher.unregister(activityId: String) {
+    val userId = session.getUser().filterNotNull().first().id
+    activityRegistry.unregister(userId, activityId)
+    fetch()
+}
+
+/**
+ * Registers the given [activity] (although it'll have a different [ContextualActivity.id]) and then
+ * fetches.
+ *
+ * @param activity [ContextualActivity] to register.
+ **/
+suspend fun ContextualActivitiesFetcher.register(activity: ContextualActivity) {
+    val ownerUserId = session.getUser().filterNotNull().first().id
+    activityRegistry.register(ownerUserId, activity)
+    fetch()
 }

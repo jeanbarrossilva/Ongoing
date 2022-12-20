@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="feature_activities">Activities</string>
+    <plurals name="feature_activities_selection">
+        <item quantity="one">%d activity selected</item>
+        <item quantity="other">%d activities selected</item>
+    </plurals>
     <string name="feature_activities_top_app_bar_action_account_content_description">
         Account
     </string>
+    <string name="feature_activities_top_app_bar_action_remove_content_description">Remove</string>
     <string name="feature_activities_list_message_title">You have no activities.</string>
     <string name="feature_activities_list_message_description">
         Try adding some by tapping the \'+\' below!
     </string>
     <string name="feature_activities_fab_content_description">Add</string>
+    <plurals name="feature_activities_removal_confirmation">
+        <item quantity="one">Are you sure you want to remove \"%s\"?</item>
+        <item quantity="other">Are you sure you want to remove the %d selected activities?</item>
+    </plurals>
 </resources>

@@ -8,10 +8,10 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualAc
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.context.registry.extensions.clear
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
+import com.jeanbarrossilva.ongoing.context.user.ContextualUser
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.core.session.extensions.session
-import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.feature.settings.app.AppNameProvider
 import com.jeanbarrossilva.ongoing.feature.settings.app.CurrentVersionNameProvider
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel internal constructor(
     private val sessionManager: SessionManager,
-    private val user: User,
+    private val user: ContextualUser,
     appNameProvider: AppNameProvider,
     currentVersionNameProvider: CurrentVersionNameProvider,
     private val activitiesFetcher: ContextualActivitiesFetcher
@@ -57,7 +57,7 @@ class SettingsViewModel internal constructor(
     companion object {
         fun createFactory(
             sessionManager: SessionManager,
-            user: User,
+            user: ContextualUser,
             appNameProvider: AppNameProvider,
             currentVersionNameProvider: CurrentVersionNameProvider,
             activitiesFetcher: ContextualActivitiesFetcher

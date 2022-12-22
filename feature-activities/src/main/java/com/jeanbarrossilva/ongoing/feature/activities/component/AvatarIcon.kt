@@ -14,13 +14,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.jeanbarrossilva.ongoing.context.registry.component.Avatar
-import com.jeanbarrossilva.ongoing.core.user.User
+import com.jeanbarrossilva.ongoing.context.user.ContextualUser
+import com.jeanbarrossilva.ongoing.context.user.component.Avatar
 import com.jeanbarrossilva.ongoing.feature.activities.R
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @Composable
-internal fun AvatarIcon(user: User?, onClick: () -> Unit, modifier: Modifier = Modifier) {
+internal fun AvatarIcon(user: ContextualUser?, onClick: () -> Unit, modifier: Modifier = Modifier) {
     user?.let {
         Avatar(
             user,
@@ -45,7 +45,7 @@ internal fun AvatarIcon(user: User?, onClick: () -> Unit, modifier: Modifier = M
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun ExistentUserAvatarIconPreview() {
     OngoingTheme {
-        AvatarIcon(User.sample, onClick = { })
+        AvatarIcon(ContextualUser.sample, onClick = { })
     }
 }
 

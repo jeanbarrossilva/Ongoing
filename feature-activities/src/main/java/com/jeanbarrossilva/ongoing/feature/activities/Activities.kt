@@ -13,9 +13,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
+import com.jeanbarrossilva.ongoing.context.user.ContextualUser
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
-import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.component.RemovalConfirmationDialog
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.FloatingActionButton
@@ -77,7 +77,7 @@ private fun Activities(
     modifier: Modifier = Modifier
 ) {
     Activities(
-        User.sample,
+        ContextualUser.sample,
         activities,
         ActivitiesSelection.Off,
         onSelectionChange = { },
@@ -91,7 +91,7 @@ private fun Activities(
 
 @Composable
 private fun Activities(
-    user: User?,
+    user: ContextualUser?,
     activities: Loadable<SerializableList<ContextualActivity>>,
     selection: ActivitiesSelection,
     onSelectionChange: (selection: ActivitiesSelection) -> Unit,

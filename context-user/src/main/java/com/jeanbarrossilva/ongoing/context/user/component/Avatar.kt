@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.context.registry.component
+package com.jeanbarrossilva.ongoing.context.user.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.aspectRatio
@@ -10,9 +10,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
-import com.jeanbarrossilva.ongoing.context.registry.R
-import com.jeanbarrossilva.ongoing.context.registry.component.Avatar.shape
-import com.jeanbarrossilva.ongoing.core.user.User
+import com.jeanbarrossilva.ongoing.context.user.ContextualUser
+import com.jeanbarrossilva.ongoing.context.user.R
+import com.jeanbarrossilva.ongoing.context.user.component.Avatar.shape
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 object Avatar {
@@ -20,10 +20,10 @@ object Avatar {
 }
 
 @Composable
-fun Avatar(user: User?, modifier: Modifier = Modifier) {
+fun Avatar(user: ContextualUser?, modifier: Modifier = Modifier) {
     AsyncImage(
         user?.avatarUrl,
-        contentDescription = stringResource(R.string.platform_registry_avatar_content_description),
+        contentDescription = stringResource(R.string.context_user_avatar_content_description),
         modifier
             .clip(shape)
             .background(MaterialTheme.colorScheme.secondaryContainer)
@@ -35,6 +35,6 @@ fun Avatar(user: User?, modifier: Modifier = Modifier) {
 @Preview
 private fun AvatarPreview() {
     OngoingTheme {
-        Avatar(User.sample)
+        Avatar(ContextualUser.sample)
     }
 }

@@ -11,7 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.core.user.User
+import com.jeanbarrossilva.ongoing.context.user.ContextualUser
 import com.jeanbarrossilva.ongoing.feature.settings.app.AppNameProvider
 import com.jeanbarrossilva.ongoing.feature.settings.app.CurrentVersionNameProvider
 import com.jeanbarrossilva.ongoing.feature.settings.component.About
@@ -27,7 +27,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @Composable
 fun Settings(
-    user: User,
+    user: ContextualUser,
     viewModel: SettingsViewModel,
     onNavigationRequest: () -> Unit,
     modifier: Modifier = Modifier
@@ -51,7 +51,7 @@ fun Settings(
 
 @Composable
 internal fun Settings(
-    user: User,
+    user: ContextualUser,
     appName: String,
     currentVersionName: String,
     hasActivities: Boolean,
@@ -90,7 +90,7 @@ internal fun Settings(
 private fun SettingsPreview() {
     OngoingTheme {
         Settings(
-            User.sample,
+            ContextualUser.sample,
             AppNameProvider.sample.provide(),
             CurrentVersionNameProvider.sample.provide(),
             hasActivities = true,

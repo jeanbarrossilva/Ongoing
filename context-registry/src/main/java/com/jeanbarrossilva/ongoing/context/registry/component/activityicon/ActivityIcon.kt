@@ -55,7 +55,7 @@ fun ActivityIcon(
             Icon(
                 it,
                 contentDescription = stringResource(
-                    R.string.platform_registry_activity_card_icon_content_description
+                    R.string.context_registry_activity_card_icon_content_description
                 ),
                 Modifier.size(size.adaptedValue),
                 contentColor

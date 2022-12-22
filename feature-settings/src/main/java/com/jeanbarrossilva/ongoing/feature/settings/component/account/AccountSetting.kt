@@ -19,8 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alorma.compose.settings.ui.SettingsMenuLink
-import com.jeanbarrossilva.ongoing.context.registry.component.Avatar
-import com.jeanbarrossilva.ongoing.core.user.User
+import com.jeanbarrossilva.ongoing.context.user.ContextualUser
+import com.jeanbarrossilva.ongoing.context.user.component.Avatar
 import com.jeanbarrossilva.ongoing.feature.settings.R
 import com.jeanbarrossilva.ongoing.feature.settings.component.account.component.AccountSettingNameAndEmail
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
@@ -30,7 +30,7 @@ internal const val ACCOUNT_SETTING_SIGN_OUT_BUTTON_TAG = "account_setting_sign_o
 
 @Composable
 internal fun AccountSetting(
-    user: User,
+    user: ContextualUser,
     onSignOutRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -66,6 +66,6 @@ internal fun AccountSetting(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun AccountSettingPreview() {
     OngoingTheme {
-        AccountSetting(User.sample, onSignOutRequest = { })
+        AccountSetting(ContextualUser.sample, onSignOutRequest = { })
     }
 }

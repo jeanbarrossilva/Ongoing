@@ -8,10 +8,12 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualAc
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
 import com.jeanbarrossilva.ongoing.context.registry.extensions.unregister
+import com.jeanbarrossilva.ongoing.context.user.extensions.toContextualUser
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.core.user.UserRepository
 import com.jeanbarrossilva.ongoing.feature.activities.extensions.getUser
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class ActivitiesViewModel internal constructor(
@@ -19,7 +21,7 @@ class ActivitiesViewModel internal constructor(
     userRepository: UserRepository,
     internal val fetcher: ContextualActivitiesFetcher
 ): ViewModel() {
-    internal val user = sessionManager.getUser(userRepository)
+    internal val user = sessionManager.getUser(userRepository).map { it?.toContextualUser() }
     internal val activities = fetcher.getActivities()
     internal val selection = MutableStateFlow<ActivitiesSelection>(ActivitiesSelection.Off)
 

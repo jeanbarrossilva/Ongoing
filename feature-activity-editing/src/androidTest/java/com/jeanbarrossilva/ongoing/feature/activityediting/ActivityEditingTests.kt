@@ -95,7 +95,7 @@ internal class ActivityEditingTests {
         onNavigationRequest: () -> Unit = { }
     ) {
         val viewModel = ActivityEditingViewModel(
-            platformRegistryTestRule.session,
+            platformRegistryTestRule.sessionManager,
             platformRegistryTestRule.activityRegistry,
             mode
         )

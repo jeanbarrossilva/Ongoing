@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.core.session.user
+package com.jeanbarrossilva.ongoing.core.user
 
 import java.io.Serializable
 
@@ -9,7 +9,7 @@ data class User(val id: String, val name: String, val email: String, val avatarU
             "https://en.gravatar.com/userimage/153558542/cb04b28164b6ec24f7f4cdee8d20d1c9.png"
 
         val sample = User(
-            id = "97e2d0cf-f38e-4ddb-903c-85db085cedf2",
+            id = "7bf0999c-d301-4b45-99a0-b85e60bdb4e0",
             name = "Jean",
             email = "me@jeanbarrossilva.com",
             AVATAR_URL

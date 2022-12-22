@@ -1,13 +1,14 @@
 package com.jeanbarrossilva.ongoing.platform.registry.activity
 
 import com.jeanbarrossilva.ongoing.core.session.Session
+import com.jeanbarrossilva.ongoing.core.session.SessionManager
 
-class RoomActivityOwnershipManager internal constructor(private val session: Session) {
+internal class RoomActivityOwnershipManager(private val sessionManager: SessionManager) {
     internal suspend fun start(activityRegistry: RoomActivityRegistry) {
-        session.getUser().collect { user ->
+        sessionManager.attach<Session.SignedIn> { session ->
             with(activityRegistry) {
                 getActivities().forEach { activity ->
-                    recorder.ownerUserId(activity.id, user?.id)
+                    recorder.ownerUserId(activity.id, session.userId)
                 }
             }
         }

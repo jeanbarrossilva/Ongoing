@@ -9,7 +9,9 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.Cont
 import com.jeanbarrossilva.ongoing.context.registry.extensions.clear
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
 import com.jeanbarrossilva.ongoing.core.session.Session
-import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.core.session.SessionManager
+import com.jeanbarrossilva.ongoing.core.session.extensions.session
+import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.feature.settings.app.AppNameProvider
 import com.jeanbarrossilva.ongoing.feature.settings.app.CurrentVersionNameProvider
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
@@ -18,7 +20,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class SettingsViewModel internal constructor(
-    private val session: Session,
+    private val sessionManager: SessionManager,
     private val user: User,
     appNameProvider: AppNameProvider,
     currentVersionNameProvider: CurrentVersionNameProvider,
@@ -36,7 +38,7 @@ class SettingsViewModel internal constructor(
 
     fun logOut() {
         viewModelScope.launch {
-            session.logOut()
+            sessionManager.session<Session.SignedIn>()?.end()
         }
     }
 
@@ -54,7 +56,7 @@ class SettingsViewModel internal constructor(
 
     companion object {
         fun createFactory(
-            session: Session,
+            sessionManager: SessionManager,
             user: User,
             appNameProvider: AppNameProvider,
             currentVersionNameProvider: CurrentVersionNameProvider,
@@ -63,7 +65,7 @@ class SettingsViewModel internal constructor(
             return viewModelFactory {
                 addInitializer(SettingsViewModel::class) {
                     SettingsViewModel(
-                        session,
+                        sessionManager,
                         user,
                         appNameProvider,
                         currentVersionNameProvider,

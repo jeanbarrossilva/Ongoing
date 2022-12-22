@@ -4,7 +4,7 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
-import com.jeanbarrossilva.ongoing.core.session.Session
+import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.toActivity
 import com.jeanbarrossilva.ongoing.platform.registry.observer.ObserverDao
 import com.jeanbarrossilva.ongoing.platform.registry.observer.RoomActivityObserver
@@ -13,16 +13,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class RoomActivityRegistry(
+class RoomActivityRegistry internal constructor(
     coroutineScope: CoroutineScope,
-    session: Session,
+    sessionManager: SessionManager,
     private val ownershipManager: RoomActivityOwnershipManager,
     private val activityDao: ActivityDao,
     private val statusDao: StatusDao,
     private val observerDao: ObserverDao
 ) : ActivityRegistry() {
     override val observer = RoomActivityObserver(activityDao, observerDao)
-    override val recorder = RoomActivityRecorder(session, activityDao, statusDao, observer)
+    override val recorder = RoomActivityRecorder(sessionManager, activityDao, statusDao, observer)
 
     init {
         coroutineScope.launch {

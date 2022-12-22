@@ -9,14 +9,14 @@ import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivity
 import com.jeanbarrossilva.ongoing.context.registry.extensions.register
 import com.jeanbarrossilva.ongoing.core.registry.inmemory.InMemoryActivityRegistry
-import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySession
-import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
+import com.jeanbarrossilva.ongoing.core.session.Session
+import com.jeanbarrossilva.ongoing.core.session.extensions.session
+import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySessionManager
+import com.jeanbarrossilva.ongoing.core.user.inmemory.InMemoryUserRepository
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.emptySerializableList
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableList
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.unwrap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -26,23 +26,27 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ContextualActivitiesFetcherTests {
-    private val session = InMemorySession()
-    private val userRepository = InMemoryUserRepository(session)
+    private val sessionManager = InMemorySessionManager()
+    private val userRepository = InMemoryUserRepository()
     private val activityRegistry = InMemoryActivityRegistry()
-    private val fetcher = ContextualActivitiesFetcher(session, userRepository, activityRegistry)
+    private val fetcher =
+        ContextualActivitiesFetcher(sessionManager, userRepository, activityRegistry)
+
+    private val currentUserId
+        get() = requireNotNull(sessionManager.session<Session.SignedIn>()?.userId)
 
     @Before
     fun setUp() {
         runTest {
-            session.logIn()
+            sessionManager.session<Session.SignedOut>()?.start()
         }
     }
 
     @After
     fun tearDown() {
         runTest {
-            fetcher.clear(getCurrentUserId())
-            session.logOut()
+            fetcher.clear(currentUserId)
+            sessionManager.session<Session.SignedIn>()?.end()
         }
     }
 
@@ -74,7 +78,7 @@ internal class ContextualActivitiesFetcherTests {
         val fetchedActivities = fetcher.getActivities().unwrap()
         runTest {
             expectedActivities.forEach {
-                activityRegistry.register(ownerUserId = getCurrentUserId(), it)
+                activityRegistry.register(ownerUserId = currentUserId, it)
             }
             fetchedActivities.test {
                 fetcher.fetch()
@@ -87,7 +91,7 @@ internal class ContextualActivitiesFetcherTests {
     fun getActivity() {
         runTest {
             val activityId = activityRegistry.register(
-                ownerUserId = getCurrentUserId(),
+                ownerUserId = currentUserId,
                 ContextualActivity.sample
             )
             fetcher.getActivity(activityId).unwrap().test {
@@ -100,17 +104,13 @@ internal class ContextualActivitiesFetcherTests {
     @Test
     fun clear() {
         runTest {
-            activityRegistry.register(getCurrentUserId(), ContextualActivity.samples)
-            fetcher.clear(getCurrentUserId())
+            activityRegistry.register(currentUserId, ContextualActivity.samples)
+            fetcher.clear(currentUserId)
             fetcher.getActivities().unwrap().test {
                 fetcher.fetch()
                 assertEquals(emptySerializableList<ContextualActivity>(), awaitItem())
             }
         }
-    }
-
-    private suspend fun getCurrentUserId(): String {
-        return session.getUser().filterNotNull().first().id
     }
 
     private fun getNamesOf(activities: List<ContextualActivity>): List<String> {

@@ -1,11 +1,11 @@
 package com.jeanbarrossilva.ongoing.context.registry.domain.activity
 
 import android.os.Parcelable
-import com.jeanbarrossilva.ongoing.core.session.user.User
 import com.jeanbarrossilva.ongoing.context.registry.extensions.uuid
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
-import java.io.Serializable
+import com.jeanbarrossilva.ongoing.core.user.User
 import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
 @Parcelize
 data class ContextualActivity(

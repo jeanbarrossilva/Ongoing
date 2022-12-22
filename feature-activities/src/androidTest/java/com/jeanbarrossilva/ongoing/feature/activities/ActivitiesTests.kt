@@ -18,7 +18,7 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.Cont
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
 import com.jeanbarrossilva.ongoing.context.registry.extensions.register
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
-import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
+import com.jeanbarrossilva.ongoing.core.user.inmemory.InMemoryUserRepository
 import com.jeanbarrossilva.ongoing.feature.activities.component.REMOVAL_CONFIRMATION_DIALOG_CONFIRMATION_BUTTON_TAG
 import com.jeanbarrossilva.ongoing.feature.activities.component.REMOVAL_CONFIRMATION_DIALOG_TEXT_TAG
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
@@ -36,6 +36,7 @@ import org.junit.Rule
 import org.junit.Test
 
 internal class ActivitiesTests {
+    private lateinit var userRepository: InMemoryUserRepository
     private lateinit var fetcher: ContextualActivitiesFetcher
 
     private val activity
@@ -48,8 +49,8 @@ internal class ActivitiesTests {
         get() = ApplicationProvider.getApplicationContext<Context>()
     private val removeButton
         get() = composeRule.onNodeWithTag(TOP_APP_BAR_SELECTION_ACTIONS_REMOVE_TAG)
-    private val session
-        get() = platformRegistryRule.session
+    private val sessionManager
+        get() = platformRegistryRule.sessionManager
 
     @get:Rule
     val platformRegistryRule = PlatformRegistryTestRule.create()
@@ -109,12 +110,12 @@ internal class ActivitiesTests {
     }
 
     private fun init() {
-        val userRepository = InMemoryUserRepository(session)
-        fetcher = ContextualActivitiesFetcher(session, userRepository, activityRegistry)
+        userRepository = InMemoryUserRepository()
+        fetcher = ContextualActivitiesFetcher(sessionManager, userRepository, activityRegistry)
     }
 
     private fun setContent() {
-        val viewModel = ActivitiesViewModel(session, fetcher)
+        val viewModel = ActivitiesViewModel(sessionManager, userRepository, fetcher)
         composeRule.setContent {
             Activities(viewModel, ActivitiesBoundary.empty, activityRegistry, Observation.empty)
         }

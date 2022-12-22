@@ -43,15 +43,20 @@ android {
 dependencies {
     implementation project(':core-registry')
     implementation project(':core-session')
+    implementation project(':core-user')
     implementation project(':platform-design-system')
     implementation project(':platform-loadable')
     implementation project(':context-registry')
     implementation libraries.compose.material_icons_extended
     implementation libraries.navigation.runtime
 
+    testImplementation project(':core-session-in-memory')
+    testImplementation project(':core-user-in-memory')
+    testImplementation libraries.kotlinx.coroutines.test
     testImplementation libraries.test.ext.junit
+    testImplementation libraries.turbine
 
-    androidTestImplementation project(':core-session-in-memory')
+    androidTestImplementation project(':core-user-in-memory')
     androidTestImplementation project(':platform-registry-test')
     androidTestImplementation libraries.compose.ui.test.junit4
     androidTestImplementation libraries.compose.ui.test.manifest

@@ -4,11 +4,11 @@ import android.content.Context
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
-import com.jeanbarrossilva.ongoing.core.session.Session
+import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsBoundary
 
 object ActivityDetailsBridge {
-    private var session: Session? = null
+    private var sessionManager: SessionManager? = null
     private var activityRegistry: ActivityRegistry? = null
     private var observation: Observation? = null
     private var fetcher: ContextualActivitiesFetcher? = null
@@ -17,22 +17,21 @@ object ActivityDetailsBridge {
 
     fun cross(
         context: Context?,
-        session: Session,
+        sessionManager: SessionManager,
         activityRegistry: ActivityRegistry,
         observation: Observation,
         fetcher: ContextualActivitiesFetcher,
         boundary: ActivityDetailsBoundary,
         crossing: ActivityDetailsBridgeCrossing
     ) {
-        assertNotCrossed()
-        context?.let {
-            assign(session, activityRegistry, observation, fetcher, boundary)
-            crossing.onCross(it)
+        if (!isCrossed && context != null) {
+            assign(sessionManager, activityRegistry, observation, fetcher, boundary)
+            crossing.onCross(context)
         }
     }
 
-    internal fun getSession(): Session {
-        return requireNotNull(session)
+    internal fun getSessionManager(): SessionManager {
+        return requireNotNull(sessionManager)
     }
 
     internal fun getActivityRegistry(): ActivityRegistry {
@@ -52,27 +51,21 @@ object ActivityDetailsBridge {
     }
 
     internal fun clear() {
-        session = null
+        sessionManager = null
         activityRegistry = null
         observation = null
         fetcher = null
         boundary = null
     }
 
-    private fun assertNotCrossed() {
-        if (isCrossed) {
-            throw IllegalStateException("Cannot cross the bridge twice.")
-        }
-    }
-
     private fun assign(
-        session: Session,
+        sessionManager: SessionManager,
         activityRegistry: ActivityRegistry,
         observation: Observation,
         fetcher: ContextualActivitiesFetcher,
         boundary: ActivityDetailsBoundary
     ) {
-        this.session = session
+        this.sessionManager = sessionManager
         this.activityRegistry = activityRegistry
         this.observation = observation
         this.fetcher = fetcher

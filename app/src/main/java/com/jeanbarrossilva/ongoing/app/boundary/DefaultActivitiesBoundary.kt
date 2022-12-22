@@ -4,9 +4,8 @@ import android.content.Context
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
-import com.jeanbarrossilva.ongoing.core.session.Session
-import com.jeanbarrossilva.ongoing.core.session.user.User
-import com.jeanbarrossilva.ongoing.feature.settings.SettingsActivity
+import com.jeanbarrossilva.ongoing.core.session.SessionManager
+import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesBoundary
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsBoundary
 import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetailsBridge
@@ -14,6 +13,7 @@ import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetail
 import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingActivity
 import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingMode
 import com.jeanbarrossilva.ongoing.feature.authentication.AuthenticationActivity
+import com.jeanbarrossilva.ongoing.feature.settings.SettingsActivity
 import com.jeanbarrossilva.ongoing.platform.extensions.startActivity
 
 internal class DefaultActivitiesBoundary(
@@ -29,7 +29,7 @@ internal class DefaultActivitiesBoundary(
 
     override fun navigateToActivityDetails(
         context: Context,
-        session: Session,
+        sessionManager: SessionManager,
         activityRegistry: ActivityRegistry,
         observation: Observation,
         fetcher: ContextualActivitiesFetcher,
@@ -37,7 +37,7 @@ internal class DefaultActivitiesBoundary(
     ) {
         ActivityDetailsBridge.cross(
             context,
-            session,
+            sessionManager,
             activityRegistry,
             observation,
             fetcher,

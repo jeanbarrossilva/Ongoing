@@ -9,8 +9,7 @@ java {
 }
 
 dependencies {
-    api project(':core-session')
-
+    implementation project(':core-session')
     implementation libraries.kotlinx.coroutines.core
 
     testImplementation libraries.kotlin.test

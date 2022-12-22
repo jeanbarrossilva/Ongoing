@@ -11,8 +11,8 @@ import java.io.Serializable
  **/
 inline fun <I: Serializable?, O> Loadable<I>.ifLoaded(operation: I.() -> O): O? {
     return when (this) {
-        is Loadable.Loading -> null
         is Loadable.Loaded -> value.operation()
+        else -> null
     }
 }
 
@@ -26,5 +26,6 @@ inline fun <I: Serializable?, O: Serializable?> Loadable<I>.map(transform: (I) -
     return when (this) {
         is Loadable.Loading -> Loadable.Loading()
         is Loadable.Loaded -> Loadable.Loaded(transform(value))
+        is Loadable.Failed -> Loadable.Failed(error)
     }
 }

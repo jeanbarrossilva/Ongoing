@@ -1,9 +1,9 @@
-package com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.sucessful
+package com.jeanbarrossilva.ongoing.feature.activities.component.activitycards
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.List
+import androidx.compose.material.icons.rounded.Error
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,13 +17,13 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 @Composable
-internal fun LoadedEmptyActivityCards(modifier: Modifier = Modifier) {
+internal fun FailedActivityCards(modifier: Modifier = Modifier) {
     Background(modifier.padding(Size.Spacing.s)) {
         Message(
-            Icons.Rounded.List,
-            title = { Text(stringResource(R.string.feature_activities_list_empty_message_title)) },
+            Icons.Rounded.Error,
+            title = { Text(stringResource(R.string.feature_activities_list_failed_message_title)) },
             description = {
-                Text(stringResource(R.string.feature_activities_list_empty_message_description))
+                Text(stringResource(R.string.feature_activities_list_failed_message_description))
             },
             Modifier.align(Alignment.Center)
         )
@@ -33,8 +33,8 @@ internal fun LoadedEmptyActivityCards(modifier: Modifier = Modifier) {
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun LoadedEmptyActivityCardsPreview() {
+private fun FailedActivityCardsPreview() {
     OngoingTheme {
-        LoadedEmptyActivityCards()
+        FailedActivityCards()
     }
 }

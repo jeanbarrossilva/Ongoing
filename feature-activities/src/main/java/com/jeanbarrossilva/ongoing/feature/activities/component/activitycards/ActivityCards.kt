@@ -24,6 +24,7 @@ internal fun ActivityCards(
     modifier: Modifier = Modifier
 ) {
     when (activities) {
+        is Loadable.Loading -> LoadingActivityCards()
         is Loadable.Loaded -> LoadedActivityCards(
             activities.value,
             selection,
@@ -32,7 +33,7 @@ internal fun ActivityCards(
             onActivityDetailsRequest,
             modifier
         )
-        is Loadable.Loading -> LoadingActivityCards()
+        is Loadable.Failed -> FailedActivityCards()
     }
 }
 

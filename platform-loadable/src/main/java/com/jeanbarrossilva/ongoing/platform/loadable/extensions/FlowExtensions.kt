@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import java.io.Serializable
 import kotlin.experimental.ExperimentalTypeInference
@@ -27,7 +28,10 @@ fun <T: Serializable?> Flow<Loadable<T>>.filterIsLoaded(): Flow<Loadable.Loaded<
 
 fun <T: Serializable?> Flow<T>.loadable(): Flow<Loadable<T>> {
     return flow {
-        map { Loadable.Loaded(it) }.onStart { emit(Loadable.Loading()) }.collect(::emit)
+        map { Loadable.Loaded(it) }
+            .onStart { emit(Loadable.Loading()) }
+            .onCompletion { error -> error?.let { emit(Loadable.Failed(it)) } }
+            .collect(::emit)
     }
 }
 

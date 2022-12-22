@@ -9,9 +9,14 @@
         Account
     </string>
     <string name="feature_activities_top_app_bar_action_remove_content_description">Remove</string>
-    <string name="feature_activities_list_message_title">You have no activities.</string>
-    <string name="feature_activities_list_message_description">
+    <string name="feature_activities_list_empty_message_title">You have no activities.</string>
+    <string name="feature_activities_list_empty_message_description">
         Try adding some by tapping the \'+\' below!
+    </string>
+    <string name="feature_activities_list_failed_message_title">An error occurred.</string>
+    <string name="feature_activities_list_failed_message_description">
+        Sorry, looks like we\'re having trouble with the internet connection. Maybe you could try
+        again?
     </string>
     <string name="feature_activities_fab_content_description">Add</string>
     <plurals name="feature_activities_removal_confirmation">

@@ -11,7 +11,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.core.user.User
+import com.jeanbarrossilva.ongoing.context.user.ContextualUser
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.BackgroundContentSizing
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.ContentAlpha
@@ -22,7 +22,7 @@ internal const val ACCOUNT_SETTING_NAME_TAG = "account_setting_name"
 internal const val ACCOUNT_SETTING_EMAIL_TAG = "account_setting_email"
 
 @Composable
-internal fun AccountSettingNameAndEmail(user: User, modifier: Modifier = Modifier) {
+internal fun AccountSettingNameAndEmail(user: ContextualUser, modifier: Modifier = Modifier) {
     Column(modifier, Arrangement.spacedBy(Size.Spacing.xxs)) {
         Text(
             user.name,
@@ -49,7 +49,7 @@ internal fun AccountSettingNameAndEmail(user: User, modifier: Modifier = Modifie
 private fun AccountSettingNameAndEmailPreview() {
     OngoingTheme {
         Background(contentSizing = BackgroundContentSizing.WRAP) {
-            AccountSettingNameAndEmail(User.sample)
+            AccountSettingNameAndEmail(ContextualUser.sample)
         }
     }
 }

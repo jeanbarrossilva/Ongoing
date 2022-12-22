@@ -9,11 +9,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.component.TertiaryInfo.Height
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.user.component.Avatar
+import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.component.TertiaryInfo.Height
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
-import com.jeanbarrossilva.ongoing.context.registry.component.Avatar
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 

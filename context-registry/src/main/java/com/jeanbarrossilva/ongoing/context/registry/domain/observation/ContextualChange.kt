@@ -11,7 +11,7 @@ sealed class ContextualChange {
     protected abstract val messageRes: Int
 
     data class Name(private val old: String, private val new: String): ContextualChange() {
-        override val messageRes = R.string.platform_registry_contextual_change_name
+        override val messageRes = R.string.context_registry_contextual_change_name
 
         override fun getMessageReplacements(context: Context, activity: ContextualActivity):
             Array<String?> {
@@ -21,7 +21,7 @@ sealed class ContextualChange {
 
     data class Status(private val old: ContextualStatus?, private val new: ContextualStatus):
         ContextualChange() {
-        override val messageRes = R.string.platform_registry_contextual_change_status
+        override val messageRes = R.string.context_registry_contextual_change_status
 
         override fun getMessageReplacements(context: Context, activity: ContextualActivity):
             Array<String?> {

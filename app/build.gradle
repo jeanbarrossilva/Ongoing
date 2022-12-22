@@ -74,6 +74,7 @@ dependencies {
     implementation project(':context-user')
     implementation project(':core-session')
     implementation project(':core-session-in-memory')
+    implementation project(':core-user')
     implementation project(':core-user-in-memory')
     implementation project(':feature-activities')
     implementation project(':feature-activity-details')

@@ -8,7 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
-import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesSelection
 import com.jeanbarrossilva.ongoing.feature.activities.R
 import com.jeanbarrossilva.ongoing.feature.activities.extensions.ifOn

@@ -9,7 +9,7 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.Cont
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
 import com.jeanbarrossilva.ongoing.context.registry.extensions.unregister
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
-import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import com.jeanbarrossilva.ongoing.core.user.UserRepository
 import com.jeanbarrossilva.ongoing.feature.activities.extensions.getUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

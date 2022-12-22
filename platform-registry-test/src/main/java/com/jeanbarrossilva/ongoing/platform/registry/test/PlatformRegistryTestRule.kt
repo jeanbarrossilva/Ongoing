@@ -3,7 +3,7 @@ package com.jeanbarrossilva.ongoing.platform.registry.test
 import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySessionManager
 import com.jeanbarrossilva.ongoing.platform.registry.test.activity.ActivityRegistryRule
 import com.jeanbarrossilva.ongoing.platform.registry.test.database.OngoingDatabaseRule
-import com.jeanbarrossilva.ongoing.platform.registry.test.session.SessionManagerRule
+import com.jeanbarrossilva.ongoing.platform.registry.test.sessionmanager.SessionManagerRule
 import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
 

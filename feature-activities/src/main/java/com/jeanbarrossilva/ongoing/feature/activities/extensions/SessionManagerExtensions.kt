@@ -3,8 +3,8 @@ package com.jeanbarrossilva.ongoing.feature.activities.extensions
 import com.jeanbarrossilva.ongoing.core.session.OnSessionChangeListener
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
-import com.jeanbarrossilva.ongoing.core.session.user.User
-import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import com.jeanbarrossilva.ongoing.core.user.User
+import com.jeanbarrossilva.ongoing.core.user.UserRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow

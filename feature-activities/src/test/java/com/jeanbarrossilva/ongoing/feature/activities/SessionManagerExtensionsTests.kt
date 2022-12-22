@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.extensions.session
 import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySessionManager
-import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
-import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.core.user.User
+import com.jeanbarrossilva.ongoing.core.user.inmemory.InMemoryUserRepository
 import com.jeanbarrossilva.ongoing.feature.activities.extensions.getUser
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

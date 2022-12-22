@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.jeanbarrossilva.ongoing.context.registry.R
 import com.jeanbarrossilva.ongoing.context.registry.component.Avatar.shape
-import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
 object Avatar {

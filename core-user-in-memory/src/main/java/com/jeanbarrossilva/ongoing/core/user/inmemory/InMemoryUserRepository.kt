@@ -1,7 +1,7 @@
-package com.jeanbarrossilva.ongoing.core.session.inmemory
+package com.jeanbarrossilva.ongoing.core.user.inmemory
 
-import com.jeanbarrossilva.ongoing.core.session.user.User
-import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import com.jeanbarrossilva.ongoing.core.user.User
+import com.jeanbarrossilva.ongoing.core.user.UserRepository
 
 class InMemoryUserRepository : UserRepository {
     private val users = listOf(User.sample)

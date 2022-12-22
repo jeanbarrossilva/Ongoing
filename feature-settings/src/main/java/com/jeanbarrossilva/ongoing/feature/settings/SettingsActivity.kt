@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
-import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.feature.settings.app.AppNameProvider
 import com.jeanbarrossilva.ongoing.feature.settings.app.CurrentVersionNameProvider
 import com.jeanbarrossilva.ongoing.platform.designsystem.core.composable.ComposableActivity

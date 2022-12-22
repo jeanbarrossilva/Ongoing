@@ -5,7 +5,7 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.Cont
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
-import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.core.user.User
 
 interface ActivitiesBoundary {
     fun navigateToAuthentication(context: Context)

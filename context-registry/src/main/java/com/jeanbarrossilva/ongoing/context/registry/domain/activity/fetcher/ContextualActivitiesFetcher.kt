@@ -4,7 +4,7 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualAc
 import com.jeanbarrossilva.ongoing.context.registry.extensions.toContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
-import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import com.jeanbarrossilva.ongoing.core.user.UserRepository
 import java.util.concurrent.ConcurrentLinkedQueue
 
 class ContextualActivitiesFetcher(

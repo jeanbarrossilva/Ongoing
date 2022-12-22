@@ -6,7 +6,7 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.Cont
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
-import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import com.jeanbarrossilva.ongoing.core.user.UserRepository
 import com.jeanbarrossilva.ongoing.platform.designsystem.core.composable.ComposableActivity
 import org.koin.android.ext.android.inject
 

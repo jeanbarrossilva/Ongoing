@@ -18,7 +18,7 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.Cont
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
 import com.jeanbarrossilva.ongoing.context.registry.extensions.register
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
-import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
+import com.jeanbarrossilva.ongoing.core.user.inmemory.InMemoryUserRepository
 import com.jeanbarrossilva.ongoing.feature.activities.component.REMOVAL_CONFIRMATION_DIALOG_CONFIRMATION_BUTTON_TAG
 import com.jeanbarrossilva.ongoing.feature.activities.component.REMOVAL_CONFIRMATION_DIALOG_TEXT_TAG
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard

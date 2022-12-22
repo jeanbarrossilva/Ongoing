@@ -4,9 +4,9 @@ import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.extensions.session
-import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
-import com.jeanbarrossilva.ongoing.core.session.user.User
-import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import com.jeanbarrossilva.ongoing.core.user.User
+import com.jeanbarrossilva.ongoing.core.user.UserRepository
+import com.jeanbarrossilva.ongoing.core.user.inmemory.InMemoryUserRepository
 import com.jeanbarrossilva.ongoing.feature.settings.Settings
 import com.jeanbarrossilva.ongoing.feature.settings.SettingsViewModel
 import com.jeanbarrossilva.ongoing.feature.settings.app.AppNameProvider

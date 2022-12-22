@@ -6,7 +6,7 @@ import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.core.session.extensions.session
-import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import com.jeanbarrossilva.ongoing.core.user.UserRepository
 
 suspend fun Activity.toContextualActivity(
     sessionManager: SessionManager,

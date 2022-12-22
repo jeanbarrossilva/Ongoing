@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.core.session.user
+package com.jeanbarrossilva.ongoing.core.user
 
 import java.io.Serializable
 

@@ -13,7 +13,7 @@ import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.core.session.extensions.session
-import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import com.jeanbarrossilva.ongoing.core.user.UserRepository
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsBoundary
 import com.jeanbarrossilva.ongoing.feature.activitydetails.R

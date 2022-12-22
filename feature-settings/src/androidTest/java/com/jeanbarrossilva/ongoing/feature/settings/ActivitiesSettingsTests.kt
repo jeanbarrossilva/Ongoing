@@ -28,6 +28,9 @@ internal class ActivitiesSettingsTests {
     private val composeRule = createComposeRule()
     private val settingsRule = SettingsTestRule(platformRegistryRule, composeRule)
 
+    private val currentUserId
+        get() = platformRegistryRule.sessionManager.session<Session.SignedIn>()?.userId
+
     @get:Rule
     val ruleChain: RuleChain? = RuleChain
         .outerRule(platformRegistryRule)
@@ -81,7 +84,7 @@ internal class ActivitiesSettingsTests {
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun registerActivities() {
         runTest {
-            getCurrentUserId()?.let { currentUserId ->
+            currentUserId?.let { currentUserId ->
                 ContextualActivity.samples.forEach { activity ->
                     platformRegistryRule.activityRegistry.register(
                         ownerUserId = currentUserId,
@@ -91,9 +94,5 @@ internal class ActivitiesSettingsTests {
                 settingsRule.activitiesFetcher.fetch()
             }
         }
-    }
-
-    private suspend fun getCurrentUserId(): String? {
-        return platformRegistryRule.sessionManager.session<Session.SignedIn>()?.userId
     }
 }

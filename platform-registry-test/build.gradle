@@ -35,6 +35,7 @@ android {
 
 dependencies {
     implementation project(':core-registry-in-memory')
+    implementation project(':core-session')
     implementation project(':core-session-in-memory')
     implementation project(':platform-registry')
     implementation libraries.kotlinx.coroutines.test

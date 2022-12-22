@@ -6,8 +6,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.extensions.session
-import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
-import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.feature.settings.component.account.ACCOUNT_SETTING_SIGN_OUT_BUTTON_TAG
 import com.jeanbarrossilva.ongoing.feature.settings.component.account.component.ACCOUNT_SETTING_EMAIL_TAG
 import com.jeanbarrossilva.ongoing.feature.settings.component.account.component.ACCOUNT_SETTING_NAME_TAG
@@ -24,7 +23,8 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 
 internal class AccountSettingTests {
-    private val userRepository = InMemoryUserRepository()
+    private val userRepository =
+        com.jeanbarrossilva.ongoing.core.user.inmemory.InMemoryUserRepository()
     private val platformRegistryRule = PlatformRegistryTestRule.create()
     private val composeRule = createComposeRule()
     private val settingsRule = SettingsTestRule(platformRegistryRule, composeRule)

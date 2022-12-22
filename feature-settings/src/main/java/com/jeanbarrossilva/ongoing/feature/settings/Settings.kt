@@ -11,7 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.feature.settings.app.AppNameProvider
 import com.jeanbarrossilva.ongoing.feature.settings.app.CurrentVersionNameProvider
 import com.jeanbarrossilva.ongoing.feature.settings.component.About

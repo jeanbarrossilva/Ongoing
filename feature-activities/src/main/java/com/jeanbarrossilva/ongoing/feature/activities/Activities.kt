@@ -15,7 +15,7 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualAc
 import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
-import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.component.RemovalConfirmationDialog
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.FloatingActionButton

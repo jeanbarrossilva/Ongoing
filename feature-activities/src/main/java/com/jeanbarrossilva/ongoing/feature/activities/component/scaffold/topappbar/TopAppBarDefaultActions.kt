@@ -2,7 +2,7 @@ package com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.topapp
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
-import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.feature.activities.component.AvatarIcon
 
 @Suppress("UnusedReceiverParameter")

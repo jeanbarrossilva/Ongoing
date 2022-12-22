@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alorma.compose.settings.ui.SettingsMenuLink
 import com.jeanbarrossilva.ongoing.context.registry.component.Avatar
-import com.jeanbarrossilva.ongoing.core.session.user.User
+import com.jeanbarrossilva.ongoing.core.user.User
 import com.jeanbarrossilva.ongoing.feature.settings.R
 import com.jeanbarrossilva.ongoing.feature.settings.component.account.component.AccountSettingNameAndEmail
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size

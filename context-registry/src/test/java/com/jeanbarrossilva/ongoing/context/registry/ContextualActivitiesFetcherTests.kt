@@ -10,7 +10,7 @@ import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivity
 import com.jeanbarrossilva.ongoing.context.registry.extensions.register
 import com.jeanbarrossilva.ongoing.core.registry.inmemory.InMemoryActivityRegistry
 import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemorySessionManager
-import com.jeanbarrossilva.ongoing.core.session.inmemory.InMemoryUserRepository
+import com.jeanbarrossilva.ongoing.core.user.inmemory.InMemoryUserRepository
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.emptySerializableList
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableList
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.unwrap
@@ -27,7 +27,8 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ContextualActivitiesFetcherTests {
     private val session = InMemorySessionManager()
-    private val userRepository = InMemoryUserRepository(session)
+    private val userRepository =
+        com.jeanbarrossilva.ongoing.core.user.inmemory.InMemoryUserRepository(session)
     private val activityRegistry = InMemoryActivityRegistry()
     private val fetcher = ContextualActivitiesFetcher(session, userRepository, activityRegistry)
 

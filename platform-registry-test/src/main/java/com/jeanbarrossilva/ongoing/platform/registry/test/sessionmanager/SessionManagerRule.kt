@@ -1,4 +1,4 @@
-package com.jeanbarrossilva.ongoing.platform.registry.test.session
+package com.jeanbarrossilva.ongoing.platform.registry.test.sessionmanager
 
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.SessionManager

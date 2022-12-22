@@ -3,13 +3,12 @@ package com.jeanbarrossilva.ongoing.feature.activitydetails.extensions
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
-import com.jeanbarrossilva.ongoing.core.session.user.User
 
 internal suspend fun Activity.Observer.toggle(
-    user: User,
+    userId: String,
     activity: ContextualActivity,
     isObserving: Boolean,
     observation: Observation
 ) {
-    if (isObserving) attach(user.id, activity.id, observation) else detach(user.id, activity.id)
+    if (isObserving) attach(userId, activity.id, observation) else detach(userId, activity.id)
 }

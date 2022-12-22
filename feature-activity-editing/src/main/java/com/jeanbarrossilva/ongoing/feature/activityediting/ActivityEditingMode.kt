@@ -4,14 +4,15 @@ import android.os.Parcelable
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.session.Session
-import kotlinx.coroutines.flow.first
+import com.jeanbarrossilva.ongoing.core.session.SessionManager
+import com.jeanbarrossilva.ongoing.core.session.extensions.session
 import kotlinx.parcelize.Parcelize
 
 sealed class ActivityEditingMode : Parcelable {
     internal abstract fun hasChanges(props: ActivityEditingProps): Boolean
 
     internal abstract suspend fun save(
-        session: Session,
+        sessionManager: SessionManager,
         activityRegistry: ActivityRegistry,
         props: ActivityEditingProps
     )
@@ -23,11 +24,11 @@ sealed class ActivityEditingMode : Parcelable {
         }
 
         override suspend fun save(
-            session: Session,
+            sessionManager: SessionManager,
             activityRegistry: ActivityRegistry,
             props: ActivityEditingProps
         ) {
-            val currentUserId = session.getUser().first()?.id
+            val currentUserId = sessionManager.session<Session.SignedIn>()?.userId
             activityRegistry.register(currentUserId, props.name)
         }
     }
@@ -39,7 +40,7 @@ sealed class ActivityEditingMode : Parcelable {
         }
 
         override suspend fun save(
-            session: Session,
+            sessionManager: SessionManager,
             activityRegistry: ActivityRegistry,
             props: ActivityEditingProps
         ) {

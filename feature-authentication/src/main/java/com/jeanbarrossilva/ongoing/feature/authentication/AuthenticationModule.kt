@@ -5,6 +5,6 @@ import org.koin.dsl.module
 
  val authenticationModule = module {
     single {
-        AuthenticationPrompter(session = get())
+        AuthenticationPrompter(sessionManager = get())
     }
 }

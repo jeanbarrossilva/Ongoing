@@ -10,6 +10,8 @@ import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
+import com.jeanbarrossilva.ongoing.core.session.SessionManager
+import com.jeanbarrossilva.ongoing.core.session.extensions.session
 import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.toggle
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
@@ -18,7 +20,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class ActivityDetailsViewModel private constructor(
-    private val session: Session,
+    private val sessionManager: SessionManager,
     private val activityRegistry: ActivityRegistry,
     private val observation: Observation,
     private val fetcher: ContextualActivitiesFetcher,
@@ -32,7 +34,7 @@ class ActivityDetailsViewModel private constructor(
 
     internal fun setObserving(isObserving: Boolean, onDone: () -> Unit = { }) {
         viewModelScope.launch {
-            session.getUser().first()?.let {
+            sessionManager.session<Session.SignedIn>()?.userId?.let {
                 activity.first().ifLoaded {
                     activityRegistry.observer.toggle(it, this, isObserving, observation)
                     onDone()
@@ -49,7 +51,7 @@ class ActivityDetailsViewModel private constructor(
 
     companion object {
         fun createFactory(
-            session: Session,
+            sessionManager: SessionManager,
             activityRegistry: ActivityRegistry,
             observation: Observation,
             fetcher: ContextualActivitiesFetcher,
@@ -58,7 +60,7 @@ class ActivityDetailsViewModel private constructor(
             return viewModelFactory {
                 addInitializer(ActivityDetailsViewModel::class) {
                     ActivityDetailsViewModel(
-                        session,
+                        sessionManager,
                         activityRegistry,
                         observation,
                         fetcher,

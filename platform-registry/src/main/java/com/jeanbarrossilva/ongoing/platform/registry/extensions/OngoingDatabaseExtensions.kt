@@ -1,15 +1,15 @@
 package com.jeanbarrossilva.ongoing.platform.registry.extensions
 
-import com.jeanbarrossilva.ongoing.core.session.Session
+import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.platform.registry.OngoingDatabase
 import com.jeanbarrossilva.ongoing.platform.registry.activity.RoomActivityOwnershipManager
 import com.jeanbarrossilva.ongoing.platform.registry.activity.RoomActivityRegistry
 
-fun OngoingDatabase.getActivityRegistry(session: Session): RoomActivityRegistry {
-    val ownershipManager = RoomActivityOwnershipManager(session)
+fun OngoingDatabase.getActivityRegistry(sessionManager: SessionManager): RoomActivityRegistry {
+    val ownershipManager = RoomActivityOwnershipManager(sessionManager)
     return RoomActivityRegistry(
         coroutineScope,
-        session,
+        sessionManager,
         ownershipManager,
         activityDao,
         statusDao,

@@ -1,12 +1,16 @@
 package com.jeanbarrossilva.ongoing.core.session
 
-import com.jeanbarrossilva.ongoing.core.session.user.User
-import kotlinx.coroutines.flow.Flow
+sealed interface Session {
+    interface SignedIn: Session {
+        /** ID of the user that's authenticated. **/
+        val userId: String
 
-interface Session {
-    suspend fun logIn()
+        /** Ends the current [Session]. **/
+        suspend fun end()
+    }
 
-    fun getUser(): Flow<User?>
-
-    suspend fun logOut()
+    interface SignedOut: Session {
+        /** Starts a new [Session]. **/
+        suspend fun start()
+    }
 }

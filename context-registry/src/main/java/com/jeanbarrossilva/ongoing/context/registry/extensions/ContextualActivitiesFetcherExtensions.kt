@@ -4,6 +4,8 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualAc
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.OnFetchListener
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
+import com.jeanbarrossilva.ongoing.core.session.Session
+import com.jeanbarrossilva.ongoing.core.session.extensions.session
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.loadableChannelFlow
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
@@ -11,8 +13,6 @@ import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableLi
 import com.jeanbarrossilva.ongoing.platform.loadable.type.SerializableList
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 /**
@@ -51,7 +51,7 @@ fun ContextualActivitiesFetcher.getActivity(activityId: String):
         it.map {
             activityRegistry
                 .getActivityById(activityId)
-                ?.toContextualActivity(session, userRepository)
+                ?.toContextualActivity(sessionManager, userRepository)
                 ?: throw IllegalArgumentException("Could not find activity $activityId.")
         }
     }
@@ -64,9 +64,10 @@ fun ContextualActivitiesFetcher.getActivity(activityId: String):
  * @param activityId ID of the [Activity] to unregister.
  **/
 suspend fun ContextualActivitiesFetcher.unregister(activityId: String) {
-    val userId = session.getUser().filterNotNull().first().id
-    activityRegistry.unregister(userId, activityId)
-    fetch()
+    sessionManager.session<Session.SignedIn>()?.userId?.let {
+        activityRegistry.unregister(it, activityId)
+        fetch()
+    }
 }
 
 /**
@@ -76,7 +77,8 @@ suspend fun ContextualActivitiesFetcher.unregister(activityId: String) {
  * @param activity [ContextualActivity] to register.
  **/
 suspend fun ContextualActivitiesFetcher.register(activity: ContextualActivity) {
-    val ownerUserId = session.getUser().filterNotNull().first().id
-    activityRegistry.register(ownerUserId, activity)
-    fetch()
+    sessionManager.session<Session.SignedIn>()?.userId?.let {
+        activityRegistry.register(ownerUserId = it, activity)
+        fetch()
+    }
 }

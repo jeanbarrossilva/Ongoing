@@ -1,10 +1,10 @@
 package com.jeanbarrossilva.ongoing.platform.registry
 
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
+import com.jeanbarrossilva.ongoing.core.session.Session
+import com.jeanbarrossilva.ongoing.core.session.extensions.session
 import com.jeanbarrossilva.ongoing.platform.registry.test.PlatformRegistryTestRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.Assert.assertEquals
@@ -18,6 +18,8 @@ import org.junit.Test
 internal class RoomActivityRegistryTests {
     private val activityRegistry
         get() = rule.activityRegistry
+    private val currentUserId
+        get() = requireNotNull(rule.sessionManager.session<Session.SignedIn>()).userId
 
     @get:Rule
     val rule = PlatformRegistryTestRule.create()
@@ -25,7 +27,7 @@ internal class RoomActivityRegistryTests {
     @Test
     fun getActivities() {
         runTest {
-            0.until(11).forEach { activityRegistry.register(getCurrentUserId(), "Activity #$it") }
+            0.until(11).forEach { activityRegistry.register(currentUserId, "Activity #$it") }
             assertThat(
                 activityRegistry.getActivities().map(Activity::name),
                 containsInAnyOrder(*0.until(11).map { "Activity #$it" }.toTypedArray())
@@ -37,7 +39,7 @@ internal class RoomActivityRegistryTests {
     fun registerActivity() {
         val name = "Shop"
         runTest {
-            val id = activityRegistry.register(getCurrentUserId(), name)
+            val id = activityRegistry.register(currentUserId, name)
             assertNotNull(activityRegistry.getActivityById(id))
         }
     }
@@ -45,7 +47,7 @@ internal class RoomActivityRegistryTests {
     @Test
     fun getActivityById() {
         runTest {
-            val activityId = activityRegistry.register(getCurrentUserId(), "Walk the dog")
+            val activityId = activityRegistry.register(currentUserId, "Walk the dog")
             assertNotNull(activityRegistry.getActivityById(activityId))
         }
     }
@@ -53,8 +55,8 @@ internal class RoomActivityRegistryTests {
     @Test
     fun unregister() {
         runTest {
-            val activityId = activityRegistry.register(getCurrentUserId(), "Clean the room")
-            activityRegistry.unregister(getCurrentUserId(), activityId)
+            val activityId = activityRegistry.register(currentUserId, "Clean the room")
+            activityRegistry.unregister(currentUserId, activityId)
             assertNull(activityRegistry.getActivityById(activityId))
         }
     }
@@ -62,23 +64,19 @@ internal class RoomActivityRegistryTests {
     @Test(expected = IllegalArgumentException::class)
     fun throwWhenUnregisteringTheSameActivityTwice() {
         runTest {
-            val activityId = activityRegistry.register(getCurrentUserId(), "Run a marathon")
-            activityRegistry.unregister(getCurrentUserId(), activityId)
-            activityRegistry.unregister(getCurrentUserId(), activityId)
+            val activityId = activityRegistry.register(currentUserId, "Run a marathon")
+            activityRegistry.unregister(currentUserId, activityId)
+            activityRegistry.unregister(currentUserId, activityId)
         }
     }
 
     @Test
     fun clear() {
         runTest {
-            activityRegistry.register(getCurrentUserId(), "Do homework")
-            activityRegistry.register(getCurrentUserId(), "Fly to SF")
-            activityRegistry.clear(getCurrentUserId())
+            activityRegistry.register(currentUserId, "Do homework")
+            activityRegistry.register(currentUserId, "Fly to SF")
+            activityRegistry.clear(currentUserId)
             assertEquals(emptyList<Activity>(), activityRegistry.getActivities())
         }
-    }
-
-    private suspend fun getCurrentUserId(): String {
-        return rule.session.getUser().filterNotNull().first().id
     }
 }

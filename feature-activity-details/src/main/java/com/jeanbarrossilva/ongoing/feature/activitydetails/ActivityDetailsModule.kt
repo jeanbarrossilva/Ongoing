@@ -9,7 +9,7 @@ val activityDetailsModule = module {
     single<Observation> {
         ActivityDetailsObservation(
             androidContext(),
-            session = get(),
+            sessionManager = get(),
             userRepository = get(),
             activityRegistry = get(),
             boundary = get(),

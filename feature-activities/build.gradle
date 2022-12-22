@@ -49,11 +49,12 @@ dependencies {
     implementation libraries.compose.material_icons_extended
     implementation libraries.navigation.runtime
 
+    testImplementation project(':core-session-in-memory')
+    testImplementation libraries.kotlinx.coroutines.test
     testImplementation libraries.test.ext.junit
+    testImplementation libraries.turbine
 
-    androidTestImplementation project(':core-session-in-memory')
     androidTestImplementation project(':platform-registry-test')
     androidTestImplementation libraries.compose.ui.test.junit4
     androidTestImplementation libraries.compose.ui.test.manifest
-    androidTestImplementation libraries.turbine
 }

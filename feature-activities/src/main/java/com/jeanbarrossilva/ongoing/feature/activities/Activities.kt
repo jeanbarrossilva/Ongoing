@@ -59,7 +59,7 @@ fun Activities(
         onActivityDetailsRequest = {
             boundary.navigateToActivityDetails(
                 context,
-                viewModel.session,
+                viewModel.sessionManager,
                 activityRegistry,
                 observation,
                 fetcher,

@@ -11,6 +11,8 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.observation.Change
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.core.session.Session
+import com.jeanbarrossilva.ongoing.core.session.SessionManager
+import com.jeanbarrossilva.ongoing.core.session.extensions.session
 import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsBoundary
@@ -19,12 +21,11 @@ import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetail
 import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetailsBridgeCrossing
 import com.jeanbarrossilva.ongoing.platform.extensions.createNotificationChannel
 import com.jeanbarrossilva.ongoing.platform.extensions.notify
-import kotlinx.coroutines.flow.first
 import java.lang.ref.WeakReference
 
 internal class ActivityDetailsObservation(
     private val contextRef: WeakReference<Context>,
-    private val session: Session,
+    private val sessionManager: SessionManager,
     private val userRepository: UserRepository,
     private val activityRegistry: ActivityRegistry,
     private val boundary: ActivityDetailsBoundary,
@@ -35,20 +36,28 @@ internal class ActivityDetailsObservation(
 
     constructor(
         context: Context,
-        session: Session,
+        sessionManager: SessionManager,
         userRepository: UserRepository,
         activityRegistry: ActivityRegistry,
         boundary: ActivityDetailsBoundary,
         fetcher: ContextualActivitiesFetcher
-    ): this(WeakReference(context), session, userRepository, activityRegistry, boundary, fetcher)
+    ): this(
+        WeakReference(context),
+        sessionManager,
+        userRepository,
+        activityRegistry,
+        boundary,
+        fetcher
+    )
 
     override suspend fun onChange(changerUserId: String?, activityId: String, change: Change) {
-        val isChangeMadeBySomeoneElse = session.getUser().first()?.id != changerUserId
+        val isChangeMadeBySomeoneElse =
+            sessionManager.session<Session.SignedIn>()?.userId != changerUserId
         if (isChangeMadeBySomeoneElse) {
             val contextualChange = change.contextualize()
             activityRegistry
                 .getActivityById(activityId)
-                ?.toContextualActivity(session, userRepository)
+                ?.toContextualActivity(sessionManager, userRepository)
                 ?.let { notify(contextualChange, it) }
         }
     }
@@ -72,7 +81,7 @@ internal class ActivityDetailsObservation(
     private fun getIntent(activity: ContextualActivity): Intent {
         ActivityDetailsBridge.cross(
             context,
-            session,
+            sessionManager,
             activityRegistry,
             this,
             fetcher,

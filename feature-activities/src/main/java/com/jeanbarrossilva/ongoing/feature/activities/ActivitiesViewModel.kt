@@ -8,17 +8,18 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualAc
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
 import com.jeanbarrossilva.ongoing.context.registry.extensions.unregister
-import com.jeanbarrossilva.ongoing.core.session.Session
+import com.jeanbarrossilva.ongoing.core.session.SessionManager
+import com.jeanbarrossilva.ongoing.core.session.user.UserRepository
+import com.jeanbarrossilva.ongoing.feature.activities.extensions.getUser
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 class ActivitiesViewModel internal constructor(
-    internal val session: Session,
+    internal val sessionManager: SessionManager,
+    userRepository: UserRepository,
     internal val fetcher: ContextualActivitiesFetcher
 ): ViewModel() {
-    internal val user = flow { emitAll(session.getUser()) }
+    internal val user = sessionManager.getUser(userRepository)
     internal val activities = fetcher.getActivities()
     internal val selection = MutableStateFlow<ActivitiesSelection>(ActivitiesSelection.Off)
 
@@ -32,11 +33,14 @@ class ActivitiesViewModel internal constructor(
     }
 
     companion object {
-        fun createFactory(session: Session, fetcher: ContextualActivitiesFetcher):
-            ViewModelProvider.Factory {
+        fun createFactory(
+            sessionManager: SessionManager,
+            userRepository: UserRepository,
+            fetcher: ContextualActivitiesFetcher
+        ): ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(ActivitiesViewModel::class) {
-                    ActivitiesViewModel(session, fetcher)
+                    ActivitiesViewModel(sessionManager, userRepository, fetcher)
                 }
             }
         }

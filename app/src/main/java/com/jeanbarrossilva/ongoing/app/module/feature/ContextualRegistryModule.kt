@@ -6,7 +6,7 @@ import org.koin.dsl.module
 internal val contextualRegistryModule = module {
     single {
         ContextualActivitiesFetcher(
-            session = get(),
+            sessionManager = get(),
             userRepository = get(),
             activityRegistry = get()
         )

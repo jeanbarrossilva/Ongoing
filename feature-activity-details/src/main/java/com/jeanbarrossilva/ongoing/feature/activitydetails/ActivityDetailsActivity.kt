@@ -15,7 +15,7 @@ class ActivityDetailsActivity internal constructor(): ComposableActivity() {
     private val activityId by argumentOf<String>(ACTIVITY_ID_KEY)
     private val viewModel by viewModels<ActivityDetailsViewModel> {
         ActivityDetailsViewModel.createFactory(
-            ActivityDetailsBridge.getSession(),
+            ActivityDetailsBridge.getSessionManager(),
             ActivityDetailsBridge.getActivityRegistry(),
             ActivityDetailsBridge.getObservation(),
             ActivityDetailsBridge.getFetcher(),

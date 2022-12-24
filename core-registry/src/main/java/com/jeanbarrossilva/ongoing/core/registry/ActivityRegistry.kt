@@ -2,15 +2,18 @@ package com.jeanbarrossilva.ongoing.core.registry
 
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
-import kotlinx.coroutines.flow.first
 
 abstract class ActivityRegistry {
-    abstract val recorder: Activity.Recorder
+    abstract val recorder: ActivityRecorder
     abstract val observer: Activity.Observer
 
     abstract suspend fun getActivities(): List<Activity>
 
     abstract suspend fun getActivityById(id: String): Activity?
+
+    suspend fun getActivityByIdOrThrow(id: String): Activity {
+        return getActivityById(id) ?: throw NonexistentActivityException(id)
+    }
 
     suspend fun register(
         ownerUserId: String?,

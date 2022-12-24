@@ -1,6 +1,7 @@
 package com.jeanbarrossilva.ongoing.core.registry.inmemory
 
 import com.jeanbarrossilva.ongoing.core.extensions.replaceBy
+import com.jeanbarrossilva.ongoing.core.registry.ActivityRecorder
 import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
@@ -8,28 +9,28 @@ import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 
 class InMemoryActivityRecorder internal constructor(
     private val activityRegistry: InMemoryActivityRegistry
-): Activity.Recorder() {
+): ActivityRecorder() {
     private val onStatusChangeListeners = mutableListOf<OnStatusChangeListener>()
 
-    override suspend fun ownerUserId(id: String, ownerUserId: String?) {
+    override suspend fun onOwnerUserId(id: String, ownerUserId: String?) {
         replace(id) {
             copy(ownerUserId = ownerUserId)
         }
     }
 
-    override suspend fun name(id: String, name: String) {
+    override suspend fun onName(id: String, name: String) {
         replace(id) {
             copy(name = name)
         }
     }
 
-    override suspend fun icon(id: String, icon: Icon) {
+    override suspend fun onIcon(id: String, icon: Icon) {
         replace(id) {
             copy(icon = icon)
         }
     }
 
-    override suspend fun status(id: String, status: Status) {
+    override suspend fun onStatus(id: String, status: Status) {
         replace(id) {
             this.status = status
             notifyStatusChange(this)

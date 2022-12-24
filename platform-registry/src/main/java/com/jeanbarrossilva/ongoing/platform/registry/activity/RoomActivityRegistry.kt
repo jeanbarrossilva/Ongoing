@@ -22,7 +22,8 @@ class RoomActivityRegistry internal constructor(
     private val observerDao: ObserverDao
 ) : ActivityRegistry() {
     override val observer = RoomActivityObserver(activityDao, observerDao)
-    override val recorder = RoomActivityRecorder(sessionManager, activityDao, statusDao, observer)
+    override val recorder =
+        RoomActivityRecorder(sessionManager, this, activityDao, statusDao, observer)
 
     init {
         coroutineScope.launch {

@@ -1,6 +1,5 @@
 package com.jeanbarrossilva.ongoing.core.registry.activity
 
-import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
 import com.jeanbarrossilva.ongoing.core.registry.observation.Change
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 
@@ -30,18 +29,6 @@ data class Activity(
         observerUserIds: List<String>
     ): this(id, ownerUserId, name, icon, observerUserIds) {
         this.statuses = statuses
-    }
-
-    abstract class Recorder {
-        abstract suspend fun ownerUserId(id: String, ownerUserId: String?)
-
-        abstract suspend fun name(id: String, name: String)
-
-        abstract suspend fun icon(id: String, icon: Icon)
-
-        abstract suspend fun status(id: String, status: Status)
-
-        abstract suspend fun doOnStatusChange(listener: OnStatusChangeListener)
     }
 
     interface Observer {

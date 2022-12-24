@@ -1,7 +1,8 @@
 package com.jeanbarrossilva.ongoing.platform.registry.activity
 
+import com.jeanbarrossilva.ongoing.core.registry.ActivityRecorder
+import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
-import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 import com.jeanbarrossilva.ongoing.core.registry.observation.Change
@@ -16,37 +17,38 @@ import kotlinx.coroutines.flow.first
 
 class RoomActivityRecorder internal constructor(
     private val sessionManager: SessionManager,
+    override val registry: ActivityRegistry,
     private val activityDao: ActivityDao,
     private val statusDao: StatusDao,
     private val observer: RoomActivityObserver
-): Activity.Recorder() {
+): ActivityRecorder() {
     private val onStatusChangeListeners = mutableListOf<OnStatusChangeListener>()
 
     private val currentUserId
         get() = sessionManager.session<Session.SignedIn>()?.userId
 
-    override suspend fun ownerUserId(id: String, ownerUserId: String?) {
-        activityDao.updateOwnerUserId(id, ownerUserId)
+    override suspend fun onOwnerUserId(activityId: String, ownerUserId: String?) {
+        activityDao.updateOwnerUserId(activityId, ownerUserId)
     }
 
-    override suspend fun name(id: String, name: String) {
-        val currentName = activityDao.selectName(id)
-        activityDao.updateName(id, name)
-        observer.notify(currentUserId, id, Change.Name(currentName, name))
+    override suspend fun onName(activityId: String, name: String) {
+        val currentName = activityDao.selectName(activityId)
+        activityDao.updateName(activityId, name)
+        observer.notify(currentUserId, activityId, Change.Name(currentName, name))
     }
 
-    override suspend fun icon(id: String, icon: Icon) {
-        activityDao.updateIcon(id, icon)
+    override suspend fun onIcon(activityId: String, icon: Icon) {
+        activityDao.updateIcon(activityId, icon)
     }
 
-    override suspend fun status(id: String, status: Status) {
-        val idAsLong = id.toLong()
+    override suspend fun onStatus(activityId: String, status: Status) {
+        val idAsLong = activityId.toLong()
         val currentStatus =
             statusDao.getStatusesByActivityId(idAsLong).first().lastOrNull()?.toStatus()
         val isNotRepeated = currentStatus != status
         if (isNotRepeated) {
             record(idAsLong, status)
-            observer.notify(currentUserId, id, Change.Status(currentStatus, status))
+            observer.notify(currentUserId, activityId, Change.Status(currentStatus, status))
         }
     }
 

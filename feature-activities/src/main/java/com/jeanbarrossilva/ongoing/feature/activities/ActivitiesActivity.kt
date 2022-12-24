@@ -2,19 +2,19 @@ package com.jeanbarrossilva.ongoing.feature.activities
 
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
-import com.jeanbarrossilva.ongoing.core.session.SessionManager
-import com.jeanbarrossilva.ongoing.core.user.UserRepository
 import com.jeanbarrossilva.ongoing.platform.designsystem.core.composable.ComposableActivity
 import org.koin.android.ext.android.inject
 
 class ActivitiesActivity internal constructor(): ComposableActivity() {
-    private val sessionManager by inject<SessionManager>()
-    private val userRepository by inject<UserRepository>()
-    private val fetcher by inject<ContextualActivitiesFetcher>()
+    private val gateway by inject<ActivitiesGateway>()
     private val boundary by inject<ActivitiesBoundary>()
     private val viewModel by viewModels<ActivitiesViewModel> {
-        ActivitiesViewModel.createFactory(sessionManager, userRepository, fetcher)
+        ActivitiesViewModel.createFactory(gateway)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetch()
     }
 
     @Composable

@@ -24,7 +24,7 @@ internal object TertiaryInfo {
 @Composable
 internal fun TertiaryInfo(activity: Loadable<ContextualActivity>, modifier: Modifier = Modifier) {
     Row(modifier, Arrangement.spacedBy(Size.Spacing.s), Alignment.CenterVertically) {
-        Avatar(activity.ifLoaded(ContextualActivity::owner), Modifier.size(Height))
+        Avatar(activity.ifLoaded { owner?.avatarUrl }, Modifier.size(Height))
         StatusIndicator(activity.ifLoaded(ContextualActivity::status))
     }
 }

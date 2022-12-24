@@ -2,14 +2,18 @@ package com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.topapp
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
-import com.jeanbarrossilva.ongoing.context.user.ContextualUser
-import com.jeanbarrossilva.ongoing.feature.activities.component.AvatarIcon
+import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesOwner
+import com.jeanbarrossilva.ongoing.feature.activities.component.OwnerAvatar
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 
 @Suppress("UnusedReceiverParameter")
 @Composable
 internal fun RowScope.TopAppBarDefaultActions(
-    user: ContextualUser?,
+    owner: Loadable<ActivitiesOwner?>,
     onSettingsRequest: () -> Unit
 ) {
-    AvatarIcon(user, onClick = onSettingsRequest)
+    owner.ifLoaded {
+        OwnerAvatar(this, onClick = onSettingsRequest)
+    }
 }

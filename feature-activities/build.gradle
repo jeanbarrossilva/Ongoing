@@ -45,14 +45,14 @@ dependencies {
     implementation project(':context-user')
     implementation project(':core-registry')
     implementation project(':core-session')
+    implementation project(':core-session-in-memory')
     implementation project(':core-user')
+    implementation project(':core-user-in-memory')
     implementation project(':platform-design-system')
     implementation project(':platform-loadable')
     implementation libraries.compose.material_icons_extended
     implementation libraries.navigation.runtime
 
-    testImplementation project(':core-session-in-memory')
-    testImplementation project(':core-user-in-memory')
     testImplementation libraries.kotlinx.coroutines.test
     testImplementation libraries.test.ext.junit
     testImplementation libraries.turbine

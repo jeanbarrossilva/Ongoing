@@ -24,6 +24,7 @@ import com.jeanbarrossilva.ongoing.feature.activities.component.REMOVAL_CONFIRMA
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.topappbar.TOP_APP_BAR_SELECTION_ACTIONS_REMOVE_TAG
 import com.jeanbarrossilva.ongoing.feature.activities.extensions.hasTestTagPrefixedWith
+import com.jeanbarrossilva.ongoing.feature.activities.inmemory.InMemoryActivitiesGateway
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TOP_APP_BAR_TAG
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.unwrap
 import com.jeanbarrossilva.ongoing.platform.registry.test.PlatformRegistryTestRule
@@ -115,7 +116,8 @@ internal class ActivitiesTests {
     }
 
     private fun setContent() {
-        val viewModel = ActivitiesViewModel(sessionManager, userRepository, fetcher)
+        val gateway = InMemoryActivitiesGateway(sessionManager, fetcher)
+        val viewModel = ActivitiesViewModel(gateway)
         composeRule.setContent {
             Activities(viewModel, ActivitiesBoundary.empty, activityRegistry, Observation.empty)
         }

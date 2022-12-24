@@ -20,9 +20,9 @@ object Avatar {
 }
 
 @Composable
-fun Avatar(user: ContextualUser?, modifier: Modifier = Modifier) {
+fun Avatar(url: String?, modifier: Modifier = Modifier) {
     AsyncImage(
-        user?.avatarUrl,
+        url,
         contentDescription = stringResource(R.string.context_user_avatar_content_description),
         modifier
             .clip(shape)
@@ -35,6 +35,6 @@ fun Avatar(user: ContextualUser?, modifier: Modifier = Modifier) {
 @Preview
 private fun AvatarPreview() {
     OngoingTheme {
-        Avatar(ContextualUser.sample)
+        Avatar(ContextualUser.sample.avatarUrl)
     }
 }

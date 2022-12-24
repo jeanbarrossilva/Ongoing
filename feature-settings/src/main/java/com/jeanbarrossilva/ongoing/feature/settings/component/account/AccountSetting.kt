@@ -41,7 +41,7 @@ internal fun AccountSetting(
     ) {
         SettingsMenuLink(
             title = { AccountSettingNameAndEmail(user, Modifier.offset(x = Size.Spacing.xl)) },
-            icon = { Avatar(user, Modifier.size(42.dp)) },
+            icon = { Avatar(user.avatarUrl, Modifier.size(42.dp)) },
             action = {
                 IconButton(
                     onClick = onSignOutRequest,

@@ -8,5 +8,7 @@ import org.koin.dsl.module
 
 internal val boundaryModule = module {
     single<ActivityDetailsBoundary> { DefaultActivityDetailsBoundary() }
-    single<ActivitiesBoundary> { DefaultActivitiesBoundary() }
+    single<ActivitiesBoundary> {
+        DefaultActivitiesBoundary(sessionManager = get(), userRepository = get())
+    }
 }

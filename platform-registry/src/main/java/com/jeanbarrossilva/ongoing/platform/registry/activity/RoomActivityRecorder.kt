@@ -1,8 +1,8 @@
 package com.jeanbarrossilva.ongoing.platform.registry.activity
 
-import com.jeanbarrossilva.ongoing.core.registry.ActivityRecorder
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
+import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 import com.jeanbarrossilva.ongoing.core.registry.observation.Change
@@ -21,7 +21,7 @@ class RoomActivityRecorder internal constructor(
     private val activityDao: ActivityDao,
     private val statusDao: StatusDao,
     private val observer: RoomActivityObserver
-): ActivityRecorder() {
+): Activity.Recorder() {
     private val onStatusChangeListeners = mutableListOf<OnStatusChangeListener>()
 
     private val currentUserId

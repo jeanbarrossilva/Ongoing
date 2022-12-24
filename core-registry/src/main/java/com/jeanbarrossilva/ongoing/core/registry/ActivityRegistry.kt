@@ -4,7 +4,7 @@ import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 
 abstract class ActivityRegistry {
-    abstract val recorder: ActivityRecorder
+    abstract val recorder: Activity.Recorder
     abstract val observer: Activity.Observer
 
     abstract suspend fun getActivities(): List<Activity>

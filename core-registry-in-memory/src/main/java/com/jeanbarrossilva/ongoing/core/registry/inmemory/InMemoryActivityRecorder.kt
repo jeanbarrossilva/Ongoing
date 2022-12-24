@@ -1,7 +1,6 @@
 package com.jeanbarrossilva.ongoing.core.registry.inmemory
 
 import com.jeanbarrossilva.ongoing.core.extensions.replaceBy
-import com.jeanbarrossilva.ongoing.core.registry.ActivityRecorder
 import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
@@ -9,7 +8,7 @@ import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 
 class InMemoryActivityRecorder(
     override val registry: InMemoryActivityRegistry
-): ActivityRecorder() {
+): Activity.Recorder() {
     private val onStatusChangeListeners = mutableListOf<OnStatusChangeListener>()
 
     override suspend fun onName(activityId: String, name: String) {

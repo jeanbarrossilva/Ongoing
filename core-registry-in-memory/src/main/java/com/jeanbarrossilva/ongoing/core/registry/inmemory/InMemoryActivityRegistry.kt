@@ -24,7 +24,7 @@ class InMemoryActivityRegistry: ActivityRegistry() {
         }
     }
 
-    override suspend fun onRegister(ownerUserId: String?, name: String, statuses: List<Status>):
+    override suspend fun onRegister(ownerUserId: String, name: String, statuses: List<Status>):
         String {
         val id = uuid()
         val activity =

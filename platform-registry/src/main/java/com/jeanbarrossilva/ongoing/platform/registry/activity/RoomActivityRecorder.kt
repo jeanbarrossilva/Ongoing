@@ -27,10 +27,6 @@ class RoomActivityRecorder internal constructor(
     private val currentUserId
         get() = sessionManager.session<Session.SignedIn>()?.userId
 
-    override suspend fun onOwnerUserId(activityId: String, ownerUserId: String?) {
-        activityDao.updateOwnerUserId(activityId, ownerUserId)
-    }
-
     override suspend fun onName(activityId: String, name: String) {
         val currentName = activityDao.selectName(activityId)
         activityDao.updateName(activityId, name)

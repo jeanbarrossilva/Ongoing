@@ -5,18 +5,9 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualAc
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
-import com.jeanbarrossilva.ongoing.core.session.extensions.session
 import kotlinx.parcelize.Parcelize
 
 sealed class ActivityEditingMode : Parcelable {
-    internal abstract fun hasChanges(props: ActivityEditingProps): Boolean
-
-    internal abstract suspend fun save(
-        sessionManager: SessionManager,
-        activityRegistry: ActivityRegistry,
-        props: ActivityEditingProps
-    )
-
     @Parcelize
     object Addition: ActivityEditingMode() {
         override fun hasChanges(props: ActivityEditingProps): Boolean {
@@ -28,7 +19,7 @@ sealed class ActivityEditingMode : Parcelable {
             activityRegistry: ActivityRegistry,
             props: ActivityEditingProps
         ) {
-            val currentUserId = sessionManager.session<Session.SignedIn>()?.userId
+            val currentUserId = getCurrentUserId(sessionManager)
             activityRegistry.register(currentUserId, props.name)
         }
     }
@@ -44,9 +35,11 @@ sealed class ActivityEditingMode : Parcelable {
             activityRegistry: ActivityRegistry,
             props: ActivityEditingProps
         ) {
-            activityRegistry.recorder.name(activity.id, props.name)
+            val currentUserId = getCurrentUserId(sessionManager)
+            activityRegistry.recorder.name(currentUserId, activity.id, props.name)
             activityRegistry.recorder.status(
-                 activity.id,
+                currentUserId,
+                activity.id,
                 requireNotNull(props.currentStatus).toStatus()
             )
         }
@@ -54,5 +47,19 @@ sealed class ActivityEditingMode : Parcelable {
         companion object {
             internal val sample = Modification(ContextualActivity.sample)
         }
+    }
+
+    internal abstract fun hasChanges(props: ActivityEditingProps): Boolean
+
+    internal abstract suspend fun save(
+        sessionManager: SessionManager,
+        activityRegistry: ActivityRegistry,
+        props: ActivityEditingProps
+    )
+
+    protected fun getCurrentUserId(sessionManager: SessionManager): String {
+        val session = sessionManager.session() as? Session.SignedIn
+            ?: throw IllegalStateException("Cannot edit an activity while signed out.")
+        return session.userId
     }
 }

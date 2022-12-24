@@ -5,7 +5,7 @@ import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 
 data class Activity(
     val id: String,
-    val ownerUserId: String?,
+    val ownerUserId: String,
     val name: String,
     val icon: Icon,
     val observerUserIds: List<String>
@@ -22,7 +22,7 @@ data class Activity(
 
     constructor(
         id: String,
-        ownerUserId: String?,
+        ownerUserId: String,
         name: String,
         icon: Icon,
         statuses: List<Status>,

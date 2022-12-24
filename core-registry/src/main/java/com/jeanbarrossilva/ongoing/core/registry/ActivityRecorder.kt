@@ -6,29 +6,22 @@ import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 abstract class ActivityRecorder {
     protected abstract val registry: ActivityRegistry
 
-    suspend fun ownerUserId(activityId: String, ownerUserId: String?) {
-        assertOwnership(activityId, "")
-        onOwnerUserId(activityId, ownerUserId)
-    }
-
-    suspend fun name(activityId: String, name: String) {
-        assertOwnership(activityId, "")
+    suspend fun name(userId: String, activityId: String, name: String) {
+        assertOwnership(activityId, userId)
         onName(activityId, name)
     }
 
-    suspend fun icon(activityId: String, icon: Icon) {
-        assertOwnership(activityId, "")
+    suspend fun icon(userId: String, activityId: String, icon: Icon) {
+        assertOwnership(activityId, userId)
         onIcon(activityId, icon)
     }
 
-    suspend fun status(activityId: String, status: Status) {
-        assertOwnership(activityId, "")
+    suspend fun status(userId: String, activityId: String, status: Status) {
+        assertOwnership(activityId, userId)
         onStatus(activityId, status)
     }
 
     abstract suspend fun doOnStatusChange(listener: OnStatusChangeListener)
-
-    protected abstract suspend fun onOwnerUserId(activityId: String, ownerUserId: String?)
 
     protected abstract suspend fun onName(activityId: String, name: String)
 

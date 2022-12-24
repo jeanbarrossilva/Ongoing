@@ -61,7 +61,7 @@ internal class RoomActivityObserverTests {
             activityObserver.attach(currentUserId, id) { _, _, _change ->
                 change = _change
             }
-            activityRecorder.name(id, newName)
+            activityRecorder.name(currentUserId, id, newName)
             assertEquals(Change.Name(oldName, newName), change)
         }
     }
@@ -73,7 +73,7 @@ internal class RoomActivityObserverTests {
             val newStatus = Status.DONE
             var change: Change? = null
             activityObserver.attach(currentUserId, id) { _, _, _change -> change = _change }
-            activityRecorder.status(id, newStatus)
+            activityRecorder.status(currentUserId, id, newStatus)
             assertEquals(Change.Status(Status.TO_DO, newStatus), change)
         }
     }

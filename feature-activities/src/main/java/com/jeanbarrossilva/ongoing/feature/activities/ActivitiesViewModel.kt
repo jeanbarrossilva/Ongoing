@@ -5,44 +5,34 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
-import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
-import com.jeanbarrossilva.ongoing.context.registry.extensions.unregister
-import com.jeanbarrossilva.ongoing.context.user.extensions.toContextualUser
-import com.jeanbarrossilva.ongoing.core.session.SessionManager
-import com.jeanbarrossilva.ongoing.core.user.UserRepository
-import com.jeanbarrossilva.ongoing.feature.activities.extensions.getUser
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-class ActivitiesViewModel internal constructor(
-    internal val sessionManager: SessionManager,
-    userRepository: UserRepository,
-    internal val fetcher: ContextualActivitiesFetcher
-): ViewModel() {
-    internal val user = sessionManager.getUser(userRepository).map { it?.toContextualUser() }
-    internal val activities = fetcher.getActivities()
+class ActivitiesViewModel internal constructor(private val gateway: ActivitiesGateway):
+    ViewModel() {
+    internal val owner = flow { emitAll(gateway.getCurrentOwner()) }
+    internal val activities = flow { emitAll(gateway.getActivities()) }
     internal val selection = MutableStateFlow<ActivitiesSelection>(ActivitiesSelection.Off)
 
-    internal fun unregister(activities: List<ContextualActivity>) {
+    internal fun fetch() {
         viewModelScope.launch {
-            activities.forEach {
-                fetcher.unregister(it.id)
-            }
+            gateway.fetch()
         }
+    }
+
+    internal fun unregister(activities: List<ContextualActivity>) {
+        val activityIds = activities.map(ContextualActivity::id)
+        viewModelScope.launch { gateway.unregister(activityIds) }
         selection.value = ActivitiesSelection.Off
     }
 
     companion object {
-        fun createFactory(
-            sessionManager: SessionManager,
-            userRepository: UserRepository,
-            fetcher: ContextualActivitiesFetcher
-        ): ViewModelProvider.Factory {
+        fun createFactory(gateway: ActivitiesGateway): ViewModelProvider.Factory {
             return viewModelFactory {
                 addInitializer(ActivitiesViewModel::class) {
-                    ActivitiesViewModel(sessionManager, userRepository, fetcher)
+                    ActivitiesViewModel(gateway)
                 }
             }
         }

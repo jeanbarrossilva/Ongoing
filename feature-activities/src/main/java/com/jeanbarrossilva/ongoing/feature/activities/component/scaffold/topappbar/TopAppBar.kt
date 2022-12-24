@@ -8,17 +8,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
-import com.jeanbarrossilva.ongoing.context.user.ContextualUser
+import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesOwner
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesSelection
 import com.jeanbarrossilva.ongoing.feature.activities.R
 import com.jeanbarrossilva.ongoing.feature.activities.extensions.ifOn
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBarStyle
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 
 @Composable
 internal fun TopAppBar(
-    user: ContextualUser?,
+    owner: Loadable<ActivitiesOwner?>,
     selection: ActivitiesSelection,
     onSettingsRequest: () -> Unit,
     onUnregistrationRequest: (activities: List<ContextualActivity>) -> Unit,
@@ -38,7 +39,7 @@ internal fun TopAppBar(
         when (selection) {
             is ActivitiesSelection.On ->
                 TopAppBarSelectionActions(selection, onUnregistrationRequest)
-            is ActivitiesSelection.Off -> TopAppBarDefaultActions(user, onSettingsRequest)
+            is ActivitiesSelection.Off -> TopAppBarDefaultActions(owner, onSettingsRequest)
         }
     }
 }
@@ -49,7 +50,7 @@ internal fun TopAppBar(
 private fun TopAppBarPreview() {
     OngoingTheme {
         TopAppBar(
-            user = null,
+            owner = Loadable.Loaded(null),
             ActivitiesSelection.Off,
             onSettingsRequest = { },
             onUnregistrationRequest = { }

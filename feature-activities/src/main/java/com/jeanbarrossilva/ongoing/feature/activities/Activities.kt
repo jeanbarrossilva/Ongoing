@@ -7,13 +7,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
-import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
-import com.jeanbarrossilva.ongoing.context.user.ContextualUser
 import com.jeanbarrossilva.ongoing.feature.activities.component.RemovalConfirmationDialog
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.FloatingActionButton
@@ -25,6 +24,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.plus
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableList
 import com.jeanbarrossilva.ongoing.platform.loadable.type.SerializableList
 
@@ -35,21 +35,21 @@ fun Activities(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val fetcher = viewModel.fetcher
-    val user by viewModel.user.collectAsState(initial = null)
+    val coroutineScope = rememberCoroutineScope()
+    val owner by viewModel.owner.collectAsState()
     val activities by viewModel.activities.collectAsState()
     val selection by viewModel.selection.collectAsState()
 
-    ResumedFetchEffect(fetcher)
-
     Activities(
-        user,
+        owner,
         activities,
         selection,
         onSelectionChange = { viewModel.selection.value = it },
         onSettingsRequest = {
-            user?.let { boundary.navigateToSettings(context, it) }
-                ?: boundary.navigateToAuthentication(context)
+            owner.ifLoaded {
+                this?.let { boundary.navigateToSettings(context, coroutineScope) }
+                    ?: boundary.navigateToAuthentication(context)
+            }
         },
         onUnregistrationRequest = viewModel::unregister,
         onActivityDetailsRequest = {
@@ -66,7 +66,7 @@ private fun Activities(
     modifier: Modifier = Modifier
 ) {
     Activities(
-        ContextualUser.sample,
+        Loadable.Loaded(ActivitiesOwner.sample),
         activities,
         ActivitiesSelection.Off,
         onSelectionChange = { },
@@ -80,7 +80,7 @@ private fun Activities(
 
 @Composable
 private fun Activities(
-    user: ContextualUser?,
+    owner: Loadable<ActivitiesOwner?>,
     activities: Loadable<SerializableList<ContextualActivity>>,
     selection: ActivitiesSelection,
     onSelectionChange: (selection: ActivitiesSelection) -> Unit,
@@ -103,7 +103,7 @@ private fun Activities(
     Scaffold(
         topBar = {
             TopAppBar(
-                user,
+                owner,
                 selection,
                 onSettingsRequest,
                 onUnregistrationRequest = { isRemovalConfirmationDialogVisible = true }

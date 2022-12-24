@@ -5,22 +5,30 @@ import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
-import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetailsBridge
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
+import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
+import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
+import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.feature.activitydetails.observation.ActivityDetailsObservationRequesterFactory
 import com.jeanbarrossilva.ongoing.platform.designsystem.core.composable.ComposableActivity
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.argumentOf
 import com.jeanbarrossilva.ongoing.platform.extensions.Intent
+import org.koin.android.ext.android.inject
 
 class ActivityDetailsActivity internal constructor(): ComposableActivity() {
+    private val sessionManager by inject<SessionManager>()
+    private val activityRegistry by inject<ActivityRegistry>()
+    private val observation by inject<Observation>()
+    private val fetcher by inject<ContextualActivitiesFetcher>()
+    private val boundary by inject<ActivityDetailsBoundary>()
     private val activityId by argumentOf<String>(ACTIVITY_ID_KEY)
     private val viewModel by viewModels<ActivityDetailsViewModel> {
         ActivityDetailsViewModel.createFactory(
-            ActivityDetailsBridge.getSessionManager(),
-            ActivityDetailsBridge.getActivityRegistry(),
-            ActivityDetailsBridge.getObservation(),
-            ActivityDetailsBridge.getFetcher(),
-            activityId
-        )
+            sessionManager,
+            activityRegistry,
+            observation,
+            fetcher,
+            activityId)
     }
 
     internal val notificationsPermissionResultLauncher =
@@ -35,15 +43,10 @@ class ActivityDetailsActivity internal constructor(): ComposableActivity() {
         viewModel.fetch()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        ActivityDetailsBridge.clear()
-    }
-
     @Composable
     override fun Content() {
         ActivityDetails(
-            ActivityDetailsBridge.getBoundary(),
+            boundary,
             this,
             viewModel,
             ActivityDetailsObservationRequesterFactory.create(),
@@ -58,7 +61,7 @@ class ActivityDetailsActivity internal constructor(): ComposableActivity() {
             return Intent<ActivityDetailsActivity>(context, ACTIVITY_ID_KEY to activityId)
         }
 
-        internal fun start(context: Context, activityId: String) {
+        fun start(context: Context, activityId: String) {
             val intent = getIntent(context, activityId)
             context.startActivity(intent)
         }

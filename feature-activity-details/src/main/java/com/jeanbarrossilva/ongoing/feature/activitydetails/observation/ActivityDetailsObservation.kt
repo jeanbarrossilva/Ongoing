@@ -3,7 +3,6 @@ package com.jeanbarrossilva.ongoing.feature.activitydetails.observation
 import android.content.Context
 import android.content.Intent
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.fetcher.ContextualActivitiesFetcher
 import com.jeanbarrossilva.ongoing.context.registry.domain.observation.ContextualChange
 import com.jeanbarrossilva.ongoing.context.registry.extensions.contextualize
 import com.jeanbarrossilva.ongoing.context.registry.extensions.toContextualActivity
@@ -15,10 +14,7 @@ import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.core.session.extensions.session
 import com.jeanbarrossilva.ongoing.core.user.UserRepository
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsActivity
-import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsBoundary
 import com.jeanbarrossilva.ongoing.feature.activitydetails.R
-import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetailsBridge
-import com.jeanbarrossilva.ongoing.feature.activitydetails.bridge.ActivityDetailsBridgeCrossing
 import com.jeanbarrossilva.ongoing.platform.extensions.createNotificationChannel
 import com.jeanbarrossilva.ongoing.platform.extensions.notify
 import java.lang.ref.WeakReference
@@ -27,9 +23,7 @@ internal class ActivityDetailsObservation(
     private val contextRef: WeakReference<Context>,
     private val sessionManager: SessionManager,
     private val userRepository: UserRepository,
-    private val activityRegistry: ActivityRegistry,
-    private val boundary: ActivityDetailsBoundary,
-    private val fetcher: ContextualActivitiesFetcher
+    private val activityRegistry: ActivityRegistry
 ): Observation {
     private val context
         get() = contextRef.get()
@@ -38,16 +32,12 @@ internal class ActivityDetailsObservation(
         context: Context,
         sessionManager: SessionManager,
         userRepository: UserRepository,
-        activityRegistry: ActivityRegistry,
-        boundary: ActivityDetailsBoundary,
-        fetcher: ContextualActivitiesFetcher
+        activityRegistry: ActivityRegistry
     ): this(
         WeakReference(context),
         sessionManager,
         userRepository,
-        activityRegistry,
-        boundary,
-        fetcher
+        activityRegistry
     )
 
     override suspend fun onChange(changerUserId: String?, activityId: String, change: Change) {
@@ -79,15 +69,6 @@ internal class ActivityDetailsObservation(
     }
 
     private fun getIntent(activity: ContextualActivity): Intent {
-        ActivityDetailsBridge.cross(
-            context,
-            sessionManager,
-            activityRegistry,
-            this,
-            fetcher,
-            boundary,
-            ActivityDetailsBridgeCrossing.RetentionOnly
-        )
         return ActivityDetailsActivity.getIntent(context, activity.id)
     }
 

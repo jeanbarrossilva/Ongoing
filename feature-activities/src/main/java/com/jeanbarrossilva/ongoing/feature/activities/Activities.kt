@@ -14,8 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.effect.ResumedFetchEffect
 import com.jeanbarrossilva.ongoing.context.user.ContextualUser
-import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
-import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 import com.jeanbarrossilva.ongoing.feature.activities.component.RemovalConfirmationDialog
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycards.ActivityCards
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.FloatingActionButton
@@ -34,8 +32,6 @@ import com.jeanbarrossilva.ongoing.platform.loadable.type.SerializableList
 fun Activities(
     viewModel: ActivitiesViewModel,
     boundary: ActivitiesBoundary,
-    activityRegistry: ActivityRegistry,
-    observation: Observation,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -57,14 +53,7 @@ fun Activities(
         },
         onUnregistrationRequest = viewModel::unregister,
         onActivityDetailsRequest = {
-            boundary.navigateToActivityDetails(
-                context,
-                viewModel.sessionManager,
-                activityRegistry,
-                observation,
-                fetcher,
-                it.id
-            )
+            boundary.navigateToActivityDetails(context, it.id)
         },
         onAddRequest = { boundary.navigateToActivityEditing(context) },
         modifier

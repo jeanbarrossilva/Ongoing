@@ -15,6 +15,7 @@ import com.jeanbarrossilva.ongoing.core.session.extensions.session
 import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.toggle
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.innerMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -28,13 +29,18 @@ class ActivityDetailsViewModel internal constructor(
 ): ViewModel() {
     private val activity = fetcher.getActivity(activityId)
 
+    private val currentUserId
+        get() = sessionManager.session<Session.SignedIn>()?.userId
+
+    internal val isActivityOwner = activity.innerMap { it.owner.id == currentUserId }
+
     internal fun getActivity(): Flow<Loadable<ContextualActivity>> {
         return activity
     }
 
     internal fun setObserving(isObserving: Boolean, onDone: () -> Unit = { }) {
         viewModelScope.launch {
-            sessionManager.session<Session.SignedIn>()?.userId?.let {
+            currentUserId?.let {
                 activity.first().ifLoaded {
                     activityRegistry.observer.toggle(it, this, isObserving, observation)
                     onDone()

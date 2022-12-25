@@ -42,6 +42,7 @@ android {
 
 dependencies {
     implementation project(':context-registry')
+    implementation project(':context-user')
     implementation project(':core-registry')
     implementation project(':core-session')
     implementation project(':core-user')

@@ -23,6 +23,7 @@ import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.valueOrNull
 
 @Composable
 fun ActivityDetails(
@@ -34,9 +35,11 @@ fun ActivityDetails(
 ) {
     val context = LocalContext.current
     val contextualActivity by viewModel.getActivity().collectAsState()
+    val isActivityOwner by viewModel.isActivityOwner.collectAsState()
 
     ActivityDetails(
         contextualActivity,
+        isActivityOwner,
         onObservationToggle,
         onNavigationRequest,
         onEditRequest = {
@@ -55,6 +58,7 @@ private fun ActivityDetails(
 ) {
     ActivityDetails(
         activity,
+        isActivityOwner = Loadable.Loaded(true),
         onObservationToggle = { },
         onNavigationRequest = { },
         onEditRequest = { },
@@ -65,6 +69,8 @@ private fun ActivityDetails(
 @Composable
 private fun ActivityDetails(
     activity: Loadable<ContextualActivity>,
+    isActivityOwner: Loadable<Boolean>, // This should not be here, and soon won't when the
+                                        // ActivityDetailsGateway is added.
     onObservationToggle: (isObserving: Boolean) -> Unit,
     onNavigationRequest: () -> Unit,
     onEditRequest: () -> Unit,
@@ -81,7 +87,7 @@ private fun ActivityDetails(
         modifier,
         floatingActionButton = {
             FloatingActionButton(
-                isAvailable = activity is Loadable.Loaded,
+                isAvailable = isActivityOwner.valueOrNull ?: false,
                 onClick = onEditRequest
             )
         }

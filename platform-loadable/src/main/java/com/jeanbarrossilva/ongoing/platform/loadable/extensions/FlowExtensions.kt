@@ -26,6 +26,20 @@ fun <T: Serializable?> Flow<Loadable<T>>.filterIsLoaded(): Flow<Loadable.Loaded<
     return filterIsInstance()
 }
 
+/**
+ * Maps each emitted [Loadable] with the given [transform].
+ *
+ * @param transform Transformation to be done to the [Loadable]s.
+ **/
+fun <I: Serializable?, O: Serializable?> Flow<Loadable<I>>.innerMap(transform: suspend (I) -> O):
+    Flow<Loadable<O>> {
+    return map { loadable: Loadable<I> ->
+        loadable.map {
+            transform(it)
+        }
+    }
+}
+
 fun <T: Serializable?> Flow<T>.loadable(): Flow<Loadable<T>> {
     return flow {
         map { Loadable.Loaded(it) }

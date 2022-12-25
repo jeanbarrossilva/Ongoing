@@ -14,7 +14,8 @@ suspend fun Activity.toContextualActivity(
     sessionManager: SessionManager,
     userRepository: UserRepository
 ): ContextualActivity {
-    val owner = ownerUserId?.let { userRepository.getUserById(it) }?.toContextualUser()
+    val owner = ownerUserId.let { userRepository.getUserById(it) }?.toContextualUser()
+        ?: throw IllegalArgumentException("No user $ownerUserId found.")
     val icon = icon.toContextualIcon()
     val statuses = statuses.map(Status::toContextualStatus)
     val observers =

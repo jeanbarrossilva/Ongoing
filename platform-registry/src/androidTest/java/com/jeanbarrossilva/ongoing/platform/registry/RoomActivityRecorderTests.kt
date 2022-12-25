@@ -28,7 +28,7 @@ internal class RoomActivityRecorderTests {
         val name = ":)"
         runTest {
             val id = activityRegistry.register(currentUserId, "Do something")
-            activityRecorder.name(id, name)
+            activityRecorder.name(currentUserId, id, name)
             assertEquals(name, activityRegistry.getActivityById(id)?.name)
         }
     }
@@ -38,7 +38,7 @@ internal class RoomActivityRecorderTests {
         val icon = Icon.BOOK
         runTest {
             val id = activityRegistry.register(currentUserId, "Travel to Japan")
-            activityRecorder.icon(id, icon)
+            activityRecorder.icon(currentUserId, id, icon)
             assertEquals(icon, activityRegistry.getActivityById(id)?.icon)
         }
     }
@@ -48,7 +48,7 @@ internal class RoomActivityRecorderTests {
         val status = Status.DONE
         runTest {
             val id = activityRegistry.register(currentUserId, "Play")
-            activityRecorder.status(id, status)
+            activityRecorder.status(currentUserId, id, status)
             assertEquals(status, activityRegistry.getActivityById(id)?.status)
         }
     }
@@ -58,8 +58,8 @@ internal class RoomActivityRecorderTests {
         val status = Status.DONE
         runTest {
             val id = activityRegistry.register(currentUserId, "Test the app")
-            activityRecorder.status(id, status)
-            activityRecorder.status(id, status)
+            activityRecorder.status(currentUserId, id, status)
+            activityRecorder.status(currentUserId, id, status)
             assertEquals(
                 listOf(Status.TO_DO, Status.DONE),
                 activityRegistry.getActivityById(id)?.statuses

@@ -9,26 +9,17 @@ import com.jeanbarrossilva.ongoing.platform.registry.extensions.toActivity
 import com.jeanbarrossilva.ongoing.platform.registry.observer.ObserverDao
 import com.jeanbarrossilva.ongoing.platform.registry.observer.RoomActivityObserver
 import com.jeanbarrossilva.ongoing.platform.registry.status.StatusDao
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 class RoomActivityRegistry internal constructor(
-    coroutineScope: CoroutineScope,
     sessionManager: SessionManager,
-    private val ownershipManager: RoomActivityOwnershipManager,
     private val activityDao: ActivityDao,
     private val statusDao: StatusDao,
     private val observerDao: ObserverDao
 ) : ActivityRegistry() {
     override val observer = RoomActivityObserver(activityDao, observerDao)
-    override val recorder = RoomActivityRecorder(sessionManager, activityDao, statusDao, observer)
-
-    init {
-        coroutineScope.launch {
-            ownershipManager.start(this@RoomActivityRegistry)
-        }
-    }
+    override val recorder =
+        RoomActivityRecorder(sessionManager, this, activityDao, statusDao, observer)
 
     override suspend fun getActivities(): List<Activity> {
         return activityDao.selectAll().map {
@@ -40,12 +31,12 @@ class RoomActivityRegistry internal constructor(
         return activityDao.selectById(id)?.toActivity(statusDao, observerDao)?.first()
     }
 
-    override suspend fun onRegister(ownerUserId: String?, name: String, statuses: List<Status>):
+    override suspend fun onRegister(ownerUserId: String, name: String, statuses: List<Status>):
         String {
         assert(name.isNotBlank())
         val entity = ActivityEntity(id = 0, ownerUserId, name, Icon.default)
         val generatedActivityId = activityDao.insert(entity).toString()
-        recorder.status(generatedActivityId, Status.TO_DO)
+        recorder.status(ownerUserId, generatedActivityId, Status.TO_DO)
         return generatedActivityId
     }
 

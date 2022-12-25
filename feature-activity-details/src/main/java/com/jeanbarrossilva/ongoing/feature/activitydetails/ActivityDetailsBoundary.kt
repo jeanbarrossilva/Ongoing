@@ -5,4 +5,14 @@ import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualAc
 
 interface ActivityDetailsBoundary {
     fun navigateToActivityEditing(context: Context, contextualActivity: ContextualActivity?)
+
+    companion object {
+        internal val empty = object: ActivityDetailsBoundary {
+            override fun navigateToActivityEditing(
+                context: Context,
+                contextualActivity: ContextualActivity?
+            ) {
+            }
+        }
+    }
 }

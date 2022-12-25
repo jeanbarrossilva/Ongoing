@@ -42,6 +42,7 @@ android {
 
 dependencies {
     implementation project(':context-registry')
+    implementation project(':context-user')
     implementation project(':core-registry')
     implementation project(':core-session')
     implementation project(':core-user')
@@ -49,4 +50,9 @@ dependencies {
     implementation project(':platform-extensions')
     implementation project(':platform-loadable')
     implementation libraries.jetlime
+
+    androidTestImplementation project(':core-user-in-memory')
+    androidTestImplementation project(':platform-registry-test')
+    androidTestImplementation libraries.compose.ui.test.junit4
+    androidTestImplementation libraries.compose.ui.test.manifest
 }

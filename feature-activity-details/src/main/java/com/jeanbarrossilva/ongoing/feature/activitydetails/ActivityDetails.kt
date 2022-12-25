@@ -15,7 +15,6 @@ import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityHea
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityStatusHistory
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.TopAppBar
-import com.jeanbarrossilva.ongoing.feature.activitydetails.observation.ActivityDetailsObservationRequester
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
@@ -24,28 +23,24 @@ import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.valueOrNull
 
 @Composable
 fun ActivityDetails(
     boundary: ActivityDetailsBoundary,
-    activity: ActivityDetailsActivity,
     viewModel: ActivityDetailsViewModel,
-    observationRequester: ActivityDetailsObservationRequester,
+    onObservationToggle: (isObserving: Boolean) -> Unit,
     onNavigationRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val contextualActivity by viewModel.getActivity().collectAsState()
+    val isActivityOwner by viewModel.isActivityOwner.collectAsState()
 
     ActivityDetails(
         contextualActivity,
-        onObservationToggle = {
-            observationRequester.request(activity, it) {
-                viewModel.setObserving(it) {
-                    ActivityDetailsToaster.onObservationToggle(activity, it)
-                }
-            }
-        },
+        isActivityOwner,
+        onObservationToggle,
         onNavigationRequest,
         onEditRequest = {
             contextualActivity.ifLoaded {
@@ -63,6 +58,7 @@ private fun ActivityDetails(
 ) {
     ActivityDetails(
         activity,
+        isActivityOwner = Loadable.Loaded(true),
         onObservationToggle = { },
         onNavigationRequest = { },
         onEditRequest = { },
@@ -73,6 +69,8 @@ private fun ActivityDetails(
 @Composable
 private fun ActivityDetails(
     activity: Loadable<ContextualActivity>,
+    isActivityOwner: Loadable<Boolean>, // This should not be here, and soon won't when the
+                                        // ActivityDetailsGateway is added.
     onObservationToggle: (isObserving: Boolean) -> Unit,
     onNavigationRequest: () -> Unit,
     onEditRequest: () -> Unit,
@@ -89,7 +87,7 @@ private fun ActivityDetails(
         modifier,
         floatingActionButton = {
             FloatingActionButton(
-                isAvailable = activity is Loadable.Loaded,
+                isAvailable = isActivityOwner.valueOrNull ?: false,
                 onClick = onEditRequest
             )
         }

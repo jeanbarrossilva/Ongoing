@@ -3,6 +3,10 @@ package com.jeanbarrossilva.ongoing.platform.loadable.extensions
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import java.io.Serializable
 
+/** Value of the given [Loadable] if it's [loaded][Loadable.Loaded]; otherwise, `null`. **/
+inline val <T: Serializable?> Loadable<T>.valueOrNull
+    get() = ifLoaded { this }
+
 /**
  * Returns the result of the given [operation] that's ran on the [loaded][Loadable.Loaded] value;
  * if the [Loadable] is not a [Loadable.Loaded], returns `null`.

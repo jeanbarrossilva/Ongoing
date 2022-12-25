@@ -47,11 +47,18 @@ class ActivityDetailsActivity internal constructor(): ComposableActivity() {
     override fun Content() {
         ActivityDetails(
             boundary,
-            this,
             viewModel,
-            ActivityDetailsObservationRequesterFactory.create(),
+            ::onObservationToggle,
             onNavigationRequest = onBackPressedDispatcher::onBackPressed
         )
+    }
+
+    private fun onObservationToggle(isObserving: Boolean) {
+        ActivityDetailsObservationRequesterFactory.create().request(this, isObserving) {
+            viewModel.setObserving(isObserving) {
+                ActivityDetailsToaster.onObservationToggle(this, isObserving)
+            }
+        }
     }
 
     companion object {

@@ -2,7 +2,6 @@ package com.jeanbarrossilva.ongoing.core.registry
 
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
-import kotlinx.coroutines.flow.first
 
 abstract class ActivityRegistry {
     abstract val recorder: Activity.Recorder
@@ -12,8 +11,12 @@ abstract class ActivityRegistry {
 
     abstract suspend fun getActivityById(id: String): Activity?
 
+    suspend fun getActivityByIdOrThrow(id: String): Activity {
+        return getActivityById(id) ?: throw NonexistentActivityException(id)
+    }
+
     suspend fun register(
-        ownerUserId: String?,
+        ownerUserId: String,
         name: String,
         statuses: List<Status> = Status.default,
     ): String {
@@ -35,7 +38,7 @@ abstract class ActivityRegistry {
     }
 
     protected abstract suspend fun onRegister(
-        ownerUserId: String?,
+        ownerUserId: String,
         name: String,
         statuses: List<Status>
     ): String

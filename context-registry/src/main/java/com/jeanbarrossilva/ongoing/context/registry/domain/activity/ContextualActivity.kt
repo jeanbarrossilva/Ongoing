@@ -10,7 +10,7 @@ import java.io.Serializable
 @Parcelize
 data class ContextualActivity internal constructor(
     val id: String,
-    val owner: ContextualUser?,
+    val owner: ContextualUser,
     val name: String,
     val icon: ContextualIcon,
     val statuses: List<ContextualStatus>,
@@ -24,7 +24,7 @@ data class ContextualActivity internal constructor(
         val icon = icon.toIcon()
         val statuses = statuses.map(ContextualStatus::toStatus)
         val observerUserIds = observers.map(ContextualUser::id)
-        return Activity(id, owner?.id, name, icon, statuses, observerUserIds)
+        return Activity(id, owner.id, name, icon, statuses, observerUserIds)
     }
 
     companion object {

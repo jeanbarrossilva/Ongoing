@@ -1,12 +1,13 @@
 package com.jeanbarrossilva.ongoing.core.registry.activity
 
+import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
 import com.jeanbarrossilva.ongoing.core.registry.observation.Change
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 
 data class Activity(
     val id: String,
-    val ownerUserId: String?,
+    val ownerUserId: String,
     val name: String,
     val icon: Icon,
     val observerUserIds: List<String>
@@ -23,7 +24,7 @@ data class Activity(
 
     constructor(
         id: String,
-        ownerUserId: String?,
+        ownerUserId: String,
         name: String,
         icon: Icon,
         statuses: List<Status>,
@@ -33,15 +34,39 @@ data class Activity(
     }
 
     abstract class Recorder {
-        abstract suspend fun ownerUserId(id: String, ownerUserId: String?)
+        protected abstract val registry: ActivityRegistry
 
-        abstract suspend fun name(id: String, name: String)
+        suspend fun name(userId: String, activityId: String, name: String) {
+            assertOwnership(activityId, userId)
+            onName(activityId, name)
+        }
 
-        abstract suspend fun icon(id: String, icon: Icon)
+        suspend fun icon(userId: String, activityId: String, icon: Icon) {
+            assertOwnership(activityId, userId)
+            onIcon(activityId, icon)
+        }
 
-        abstract suspend fun status(id: String, status: Status)
+        suspend fun status(userId: String, activityId: String, status: Status) {
+            assertOwnership(activityId, userId)
+            onStatus(activityId, status)
+        }
 
         abstract suspend fun doOnStatusChange(listener: OnStatusChangeListener)
+
+        protected abstract suspend fun onName(activityId: String, name: String)
+
+        protected abstract suspend fun onIcon(activityId: String, icon: Icon)
+
+        protected abstract suspend fun onStatus(activityId: String, status: Status)
+
+        private suspend fun assertOwnership(activityId: String, userId: String) {
+            val activity = registry.getActivityByIdOrThrow(activityId)
+            if (activity.ownerUserId != userId) {
+                throw IllegalArgumentException(
+                    "Only the owner of activity $activityId can record to it."
+                )
+            }
+        }
     }
 
     interface Observer {

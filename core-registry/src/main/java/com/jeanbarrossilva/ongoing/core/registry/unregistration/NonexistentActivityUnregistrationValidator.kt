@@ -2,6 +2,7 @@ package com.jeanbarrossilva.ongoing.core.registry.unregistration
 
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistryUnregistrationValidator
+import com.jeanbarrossilva.ongoing.core.registry.NonexistentActivityException
 
 internal class NonexistentActivityUnregistrationValidator(
     private val activityRegistry: ActivityRegistry,
@@ -10,7 +11,7 @@ internal class NonexistentActivityUnregistrationValidator(
     override suspend fun validate(userId: String, activityId: String) {
         val activity = activityRegistry.getActivityById(activityId)
         if (activity == null) {
-            throw IllegalArgumentException("Activity $activityId does not exist.")
+            throw NonexistentActivityException(activityId)
         } else {
             next?.validate(userId, activityId)
         }

@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.feature.activities.R
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.FloatingActionButton.TAG
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButton
+import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.floatingactionbutton.FloatingActionButtonAvailability
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.FloatingActionButton as _FloatingActionButton
 
@@ -20,8 +21,16 @@ object FloatingActionButton {
 }
 
 @Composable
-internal fun FloatingActionButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    FloatingActionButton(onClick, modifier.testTag(TAG)) {
+internal fun FloatingActionButton(
+    isAvailable: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    FloatingActionButton(
+        onClick,
+        modifier.testTag(TAG),
+        FloatingActionButtonAvailability `for` isAvailable
+    ) {
         Icon(
             Icons.Rounded.Add,
             contentDescription =
@@ -35,6 +44,6 @@ internal fun FloatingActionButton(onClick: () -> Unit, modifier: Modifier = Modi
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun FloatingActionButtonPreview() {
     OngoingTheme {
-        _FloatingActionButton(onClick = { })
+        _FloatingActionButton(isAvailable = true, onClick = { })
     }
 }

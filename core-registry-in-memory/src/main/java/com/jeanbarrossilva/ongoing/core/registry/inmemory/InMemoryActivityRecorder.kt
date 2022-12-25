@@ -6,31 +6,25 @@ import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
 import com.jeanbarrossilva.ongoing.core.registry.activity.Status
 
-class InMemoryActivityRecorder internal constructor(
-    private val activityRegistry: InMemoryActivityRegistry
+class InMemoryActivityRecorder(
+    override val registry: InMemoryActivityRegistry
 ): Activity.Recorder() {
     private val onStatusChangeListeners = mutableListOf<OnStatusChangeListener>()
 
-    override suspend fun ownerUserId(id: String, ownerUserId: String?) {
-        replace(id) {
-            copy(ownerUserId = ownerUserId)
-        }
-    }
-
-    override suspend fun name(id: String, name: String) {
-        replace(id) {
+    override suspend fun onName(activityId: String, name: String) {
+        replace(activityId) {
             copy(name = name)
         }
     }
 
-    override suspend fun icon(id: String, icon: Icon) {
-        replace(id) {
+    override suspend fun onIcon(activityId: String, icon: Icon) {
+        replace(activityId) {
             copy(icon = icon)
         }
     }
 
-    override suspend fun status(id: String, status: Status) {
-        replace(id) {
+    override suspend fun onStatus(activityId: String, status: Status) {
+        replace(activityId) {
             this.status = status
             notifyStatusChange(this)
             this
@@ -42,7 +36,7 @@ class InMemoryActivityRecorder internal constructor(
     }
 
     private fun replace(activityId: String, replacement: Activity.() -> Activity) {
-        activityRegistry.activities.replaceBy(replacement) {
+        registry.activities.replaceBy(replacement) {
             it.id == activityId
         }
     }

@@ -1,16 +1,21 @@
 package com.jeanbarrossilva.ongoing.feature.activitydetails
 
 import android.content.Context
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
+import kotlinx.coroutines.CoroutineScope
 
 interface ActivityDetailsBoundary {
-    fun navigateToActivityEditing(context: Context, contextualActivity: ContextualActivity?)
+    fun navigateToActivityEditing(
+        coroutineScope: CoroutineScope,
+        context: Context,
+        activityId: String
+    )
 
     companion object {
         internal val empty = object: ActivityDetailsBoundary {
             override fun navigateToActivityEditing(
+                coroutineScope: CoroutineScope,
                 context: Context,
-                contextualActivity: ContextualActivity?
+                activityId: String
             ) {
             }
         }

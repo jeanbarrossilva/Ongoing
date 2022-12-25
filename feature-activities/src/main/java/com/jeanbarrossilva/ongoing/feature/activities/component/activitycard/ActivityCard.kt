@@ -29,6 +29,7 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
 
 object ActivityCard {
     const val TAG = "activity_card"
@@ -64,7 +65,7 @@ internal fun ActivityCard(
             Arrangement.spacedBy(spacing),
             Alignment.CenterVertically
         ) {
-            ActivityIcon(activity, ActivityIconSize.SMALL, isSelected)
+            ActivityIcon(activity.map(ContextualActivity::icon), ActivityIconSize.SMALL, isSelected)
             ActivityHeadline(activity)
         }
     }

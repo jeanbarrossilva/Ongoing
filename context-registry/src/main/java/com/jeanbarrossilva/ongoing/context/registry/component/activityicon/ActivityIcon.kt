@@ -19,21 +19,20 @@ import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.R
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
+import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualIcon
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
-import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.valueOrNull
 
 @Composable
 fun ActivityIcon(
-    activity: Loadable<ContextualActivity>,
+    icon: Loadable<ContextualIcon>,
     size: ActivityIconSize,
     isSelected: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val activityIcon = activity.ifLoaded(ContextualActivity::icon)?.vector
-    val icon = if (isSelected) Icons.Rounded.Check else activityIcon
-    val containerSize = activityIcon?.let { size.adaptedValue } ?: size.value
+    val vector = if (isSelected) Icons.Rounded.Check else icon.valueOrNull?.vector
+    val containerSize = vector?.let { size.adaptedValue } ?: size.value
     val secondaryContainerColor = MaterialTheme.colorScheme.secondaryContainer
     val primaryColor = MaterialTheme.colorScheme.primary
     val backgroundColor by animateColorAsState(
@@ -51,7 +50,7 @@ fun ActivityIcon(
             .size(containerSize)
             .semantics { set(SemanticsProperties.Selected, isSelected) }
     ) {
-        icon?.let {
+        vector?.let {
             Icon(
                 it,
                 contentDescription = stringResource(
@@ -67,10 +66,10 @@ fun ActivityIcon(
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun SelectedActivityIconPreview() {
+private fun UnselectedActivityIconPreview() {
     OngoingTheme {
         ActivityIcon(
-            Loadable.Loaded(ContextualActivity.sample),
+            Loadable.Loaded(ContextualIcon.BOOK),
             ActivityIconSize.LARGE,
             isSelected = false
         )
@@ -80,10 +79,10 @@ private fun SelectedActivityIconPreview() {
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun UnselectedActivityIconPreview() {
+private fun SelectedActivityIconPreview() {
     OngoingTheme {
         ActivityIcon(
-            Loadable.Loaded(ContextualActivity.sample),
+            Loadable.Loaded(ContextualIcon.BOOK),
             ActivityIconSize.LARGE,
             isSelected = true
         )

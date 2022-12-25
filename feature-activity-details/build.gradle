@@ -49,4 +49,9 @@ dependencies {
     implementation project(':platform-extensions')
     implementation project(':platform-loadable')
     implementation libraries.jetlime
+
+    androidTestImplementation project(':core-user-in-memory')
+    androidTestImplementation project(':platform-registry-test')
+    androidTestImplementation libraries.compose.ui.test.junit4
+    androidTestImplementation libraries.compose.ui.test.manifest
 }

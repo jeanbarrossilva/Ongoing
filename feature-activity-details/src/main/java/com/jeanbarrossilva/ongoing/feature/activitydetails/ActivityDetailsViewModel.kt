@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class ActivityDetailsViewModel private constructor(
+class ActivityDetailsViewModel internal constructor(
     private val sessionManager: SessionManager,
     private val activityRegistry: ActivityRegistry,
     private val observation: Observation,

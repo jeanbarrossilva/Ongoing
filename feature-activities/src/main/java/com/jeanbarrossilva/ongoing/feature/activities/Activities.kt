@@ -55,7 +55,12 @@ fun Activities(
         onActivityDetailsRequest = {
             boundary.navigateToActivityDetails(context, it.id)
         },
-        onAddRequest = { boundary.navigateToActivityEditing(context) },
+        onAddRequest = {
+            owner.ifLoaded {
+                this?.let { boundary.navigateToActivityEditing(context) }
+                    ?: boundary.navigateToAuthentication(context)
+            }
+        },
         modifier
     )
 }
@@ -110,7 +115,9 @@ private fun Activities(
             )
         },
         modifier,
-        floatingActionButton = { FloatingActionButton(onClick = onAddRequest) }
+        floatingActionButton = {
+            FloatingActionButton(isAvailable = owner is Loadable.Loaded, onClick = onAddRequest)
+        }
     ) {
         Background {
             ActivityCards(

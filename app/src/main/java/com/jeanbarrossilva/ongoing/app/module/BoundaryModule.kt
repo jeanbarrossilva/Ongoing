@@ -7,7 +7,13 @@ import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsBounda
 import org.koin.dsl.module
 
 internal val boundaryModule = module {
-    single<ActivityDetailsBoundary> { DefaultActivityDetailsBoundary() }
+    single<ActivityDetailsBoundary> {
+        DefaultActivityDetailsBoundary(
+            sessionManager = get(),
+            userRepository = get(),
+            activityRegistry = get()
+        )
+    }
     single<ActivitiesBoundary> {
         DefaultActivitiesBoundary(sessionManager = get(), userRepository = get())
     }

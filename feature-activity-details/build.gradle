@@ -33,6 +33,7 @@ android {
 
     kotlinOptions {
         jvmTarget = versions.java.toString()
+        freeCompilerArgs += '-Xcontext-receivers'
     }
 
     composeOptions {
@@ -45,14 +46,17 @@ dependencies {
     implementation project(':context-user')
     implementation project(':core-registry')
     implementation project(':core-session')
+    implementation project(':core-session-in-memory')
     implementation project(':core-user')
     implementation project(':platform-design-system')
     implementation project(':platform-extensions')
     implementation project(':platform-loadable')
     implementation libraries.jetlime
 
+    androidTestImplementation project(':core-registry-in-memory')
     androidTestImplementation project(':core-user-in-memory')
     androidTestImplementation project(':platform-registry-test')
     androidTestImplementation libraries.compose.ui.test.junit4
     androidTestImplementation libraries.compose.ui.test.manifest
+    androidTestImplementation libraries.koin.test
 }

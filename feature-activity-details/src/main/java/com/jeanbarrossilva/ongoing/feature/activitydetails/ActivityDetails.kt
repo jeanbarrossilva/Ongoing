@@ -7,14 +7,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityHeadline
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityStatusHistory
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.scaffold.TopAppBar
+import com.jeanbarrossilva.ongoing.feature.activitydetails.domain.ContextActivity
+import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.createSample
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
@@ -23,7 +25,6 @@ import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.collectAsState
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
 import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
-import com.jeanbarrossilva.ongoing.platform.loadable.extensions.valueOrNull
 
 @Composable
 fun ActivityDetails(
@@ -34,17 +35,16 @@ fun ActivityDetails(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val contextualActivity by viewModel.getActivity().collectAsState()
-    val isActivityOwner by viewModel.isActivityOwner.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val activity by viewModel.activity.collectAsState()
 
     ActivityDetails(
-        contextualActivity,
-        isActivityOwner,
+        activity,
         onObservationToggle,
         onNavigationRequest,
         onEditRequest = {
-            contextualActivity.ifLoaded {
-                boundary.navigateToActivityEditing(context, this)
+            activity.ifLoaded {
+                boundary.navigateToActivityEditing(coroutineScope, context, id)
             }
         },
         modifier
@@ -53,12 +53,11 @@ fun ActivityDetails(
 
 @Composable
 private fun ActivityDetails(
-    activity: Loadable<ContextualActivity>,
+    activity: Loadable<ContextActivity>,
     modifier: Modifier = Modifier
 ) {
     ActivityDetails(
         activity,
-        isActivityOwner = Loadable.Loaded(true),
         onObservationToggle = { },
         onNavigationRequest = { },
         onEditRequest = { },
@@ -68,9 +67,7 @@ private fun ActivityDetails(
 
 @Composable
 private fun ActivityDetails(
-    activity: Loadable<ContextualActivity>,
-    isActivityOwner: Loadable<Boolean>, // This should not be here, and soon won't when the
-                                        // ActivityDetailsGateway is added.
+    activity: Loadable<ContextActivity>,
     onObservationToggle: (isObserving: Boolean) -> Unit,
     onNavigationRequest: () -> Unit,
     onEditRequest: () -> Unit,
@@ -79,7 +76,7 @@ private fun ActivityDetails(
     Scaffold(
         topBar = {
             TopAppBar(
-                activity.map(ContextualActivity::isObserving),
+                activity.map(ContextActivity::isBeingObserved),
                 onObservationToggle,
                 onNavigationRequest
             )
@@ -87,7 +84,7 @@ private fun ActivityDetails(
         modifier,
         floatingActionButton = {
             FloatingActionButton(
-                isAvailable = isActivityOwner.valueOrNull ?: false,
+                isAvailable = activity.ifLoaded(ContextActivity::isEditable) ?: false,
                 onClick = onEditRequest
             )
         }
@@ -108,17 +105,17 @@ private fun ActivityDetails(
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun LoadedActivityDetailsPreview() {
+private fun LoadingActivityDetailsPreview() {
     OngoingTheme {
-        ActivityDetails(Loadable.Loaded(ContextualActivity.sample))
+        ActivityDetails(Loadable.Loading())
     }
 }
 
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun LoadingActivityDetailsPreview() {
+private fun LoadedActivityDetailsPreview() {
     OngoingTheme {
-        ActivityDetails(Loadable.Loading())
+        ActivityDetails(Loadable.Loaded(ContextActivity.createSample(LocalContext.current)))
     }
 }

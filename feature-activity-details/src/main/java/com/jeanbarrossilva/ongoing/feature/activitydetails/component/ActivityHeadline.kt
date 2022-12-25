@@ -6,20 +6,24 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.component.activityicon.ActivityIcon
 import com.jeanbarrossilva.ongoing.context.registry.component.activityicon.ActivityIconSize
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.activityheadline.ActivityHeadlineName
+import com.jeanbarrossilva.ongoing.feature.activitydetails.domain.ContextActivity
+import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.contextualIcon
+import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.createSample
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.BackgroundContentSizing
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
 
 @Composable
 internal fun ActivityHeadline(
-    activity: Loadable<ContextualActivity>,
+    activity: Loadable<ContextActivity>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -27,7 +31,12 @@ internal fun ActivityHeadline(
         Arrangement.spacedBy(Size.Spacing.xxxl),
         Alignment.CenterHorizontally
     ) {
-        ActivityIcon(activity, ActivityIconSize.LARGE, isSelected = false)
+        ActivityIcon(
+            activity.map(ContextActivity::contextualIcon),
+            ActivityIconSize.LARGE,
+            isSelected = false
+        )
+
         ActivityHeadlineName(activity)
     }
 }
@@ -38,7 +47,7 @@ internal fun ActivityHeadline(
 private fun ActivityHeadlinePreview() {
     OngoingTheme {
         Background(contentSizing = BackgroundContentSizing.WRAP) {
-            ActivityHeadline(Loadable.Loaded(ContextualActivity.sample))
+            ActivityHeadline(Loadable.Loaded(ContextActivity.createSample(LocalContext.current)))
         }
     }
 }

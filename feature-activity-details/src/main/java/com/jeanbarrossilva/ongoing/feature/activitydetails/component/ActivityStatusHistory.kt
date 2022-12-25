@@ -5,10 +5,12 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.feature.activitydetails.component.ActivityStatusHistory.TAG
+import com.jeanbarrossilva.ongoing.feature.activitydetails.domain.ContextActivity
+import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.createSample
 import com.jeanbarrossilva.ongoing.feature.activitydetails.extensions.toJetLimeItem
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.BackgroundContentSizing
@@ -26,10 +28,10 @@ object ActivityStatusHistory {
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun ActivityStatusHistory(
-    activity: Loadable<ContextualActivity>,
+    activity: Loadable<ContextActivity>,
     modifier: Modifier = Modifier
 ) {
-    val items = activity.ifLoaded(ContextualActivity::statuses).orEmpty().map {
+    val items = activity.ifLoaded(ContextActivity::statuses).orEmpty().map {
         it.toJetLimeItem()
     }
 
@@ -49,7 +51,9 @@ internal fun ActivityStatusHistory(
 private fun ActivityStatusHistoryPreview() {
     OngoingTheme {
         Background(contentSizing = BackgroundContentSizing.WRAP) {
-            ActivityStatusHistory(Loadable.Loaded(ContextualActivity.sample))
+            ActivityStatusHistory(
+                Loadable.Loaded(ContextActivity.createSample(LocalContext.current))
+            )
         }
     }
 }

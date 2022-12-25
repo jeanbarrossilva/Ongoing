@@ -13,17 +13,20 @@ interface ActivitiesBoundary {
     fun navigateToActivityEditing(context: Context)
 
     companion object {
-        internal val empty = object: ActivitiesBoundary {
-            override fun navigateToAuthentication(context: Context) {
-            }
+        internal fun create(navigateToAuthentication: (Context) -> Unit = { }): ActivitiesBoundary {
+            return object: ActivitiesBoundary {
+                override fun navigateToAuthentication(context: Context) {
+                    navigateToAuthentication(context)
+                }
 
-            override fun navigateToSettings(context: Context, coroutineScope: CoroutineScope) {
-            }
+                override fun navigateToSettings(context: Context, coroutineScope: CoroutineScope) {
+                }
 
-            override fun navigateToActivityDetails(context: Context, activityId: String) {
-            }
+                override fun navigateToActivityDetails(context: Context, activityId: String) {
+                }
 
-            override fun navigateToActivityEditing(context: Context) {
+                override fun navigateToActivityEditing(context: Context) {
+                }
             }
         }
     }

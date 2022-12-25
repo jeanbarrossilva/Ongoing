@@ -15,9 +15,12 @@ import androidx.test.core.app.ApplicationProvider
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.registry.extensions.getActivities
 import com.jeanbarrossilva.ongoing.context.registry.extensions.register
+import com.jeanbarrossilva.ongoing.core.session.Session
+import com.jeanbarrossilva.ongoing.core.session.extensions.session
 import com.jeanbarrossilva.ongoing.feature.activities.component.REMOVAL_CONFIRMATION_DIALOG_CONFIRMATION_BUTTON_TAG
 import com.jeanbarrossilva.ongoing.feature.activities.component.REMOVAL_CONFIRMATION_DIALOG_TEXT_TAG
 import com.jeanbarrossilva.ongoing.feature.activities.component.activitycard.ActivityCard
+import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.FloatingActionButton
 import com.jeanbarrossilva.ongoing.feature.activities.component.scaffold.topappbar.TOP_APP_BAR_SELECTION_ACTIONS_REMOVE_TAG
 import com.jeanbarrossilva.ongoing.feature.activities.extensions.hasTestTagPrefixedWith
 import com.jeanbarrossilva.ongoing.feature.activities.rule.ActivitiesTestRule
@@ -93,6 +96,17 @@ internal class ActivitiesTests {private val platformRegistryRule = PlatformRegis
         registerActivity()
         removeFirstActivity()
         assertTopAppBarTitleEquals(context.getString(R.string.feature_activities))
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun navigateToAuthenticationWhenTryingToAddAnActivityWhileSignedOut() {
+        var isAtAuthentication = false
+        val boundary = ActivitiesBoundary.create { isAtAuthentication = true }
+        activitiesRule.setBoundary(boundary)
+        runTest { platformRegistryRule.sessionManager.session<Session.SignedIn>()?.end() }
+        composeRule.onNodeWithTag(FloatingActionButton.TAG).performClick()
+        assertTrue(isAtAuthentication)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

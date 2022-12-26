@@ -10,6 +10,7 @@ import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
  * @param ownerUserId ID of the user that's the owner of the [activities].
  * @param activities [Activities][ContextualActivity] to be registered.
  **/
+@Suppress("KDocUnresolvedReference")
 suspend fun ActivityRegistry.register(ownerUserId: String, activities: List<ContextualActivity>):
     List<String> {
     return mutableListOf<String>()
@@ -20,7 +21,7 @@ suspend fun ActivityRegistry.register(ownerUserId: String, activities: List<Cont
 /**
  * Registers the given [activity] with the specified [ownerUserId].
  *
- * @param ownerUserId ID of the user that's the owner of the [activities].
+ * @param ownerUserId ID of the user that's the owner of the [activity].
  * @param activity [ContextualActivity] to be registered.
  **/
 suspend fun ActivityRegistry.register(ownerUserId: String, activity: ContextualActivity): String {

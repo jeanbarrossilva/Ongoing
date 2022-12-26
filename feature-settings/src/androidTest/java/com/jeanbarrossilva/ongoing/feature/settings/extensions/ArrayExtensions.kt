@@ -7,5 +7,5 @@ package com.jeanbarrossilva.ongoing.feature.settings.extensions
  **/
 @Suppress("UNCHECKED_CAST")
 internal inline fun <reified T> arrayOfNotNull(vararg elements: T?): Array<T> {
-    return elements.filter { it != null }.toTypedArray() as Array<T>
+    return elements.filterNotNull().toTypedArray() as Array<T>
 }

@@ -19,7 +19,7 @@ internal class ActivitiesTestRule(
 ): ExternalResource() {
     private val boundary = MutableStateFlow(ActivitiesBoundary.create())
 
-    val userRepository = InMemoryUserRepository()
+    private val userRepository = InMemoryUserRepository()
 
     private val activityRegistry
         get() = platformRegistryRule.activityRegistry

@@ -19,12 +19,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.ConfirmationDialog
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton
+import com.jeanbarrossilva.ongoing.feature.activityediting.domain.EditingActivity
+import com.jeanbarrossilva.ongoing.feature.activityediting.domain.EditingStatus
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.background.Background
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.Scaffold
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topappbar.TopAppBar
@@ -32,6 +32,11 @@ import com.jeanbarrossilva.ongoing.platform.designsystem.component.scaffold.topa
 import com.jeanbarrossilva.ongoing.platform.designsystem.configuration.Size
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.rememberTextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.map
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableList
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.valueOrNull
+import com.jeanbarrossilva.ongoing.platform.loadable.type.SerializableList
 
 @Suppress("NAME_SHADOWING")
 @Composable
@@ -45,17 +50,19 @@ fun ActivityEditing(
     val onBackPressedDispatcher = remember(onBackPressedDispatcherOwner) {
         onBackPressedDispatcherOwner?.onBackPressedDispatcher
     }
-    val props by viewModel.props.collectAsState()
-    val hasChanges = remember(props) { viewModel.mode.hasChanges(props) }
+    val activity by viewModel.getActivity().collectAsState()
+    val isChanged by viewModel.isChanged.collectAsState()
+    val isValid by viewModel.isValid.collectAsState()
+    val availableStatuses by viewModel.availableStatuses.collectAsState()
     var isConfirmationDialogVisible by remember { mutableStateOf(false) }
     val onNavigationRequest = {
         isConfirmationDialogVisible = false
         onNavigationRequest(onBackPressedDispatcher)
     }
-    val onBackPressedCallback = remember(hasChanges) {
+    val onBackPressedCallback = remember(isChanged) {
         object: OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (hasChanges) {
+                if (isChanged) {
                     isConfirmationDialogVisible = true
                 } else {
                     remove()
@@ -65,7 +72,7 @@ fun ActivityEditing(
         }
     }
 
-    DisposableEffect(hasChanges) {
+    DisposableEffect(isChanged) {
         onBackPressedDispatcher?.addCallback(onBackPressedCallback)
         onDispose { onBackPressedCallback.remove() }
     }
@@ -78,21 +85,15 @@ fun ActivityEditing(
     }
 
     ActivityEditing(
-        props.name,
-        onNameChange = {
-            viewModel.updateProps {
-                copy(name = it)
-            }
-        },
-        props.currentStatus,
-        onCurrentStatusChange = {
-            viewModel.updateProps {
-                copy(currentStatus = it)
-            }
-        },
+        activity.map(EditingActivity::name),
+        onNameChange = viewModel::setName,
+        availableStatuses,
+        activity.map(EditingActivity::status),
+        onCurrentStatusChange = viewModel::setStatus,
+        isValid,
         onNavigationRequest = onNavigationRequest,
         onSaveRequest = {
-            viewModel.save()
+            viewModel.edit()
             onBackPressedCallback.remove()
             onDone()
         },
@@ -102,10 +103,12 @@ fun ActivityEditing(
 
 @Composable
 internal fun ActivityEditing(
-    name: String,
+    name: Loadable<String>,
     onNameChange: (name: String) -> Unit,
-    currentStatus: ContextualStatus?,
-    onCurrentStatusChange: (currentStatus: ContextualStatus) -> Unit,
+    availableStatuses: Loadable<SerializableList<EditingStatus>>,
+    currentStatus: Loadable<EditingStatus>,
+    onCurrentStatusChange: (status: EditingStatus) -> Unit,
+    isValid: Boolean,
     onNavigationRequest: () -> Unit,
     onSaveRequest: () -> Unit,
     modifier: Modifier = Modifier
@@ -113,12 +116,6 @@ internal fun ActivityEditing(
     val spacing = Size.Spacing.xxl
     val nameSubmitter = rememberTextFieldSubmitter()
     val currentStatusSubmitter = rememberTextFieldSubmitter()
-    var isValid by remember {
-        mutableStateOf(
-            ActivityEditingModel.isNameValid(name) &&
-                ActivityEditingModel.isCurrentStatusValid(currentStatus)
-        )
-    }
 
     Scaffold(
         topBar = {
@@ -144,16 +141,15 @@ internal fun ActivityEditing(
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(spacing)) {
                 ActivityNameTextField(
-                    name,
-                    onChange = { newName, isNameValid ->
-                        isValid = isNameValid
-                        onNameChange(newName)
-                    },
+                    name.valueOrNull.orEmpty(),
+                    onNameChange,
                     nameSubmitter,
+                    isValid,
                     Modifier.fillMaxWidth()
                 )
 
                 ActivityStatusDropdownField(
+                    availableStatuses,
                     currentStatus,
                     onCurrentStatusChange,
                     currentStatusSubmitter,
@@ -167,29 +163,15 @@ internal fun ActivityEditing(
 @Composable
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun FilledActivityEditingPreview() {
+private fun ActivityEditingPreview() {
     OngoingTheme {
         ActivityEditing(
-            ContextualActivity.sample.name,
+            Loadable.Loaded(EditingActivity.sample.name),
             onNameChange = { },
-            ContextualActivity.sample.status,
+            availableStatuses = Loadable.Loaded(EditingStatus.samples.toSerializableList()),
+            Loadable.Loaded(EditingStatus.sample),
             onCurrentStatusChange = { },
-            onNavigationRequest = { },
-            onSaveRequest = { }
-        )
-    }
-}
-
-@Composable
-@Preview
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-private fun EmptyActivityEditingPreview() {
-    OngoingTheme {
-        ActivityEditing(
-            name = "",
-            onNameChange = { },
-            currentStatus = null,
-            onCurrentStatusChange = { },
+            isValid = true,
             onNavigationRequest = { },
             onSaveRequest = { }
         )

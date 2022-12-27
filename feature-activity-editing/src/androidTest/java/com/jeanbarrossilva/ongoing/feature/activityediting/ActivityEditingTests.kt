@@ -96,8 +96,7 @@ internal class ActivityEditingTests {
     ) {
         val viewModel = ActivityEditingViewModel(
             platformRegistryTestRule.sessionManager,
-            platformRegistryTestRule.activityRegistry,
-            mode
+            platformRegistryTestRule.activityRegistry
         )
         composeRule.setContent {
             ActivityEditing(

@@ -74,6 +74,7 @@ buildscript {
             ],
             lifecycle: [
                 viewmodel: [
+                    ktx: "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}",
                     savedstate: "androidx.lifecycle:lifecycle-viewmodel-savedstate:" +
                         versions.lifecycle
                 ],

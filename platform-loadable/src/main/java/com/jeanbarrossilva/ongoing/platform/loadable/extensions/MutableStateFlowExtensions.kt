@@ -8,3 +8,8 @@ import java.io.Serializable
 fun <T: Serializable?> loadableFlowOf(): MutableStateFlow<Loadable<T>> {
     return MutableStateFlow(Loadable.Loading())
 }
+
+/** Creates a [MutableStateFlow] with a [Loadable.Loaded] that wraps the given [value]. **/
+fun <T: Serializable?> loadableFlowOf(value: T): MutableStateFlow<Loadable<T>> {
+    return MutableStateFlow(Loadable.Loaded(value))
+}

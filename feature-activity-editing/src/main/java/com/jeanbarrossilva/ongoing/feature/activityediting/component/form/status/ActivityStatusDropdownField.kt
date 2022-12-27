@@ -12,25 +12,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
-import com.jeanbarrossilva.ongoing.context.registry.extensions.title
 import com.jeanbarrossilva.ongoing.feature.activityediting.R
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField.TAG
+import com.jeanbarrossilva.ongoing.feature.activityediting.domain.EditingStatus
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.DropdownField
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.TextFieldRule
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.submitter.TextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.rememberTextFieldSubmitter
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
+import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.ifLoaded
+import com.jeanbarrossilva.ongoing.platform.loadable.extensions.toSerializableList
+import com.jeanbarrossilva.ongoing.platform.loadable.type.SerializableList
 
-object ActivityStatusDropdownField {
+internal object ActivityStatusDropdownField {
     const val TAG = "activity_current_status_dropdown_field"
 }
 
 @Composable
 internal fun ActivityStatusDropdownField(
-    currentStatus: ContextualStatus?,
-    onChange: (currentStatus: ContextualStatus) -> Unit,
+    availableStatuses: Loadable<SerializableList<EditingStatus>>,
+    currentStatus: Loadable<EditingStatus>,
+    onChange: (currentStatus: EditingStatus) -> Unit,
     submitter: TextFieldSubmitter,
     modifier: Modifier = Modifier
 ) {
@@ -41,7 +44,7 @@ internal fun ActivityStatusDropdownField(
     DropdownField(
         isExpanded,
         onExpansionToggle = { isExpanded = it },
-        value = currentStatus?.title.orEmpty(),
+        value = currentStatus.ifLoaded(EditingStatus::title).orEmpty(),
         label = { Text(stringResource(R.string.feature_activity_editing_current_status)) },
         modifier.testTag(TAG),
         rules = listOf(
@@ -52,15 +55,17 @@ internal fun ActivityStatusDropdownField(
         ),
         submitter
     ) { width ->
-        ContextualStatus.values.forEach { status ->
-            ActivityStatusDropdownMenuItem(
-                status,
-                onClick = {
-                    onChange(status)
-                    isExpanded = false
-                },
-                Modifier.width(width)
-            )
+        availableStatuses.ifLoaded {
+            forEach { status ->
+                ActivityStatusDropdownMenuItem(
+                    status,
+                    onClick = {
+                        onChange(status)
+                        isExpanded = false
+                    },
+                    Modifier.width(width)
+                )
+            }
         }
     }
 }
@@ -71,7 +76,8 @@ internal fun ActivityStatusDropdownField(
 private fun ActivityCurrentStatusDropdownFieldPreview() {
     OngoingTheme {
         ActivityStatusDropdownField(
-            ContextualActivity.sample.status,
+            availableStatuses = Loadable.Loaded(EditingStatus.samples.toSerializableList()),
+            Loadable.Loaded(EditingStatus.sample),
             onChange = { },
             rememberTextFieldSubmitter()
         )

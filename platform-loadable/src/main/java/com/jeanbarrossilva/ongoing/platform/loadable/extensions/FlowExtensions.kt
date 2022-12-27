@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
@@ -71,6 +72,20 @@ fun <T: Serializable?> loadableChannelFlow(
 ): Flow<Loadable<T>> {
     return channelFlow {
         send(Loadable.Loading())
+        block()
+    }
+}
+
+/**
+ * Creates a [Flow] with a [Loadable.Loading] as its initial value.
+ *
+ * @param block Collection to be run whenever a terminal operator is applied to the resulting
+ * [Flow].
+ **/
+fun <T: Serializable?> loadableFlow(block: suspend FlowCollector<Loadable<T>>.() -> Unit):
+    Flow<Loadable<T>> {
+    return flow {
+        emit(Loadable.Loading())
         block()
     }
 }

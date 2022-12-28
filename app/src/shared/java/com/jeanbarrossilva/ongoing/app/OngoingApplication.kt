@@ -8,6 +8,7 @@ import com.jeanbarrossilva.ongoing.app.module.feature.extensionsModule
 import com.jeanbarrossilva.ongoing.app.module.feature.settingsModule
 import com.jeanbarrossilva.ongoing.feature.activities.activitiesModule
 import com.jeanbarrossilva.ongoing.feature.activitydetails.activityDetailsModule
+import com.jeanbarrossilva.ongoing.feature.activityediting.activityEditingModule
 import com.jeanbarrossilva.ongoing.feature.authentication.authenticationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -28,7 +29,13 @@ open class OngoingApplication: Application() {
         startKoin {
             androidContext(this@OngoingApplication)
             modules(coreModule, boundaryModule)
-            modules(authenticationModule, activitiesModule, activityDetailsModule, settingsModule)
+            modules(
+                authenticationModule,
+                activitiesModule,
+                activityDetailsModule,
+                activityEditingModule,
+                settingsModule
+            )
             modules(extensionsModule, contextualRegistryModule)
         }
     }

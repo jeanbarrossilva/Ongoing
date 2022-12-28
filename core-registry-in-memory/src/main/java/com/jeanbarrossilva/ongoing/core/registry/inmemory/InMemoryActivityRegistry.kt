@@ -3,7 +3,7 @@ package com.jeanbarrossilva.ongoing.core.registry.inmemory
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
-import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.activity.status.Status
 import com.jeanbarrossilva.ongoing.core.registry.inmemory.extensions.uuid
 
 class InMemoryActivityRegistry: ActivityRegistry() {

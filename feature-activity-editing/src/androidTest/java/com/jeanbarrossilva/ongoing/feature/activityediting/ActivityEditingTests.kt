@@ -13,34 +13,43 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.ConfirmationDialog
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownField
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownMenuItem
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.scaffold.FloatingActionButton
+import com.jeanbarrossilva.ongoing.feature.activityediting.domain.EditingStatus
 import com.jeanbarrossilva.ongoing.feature.activityediting.extensions.pressBack
+import com.jeanbarrossilva.ongoing.feature.activityediting.rule.ActivityEditingTestRule
+import com.jeanbarrossilva.ongoing.feature.activityediting.rule.EditingModeProvider
 import com.jeanbarrossilva.ongoing.platform.registry.test.PlatformRegistryTestRule
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 
 internal class ActivityEditingTests {
+    private val platformRegistryTestRule = PlatformRegistryTestRule.create()
+
+    @Suppress("UNCHECKED_CAST")
+    private val composeRule =
+        createComposeRule() as AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+
+    private val activityEditingRule = ActivityEditingTestRule(platformRegistryTestRule, composeRule)
+
     private val context
         get() = ApplicationProvider.getApplicationContext<Context>()
 
     @get:Rule
-    val platformRegistryTestRule = PlatformRegistryTestRule.create()
-
-    @Suppress("UNCHECKED_CAST")
-    @get:Rule
-    val composeRule =
-        createComposeRule() as AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
+    val ruleChain: RuleChain? = RuleChain
+        .outerRule(platformRegistryTestRule)
+        .around(composeRule)
+        .around(activityEditingRule)
 
     @Test
     fun exitOnBackPressWhenAddingWithoutChanges() {
         var isClosed = false
-        setContent(ActivityEditingMode.Addition) { isClosed = true }
+        activityEditingRule.setContent(EditingModeProvider.ADDITION) { isClosed = true }
         assertConfirmationDialogDisplayedOnBackPress(false)
         assertTrue(isClosed)
     }
@@ -48,24 +57,24 @@ internal class ActivityEditingTests {
     @Test
     fun exitOnBackPressWhenModifyingWithoutChanges() {
         var isClosed = false
-        setContent(ActivityEditingMode.Modification.sample) { isClosed = true }
+        activityEditingRule.setContent(EditingModeProvider.MODIFICATION) { isClosed = true }
         assertConfirmationDialogDisplayedOnBackPress(false)
         assertTrue(isClosed)
     }
 
     @Test
     fun showConfirmationDialogOnBackPressWhenAddingWithChanges() {
-        setContent(ActivityEditingMode.Addition)
+        activityEditingRule.setContent(EditingModeProvider.ADDITION)
         composeRule.onNodeWithTag(ActivityStatusDropdownField.TAG).performClick()
         composeRule
-            .onNodeWithTag(ActivityStatusDropdownMenuItem.getTag(ContextualStatus.DONE))
+            .onNodeWithTag(ActivityStatusDropdownMenuItem.getTag(EditingStatus.ongoing))
             .performClick()
         assertConfirmationDialogDisplayedOnBackPress(true)
     }
 
     @Test
     fun showConfirmationDialogOnBackPressWhenModifyingWithChanges() {
-        setContent(ActivityEditingMode.Modification.sample)
+        activityEditingRule.setContent(EditingModeProvider.MODIFICATION)
         composeRule.onNodeWithTag(ActivityNameTextField.TAG).performTextInput(" :)")
         assertConfirmationDialogDisplayedOnBackPress(true)
     }
@@ -73,11 +82,11 @@ internal class ActivityEditingTests {
     @Test
     fun save() {
         var isDone = false
-        setContent(ActivityEditingMode.Addition, onDone = { isDone = true })
+        activityEditingRule.setContent(EditingModeProvider.ADDITION, onDone = { isDone = true })
         composeRule.onNodeWithTag(ActivityNameTextField.TAG).performTextInput("Name")
         composeRule.onNodeWithTag(ActivityStatusDropdownField.TAG).performClick()
         composeRule
-            .onNodeWithTag(ActivityStatusDropdownMenuItem.getTag(ContextualStatus.ONGOING))
+            .onNodeWithTag(ActivityStatusDropdownMenuItem.getTag(EditingStatus.ongoing))
             .performClick()
         composeRule
             .onAllNodesWithText(
@@ -87,25 +96,6 @@ internal class ActivityEditingTests {
         composeRule.onNodeWithTag(FloatingActionButton.TAG).assertIsEnabled()
         composeRule.onNodeWithTag(FloatingActionButton.TAG).performClick()
         assertTrue(isDone)
-    }
-
-    private fun setContent(
-        mode: ActivityEditingMode,
-        onDone: () -> Unit = { },
-        onNavigationRequest: () -> Unit = { }
-    ) {
-        val viewModel = ActivityEditingViewModel(
-            platformRegistryTestRule.sessionManager,
-            platformRegistryTestRule.activityRegistry,
-            mode
-        )
-        composeRule.setContent {
-            ActivityEditing(
-                viewModel,
-                onDone,
-                onNavigationRequest = { onNavigationRequest() }
-            )
-        }
     }
 
     private fun assertConfirmationDialogDisplayedOnBackPress(isDisplayed: Boolean) {

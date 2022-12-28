@@ -2,6 +2,7 @@ package com.jeanbarrossilva.ongoing.core.registry.activity
 
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
+import com.jeanbarrossilva.ongoing.core.registry.activity.status.Status
 import com.jeanbarrossilva.ongoing.core.registry.observation.Change
 import com.jeanbarrossilva.ongoing.core.registry.observation.Observation
 

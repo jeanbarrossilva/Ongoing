@@ -8,7 +8,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
-import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingModel
 import com.jeanbarrossilva.ongoing.feature.activityediting.R
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.ActivityNameTextField.TAG
 import com.jeanbarrossilva.ongoing.platform.designsystem.component.input.textfield.TextField
@@ -25,20 +24,20 @@ object ActivityNameTextField {
 @Composable
 internal fun ActivityNameTextField(
     name: String,
-    onChange: (name: String, isValid: Boolean) -> Unit,
+    onChange: (name: String) -> Unit,
     submitter: TextFieldSubmitter,
+    isValid: Boolean,
     modifier: Modifier = Modifier
 ) {
     TextField(
         name,
-        onChange,
+        onValueChange = { changedName, _ -> onChange(changedName) },
         modifier.testTag(TAG),
         TextFieldEnableability.Enabled(
             rules = listOf(
-                TextFieldRule(
-                    stringResource(R.string.feature_activity_editing_error_blank_field),
-                    ActivityEditingModel::isNameValid
-                )
+                TextFieldRule(stringResource(R.string.feature_activity_editing_error_blank_field)) {
+                    isValid
+                }
             ),
             submitter = submitter
         ),
@@ -53,8 +52,9 @@ private fun ActivityNameTextFieldPreview() {
     OngoingTheme {
         ActivityNameTextField(
             ContextualActivity.sample.name,
-            onChange = { _, _ -> },
-            rememberTextFieldSubmitter()
+            onChange = { },
+            rememberTextFieldSubmitter(),
+            isValid = true
         )
     }
 }

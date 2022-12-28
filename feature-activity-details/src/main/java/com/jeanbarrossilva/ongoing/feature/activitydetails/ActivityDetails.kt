@@ -44,7 +44,7 @@ fun ActivityDetails(
         onNavigationRequest,
         onEditRequest = {
             activity.ifLoaded {
-                boundary.navigateToActivityEditing(coroutineScope, context, id)
+                boundary.navigateToActivityEditing(context, id)
             }
         },
         modifier

@@ -44,4 +44,9 @@ android {
 dependencies {
     implementation libraries.compose.runtime
     implementation libraries.kotlinx.coroutines.core
+    implementation libraries.lifecycle.viewmodel.ktx
+
+    testImplementation libraries.junit
+    testImplementation libraries.kotlinx.coroutines.test
+    testImplementation libraries.turbine
 }

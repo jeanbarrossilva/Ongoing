@@ -4,18 +4,25 @@ import android.content.Context
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
-import com.jeanbarrossilva.ongoing.core.session.SessionManager
+import com.jeanbarrossilva.ongoing.feature.activityediting.infra.ActivityEditingGateway
+import com.jeanbarrossilva.ongoing.feature.activityediting.infra.inmemory.EditingMode
 import com.jeanbarrossilva.ongoing.platform.designsystem.core.composable.ComposableActivity
 import com.jeanbarrossilva.ongoing.platform.designsystem.extensions.argumentOf
 import com.jeanbarrossilva.ongoing.platform.extensions.startActivity
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 class ActivityEditingActivity internal constructor(): ComposableActivity() {
-    private val sessionManager by inject<SessionManager>()
     private val activityRegistry by inject<ActivityRegistry>()
-    private val mode by argumentOf<ActivityEditingMode>(MODE_KEY)
+    private val activityId by argumentOf<String?>(ACTIVITY_ID_KEY)
+    private val mode by lazy {
+        activityId
+            ?.let { EditingMode.Modification(activityRegistry, it) }
+            ?: EditingMode.Addition(activityRegistry)
+    }
+    private val gateway by inject<ActivityEditingGateway> { parametersOf(mode) }
     private val viewModel by viewModels<ActivityEditingViewModel> {
-        ActivityEditingViewModel.createFactory(sessionManager, activityRegistry, mode)
+        ActivityEditingViewModel.createFactory(gateway)
     }
 
     @Composable
@@ -24,10 +31,10 @@ class ActivityEditingActivity internal constructor(): ComposableActivity() {
     }
 
     companion object {
-        private const val MODE_KEY = "mode"
+        private const val ACTIVITY_ID_KEY = "activity_id"
 
-        fun start(context: Context, mode: ActivityEditingMode) {
-            context.startActivity<ActivityEditingActivity>(MODE_KEY to mode)
+        fun start(context: Context, activityId: String?) {
+            context.startActivity<ActivityEditingActivity>(ACTIVITY_ID_KEY to activityId)
         }
     }
 }

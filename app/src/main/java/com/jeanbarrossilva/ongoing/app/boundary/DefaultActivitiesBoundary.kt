@@ -9,7 +9,6 @@ import com.jeanbarrossilva.ongoing.core.user.UserRepository
 import com.jeanbarrossilva.ongoing.feature.activities.ActivitiesBoundary
 import com.jeanbarrossilva.ongoing.feature.activitydetails.ActivityDetailsActivity
 import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingActivity
-import com.jeanbarrossilva.ongoing.feature.activityediting.ActivityEditingMode
 import com.jeanbarrossilva.ongoing.feature.authentication.AuthenticationActivity
 import com.jeanbarrossilva.ongoing.feature.settings.SettingsActivity
 import com.jeanbarrossilva.ongoing.platform.extensions.startActivity
@@ -40,6 +39,6 @@ internal class DefaultActivitiesBoundary(
     }
 
     override fun navigateToActivityEditing(context: Context) {
-        ActivityEditingActivity.start(context, ActivityEditingMode.Addition)
+        ActivityEditingActivity.start(context, activityId = null)
     }
 }

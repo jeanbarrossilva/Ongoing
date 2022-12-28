@@ -7,20 +7,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
-import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualStatus
-import com.jeanbarrossilva.ongoing.context.registry.extensions.title
 import com.jeanbarrossilva.ongoing.feature.activityediting.component.form.status.ActivityStatusDropdownMenuItem.getTag
+import com.jeanbarrossilva.ongoing.feature.activityediting.domain.EditingStatus
 import com.jeanbarrossilva.ongoing.platform.designsystem.theme.OngoingTheme
 
-object ActivityStatusDropdownMenuItem {
-    fun getTag(status: ContextualStatus): String {
-        return "activity_status_dropdown_menu_item_${status.name.lowercase()}"
+internal object ActivityStatusDropdownMenuItem {
+    fun getTag(status: EditingStatus): String {
+        return "activity_status_dropdown_menu_item_${status.id}"
     }
 }
 
 @Composable
 internal fun ActivityStatusDropdownMenuItem(
-    status: ContextualStatus,
+    status: EditingStatus,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -36,6 +35,6 @@ internal fun ActivityStatusDropdownMenuItem(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun ActivityStatusDropdownItemPreview() {
     OngoingTheme {
-        ActivityStatusDropdownMenuItem(ContextualStatus.TO_DO, onClick = { })
+        ActivityStatusDropdownMenuItem(EditingStatus.sample, onClick = { })
     }
 }

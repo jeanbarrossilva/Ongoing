@@ -3,7 +3,7 @@ package com.jeanbarrossilva.ongoing.platform.registry.activity
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
-import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.activity.status.Status
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.platform.registry.extensions.toActivity
 import com.jeanbarrossilva.ongoing.platform.registry.observer.ObserverDao

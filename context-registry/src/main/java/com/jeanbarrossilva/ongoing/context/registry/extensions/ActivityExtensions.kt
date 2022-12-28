@@ -3,7 +3,7 @@ package com.jeanbarrossilva.ongoing.context.registry.extensions
 import com.jeanbarrossilva.ongoing.context.registry.domain.activity.ContextualActivity
 import com.jeanbarrossilva.ongoing.context.user.extensions.toContextualUser
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
-import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.activity.status.Status
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.SessionManager
 import com.jeanbarrossilva.ongoing.core.session.extensions.session

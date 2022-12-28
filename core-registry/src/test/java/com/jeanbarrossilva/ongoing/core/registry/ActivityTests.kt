@@ -2,7 +2,7 @@ package com.jeanbarrossilva.ongoing.core.registry
 
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
-import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.activity.status.Status
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

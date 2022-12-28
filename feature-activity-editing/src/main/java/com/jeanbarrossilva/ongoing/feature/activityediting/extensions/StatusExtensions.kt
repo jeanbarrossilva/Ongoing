@@ -2,7 +2,7 @@ package com.jeanbarrossilva.ongoing.feature.activityediting.extensions
 
 import android.content.Context
 import com.jeanbarrossilva.ongoing.context.registry.extensions.toContextualStatus
-import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.activity.status.Status
 import com.jeanbarrossilva.ongoing.feature.activityediting.domain.EditingStatus
 
 /**

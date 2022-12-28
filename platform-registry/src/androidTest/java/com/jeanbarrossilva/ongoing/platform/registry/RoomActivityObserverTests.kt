@@ -1,7 +1,7 @@
 package com.jeanbarrossilva.ongoing.platform.registry
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.activity.status.Status
 import com.jeanbarrossilva.ongoing.core.registry.observation.Change
 import com.jeanbarrossilva.ongoing.core.session.Session
 import com.jeanbarrossilva.ongoing.core.session.extensions.session

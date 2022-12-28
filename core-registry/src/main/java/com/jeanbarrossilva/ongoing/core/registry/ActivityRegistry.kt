@@ -1,7 +1,7 @@
 package com.jeanbarrossilva.ongoing.core.registry
 
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
-import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.activity.status.Status
 
 abstract class ActivityRegistry {
     abstract val recorder: Activity.Recorder

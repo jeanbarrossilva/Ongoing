@@ -3,10 +3,11 @@ package com.jeanbarrossilva.ongoing.feature.activityediting.infra.inmemory
 import android.content.Context
 import com.jeanbarrossilva.ongoing.core.registry.ActivityRegistry
 import com.jeanbarrossilva.ongoing.core.registry.NonexistentActivityException
-import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.activity.status.Status
 import com.jeanbarrossilva.ongoing.feature.activityediting.domain.EditingActivity
 import com.jeanbarrossilva.ongoing.feature.activityediting.domain.EditingStatus
 import com.jeanbarrossilva.ongoing.feature.activityediting.extensions.toEditingActivity
+import com.jeanbarrossilva.ongoing.feature.activityediting.extensions.toStatus
 import com.jeanbarrossilva.ongoing.platform.loadable.Loadable
 
 internal sealed interface EditingMode {
@@ -16,7 +17,7 @@ internal sealed interface EditingMode {
         }
 
         override suspend fun save(userId: String, activity: EditingActivity) {
-            val status = Status.valueOf(activity.status.id)
+            val status = activity.status.toStatus()
             val statuses = listOf(status)
             activityRegistry.register(userId, activity.name, statuses)
         }

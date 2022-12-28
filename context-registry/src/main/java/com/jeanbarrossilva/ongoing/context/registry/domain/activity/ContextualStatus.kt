@@ -2,7 +2,7 @@ package com.jeanbarrossilva.ongoing.context.registry.domain.activity
 
 import androidx.annotation.StringRes
 import com.jeanbarrossilva.ongoing.context.registry.R
-import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.activity.status.Status
 
 enum class ContextualStatus {
     TO_DO {

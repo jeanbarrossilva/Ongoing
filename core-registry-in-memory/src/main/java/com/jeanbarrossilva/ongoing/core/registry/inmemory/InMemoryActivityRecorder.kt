@@ -4,7 +4,7 @@ import com.jeanbarrossilva.ongoing.core.extensions.replaceBy
 import com.jeanbarrossilva.ongoing.core.registry.OnStatusChangeListener
 import com.jeanbarrossilva.ongoing.core.registry.activity.Activity
 import com.jeanbarrossilva.ongoing.core.registry.activity.Icon
-import com.jeanbarrossilva.ongoing.core.registry.activity.Status
+import com.jeanbarrossilva.ongoing.core.registry.activity.status.Status
 
 class InMemoryActivityRecorder(
     override val registry: InMemoryActivityRegistry
